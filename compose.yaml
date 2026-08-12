@@ -1,0 +1,24 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: deepsync-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-deepsync}
+      MYSQL_USER: ${MYSQL_USER:-deepsync}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-deepsync}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-deepsync-root}
+      TZ: Asia/Seoul
+    ports:
+      - "${MYSQL_PORT:-3307}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-deepsync-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+volumes:
+  mysql-data:

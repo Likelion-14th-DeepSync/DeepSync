@@ -39,3 +39,8 @@ out/
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Local environment variables
+.env
+.env.*
+!.env.example
