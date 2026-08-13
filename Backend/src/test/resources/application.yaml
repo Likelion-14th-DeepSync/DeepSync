@@ -9,3 +9,7 @@ spring:
       ddl-auto: create-drop
   flyway:
     enabled: false
+
+jwt:
+  secret: test-secret-key-that-is-longer-than-thirty-two-bytes
+  access-token-expiration-seconds: 3600
