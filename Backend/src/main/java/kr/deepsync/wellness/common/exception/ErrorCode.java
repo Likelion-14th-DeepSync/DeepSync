@@ -17,6 +17,12 @@ public enum ErrorCode {
     INVALID_GOAL_DATE(HttpStatus.BAD_REQUEST, "INVALID_GOAL_DATE", "목표 날짜는 오늘 이후여야 합니다."),
     UNREGISTERED_SKIN_CONCERN(HttpStatus.BAD_REQUEST, "UNREGISTERED_SKIN_CONCERN", "프로필에 등록된 피부 고민만 목표로 선택할 수 있습니다."),
     SKIN_GOAL_NOT_ACTIVE(HttpStatus.CONFLICT, "SKIN_GOAL_NOT_ACTIVE", "진행 중인 피부 목표만 변경할 수 있습니다."),
+    LIFESTYLE_RECORD_NOT_FOUND(HttpStatus.NOT_FOUND, "LIFESTYLE_RECORD_NOT_FOUND", "생활 기록을 찾을 수 없습니다."),
+    ENVIRONMENT_RECORD_NOT_FOUND(HttpStatus.NOT_FOUND, "ENVIRONMENT_RECORD_NOT_FOUND", "환경 기록을 찾을 수 없습니다."),
+    DUPLICATE_LIFESTYLE_RECORD(HttpStatus.CONFLICT, "DUPLICATE_LIFESTYLE_RECORD", "해당 날짜의 생활 기록이 이미 있습니다."),
+    DUPLICATE_ENVIRONMENT_RECORD(HttpStatus.CONFLICT, "DUPLICATE_ENVIRONMENT_RECORD", "해당 날짜의 환경 기록이 이미 있습니다."),
+    FUTURE_RECORD_DATE(HttpStatus.BAD_REQUEST, "FUTURE_RECORD_DATE", "미래 날짜의 기록은 작성할 수 없습니다."),
+    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, "INVALID_DATE_RANGE", "조회 시작일은 종료일보다 늦을 수 없습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;
