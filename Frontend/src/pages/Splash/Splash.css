@@ -1,0 +1,182 @@
+.splash-page {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: radial-gradient(circle at 50% 45%,
+            #f7f5ff 0%,
+            #ffffff 45%);
+}
+
+/* 가운데 */
+
+.splash-content {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    transform: translateY(-18px);
+}
+
+/* 로고 */
+
+.logo-mark {
+    margin-bottom: 18px;
+}
+
+.splash-logo {
+    width: 112px;
+    height: 112px;
+
+    object-fit: contain;
+
+    display: block;
+
+    filter: drop-shadow(0 16px 28px rgba(108, 92, 231, 0.12));
+}
+
+/* 타이틀 */
+
+.splash-content h1 {
+    margin: 0;
+
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+
+    color: #171717;
+
+    letter-spacing: -0.8px;
+}
+
+.splash-content h1 span {
+    color: #6c5ce7;
+}
+
+/* 설명 */
+
+.splash-content p {
+    margin: 14px 0 0;
+
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.65;
+
+    color: #8e8e93;
+}
+
+/* 배경 Glow */
+
+.glow {
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    filter: blur(8px);
+
+    background: radial-gradient(circle,
+            rgba(108, 92, 231, 0.12),
+            rgba(108, 92, 231, 0));
+}
+
+.glow-top {
+    top: -100px;
+    right: -110px;
+}
+
+.glow-bottom {
+    bottom: -110px;
+    left: -110px;
+}
+
+/* 반투명 원 */
+
+.orb {
+    position: absolute;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(108, 92, 231, 0.12);
+
+    background: rgba(240, 237, 255, 0.4);
+
+    backdrop-filter: blur(4px);
+}
+
+.orb-1 {
+    width: 90px;
+    height: 90px;
+
+    top: 23%;
+    left: -35px;
+}
+
+.orb-2 {
+    width: 56px;
+    height: 56px;
+
+    right: -18px;
+    bottom: 28%;
+}
+
+/* 작은 장식 */
+
+.sparkle {
+    position: absolute;
+
+    color: #b6acff;
+
+    opacity: 0.65;
+}
+
+.sparkle-1 {
+    top: 35%;
+    right: 16%;
+
+    font-size: 16px;
+}
+
+.sparkle-2 {
+    bottom: 35%;
+    left: 17%;
+
+    font-size: 10px;
+}
+
+.sparkle-3 {
+    top: 29%;
+    left: 22%;
+
+    font-size: 18px;
+}
+
+/* 하단 */
+
+.splash-footer {
+    position: absolute;
+
+    left: 50%;
+    bottom: 55px;
+
+    transform: translateX(-50%);
+
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #c9c7ce;
+}
