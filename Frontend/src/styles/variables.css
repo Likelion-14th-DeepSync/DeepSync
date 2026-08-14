@@ -1,0 +1,14 @@
+:root {
+--color-primary: #6C5CE7;
+--color-background: #FFFFFF;
+
+--color-text-primary: #222222;
+--color-text-secondary: #666666;
+--color-border: #EAEAEA;
+--color-surface: #F8F8FC;
+
+--radius-button: 16px;
+--radius-card: 20px;
+
+--mobile-max-width: 430px;
+}
