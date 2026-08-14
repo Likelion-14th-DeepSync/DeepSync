@@ -1,0 +1,650 @@
+.onboarding-page {
+    width: 100%;
+    min-height: 100vh;
+
+    background: #ffffff;
+}
+
+.onboarding-screen {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+
+    position: relative;
+
+    margin: 0 auto;
+
+    padding:
+        max(22px, env(safe-area-inset-top)) 24px max(22px, env(safe-area-inset-bottom));
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+}
+
+/* =========================================
+   Start
+========================================= */
+
+.onboarding-start-screen {
+    padding-top: 42px;
+}
+
+.skip-button {
+    align-self: flex-end;
+
+    padding: 5px 0;
+
+    border: none;
+    background: transparent;
+
+    color: #202025;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.intro-copy {
+    margin-top: 70px;
+}
+
+.intro-copy h1 {
+    margin: 0;
+
+    color: #18181b;
+
+    font-size: 28px;
+    line-height: 1.18;
+    font-weight: 800;
+
+    letter-spacing: -1.2px;
+}
+
+.intro-copy h1 span {
+    color: #6c5ce7;
+}
+
+.intro-copy p {
+    margin: 18px 0 0;
+
+    color: #8e8e97;
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+/* =========================================
+   Start 이미지
+========================================= */
+
+.onboarding-visual {
+    width: 245px;
+    height: 245px;
+
+    position: relative;
+
+    align-self: center;
+
+    margin-top: 30px;
+}
+
+.onboarding-woman {
+    width: 230px;
+    height: 230px;
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    object-fit: contain;
+
+    z-index: 2;
+}
+
+.visual-icon {
+    width: 34px;
+    height: 34px;
+
+    position: absolute;
+    z-index: 4;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #6c5ce7;
+
+    border: 1px solid rgba(108, 92, 231, 0.05);
+
+    box-shadow:
+        0 6px 18px rgba(108, 92, 231, 0.09);
+}
+
+.icon-drop {
+    top: 25px;
+    left: 27px;
+}
+
+.icon-shield {
+    top: 91px;
+    left: 5px;
+}
+
+.icon-sparkle {
+    top: 86px;
+    right: 3px;
+}
+
+.icon-chart {
+    bottom: 24px;
+    left: 16px;
+}
+
+.intro-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 14px;
+}
+
+.intro-dot,
+.question-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #dedee4;
+}
+
+.intro-dot.active,
+.question-dot.active {
+    background: #6c5ce7;
+}
+
+/* =========================================
+   공통 Header
+========================================= */
+
+.question-header {
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.question-back {
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 1px;
+
+    border: none;
+    background: transparent;
+
+    color: #1d1d21;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.question-dots {
+    display: flex;
+
+    gap: 10px;
+
+    padding-right: 3px;
+}
+
+/* =========================================
+   제목
+========================================= */
+
+.question-title {
+    margin-top: 34px;
+}
+
+.question-title h1 {
+    margin: 0;
+
+    color: #18181b;
+
+    font-size: 25px;
+    font-weight: 800;
+    line-height: 1.25;
+
+    letter-spacing: -0.9px;
+}
+
+.question-title p {
+    margin: 7px 0 0;
+
+    color: #9a9aa2;
+
+    font-size: 12px;
+}
+
+.concern-title {
+    margin-top: 32px;
+}
+
+/* =========================================
+   Skin Type
+========================================= */
+
+.skin-type-list {
+    margin-top: 28px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.skin-type-card {
+    width: 100%;
+    min-height: 79px;
+
+    position: relative;
+
+    padding: 12px 48px 12px 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    border: 1px solid #e2e2e8;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.18s ease,
+        background-color 0.18s ease,
+        transform 0.12s ease;
+}
+
+.skin-type-card:active {
+    transform: scale(0.995);
+}
+
+.skin-type-card.selected {
+    border: 2px solid #6c5ce7;
+
+    background: #f8f6ff;
+}
+
+/* 아이콘 공통 */
+
+.type-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
+}
+
+/* 건성 */
+
+.type-icon.dry {
+    color: #4c9df6;
+
+    background: #eef7ff;
+}
+
+/* 지성 */
+
+.type-icon.oily {
+    color: #43b78b;
+
+    background: #eefaf5;
+}
+
+/* 복합성 */
+
+.type-icon.combination {
+    color: #e8a33d;
+
+    background: #fff7e9;
+}
+
+/* 민감성 */
+
+.type-icon.sensitive {
+    color: #ef7d89;
+
+    background: #fff1f3;
+}
+
+/* 모름 */
+
+.type-icon.unknown {
+    color: #8b8b96;
+
+    background: #f4f4f7;
+}
+
+/* 선택됐을 때 */
+
+.skin-type-card.selected .type-icon {
+    transform: scale(1.04);
+}
+
+.skin-type-card.selected .type-icon.dry {
+    background: #deefff;
+}
+
+.skin-type-card.selected .type-icon.oily {
+    background: #dcf5e9;
+}
+
+.skin-type-card.selected .type-icon.combination {
+    background: #ffedcc;
+}
+
+.skin-type-card.selected .type-icon.sensitive {
+    background: #ffe1e5;
+}
+
+.skin-type-card.selected .type-icon.unknown {
+    background: #e9e9ef;
+}
+
+/* 텍스트 */
+
+.skin-type-copy strong {
+    display: block;
+
+    color: #212126;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.skin-type-copy p {
+    margin: 4px 0 0;
+
+    color: #9999a1;
+
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+/* 체크 */
+
+.skin-check,
+.concern-check {
+    width: 23px;
+    height: 23px;
+
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    background: #6c5ce7;
+}
+
+.skin-check {
+    right: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+}
+
+/* =========================================
+   Concern
+========================================= */
+
+.concern-grid {
+    margin-top: 25px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px 12px;
+}
+
+.concern-card {
+    height: 105px;
+
+    position: relative;
+
+    border: 1px solid #e2e2e8;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    color: #25252a;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.18s ease,
+        background-color 0.18s ease,
+        transform 0.12s ease;
+}
+
+.concern-card:active {
+    transform: scale(0.99);
+}
+
+.concern-card.selected {
+    border: 2px solid #6c5ce7;
+
+    background: #f8f6ff;
+}
+
+.concern-check {
+    top: 10px;
+    right: 10px;
+}
+
+.concern-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    color: #7e7e8d;
+
+    font-size: 22px;
+
+    background: #f7f7fa;
+}
+
+/* =========================================
+   Lifestyle
+========================================= */
+
+.lifestyle-section {
+    margin-top: 36px;
+}
+
+.lifestyle-section h2 {
+    margin: 0 0 13px;
+
+    color: #29292d;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.option-row {
+    display: grid;
+
+    gap: 10px;
+}
+
+.option-row-three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.option-row-two {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.option-row button {
+    height: 44px;
+
+    border: 1px solid #e2e2e8;
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    color: #2b2b30;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.18s ease,
+        background-color 0.18s ease,
+        transform 0.12s ease;
+}
+
+.option-row button:active {
+    transform: scale(0.98);
+}
+
+.option-row button.selected {
+    border: 2px solid #6c5ce7;
+
+    background: #f8f6ff;
+}
+
+/* =========================================
+하단 버튼
+========================================= */
+
+.onboarding-bottom-button {
+    width: 100%;
+    height: 54px;
+
+    margin-top: auto;
+
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 13px;
+
+    background: #6c5ce7;
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.12s ease,
+        background-color 0.18s ease;
+}
+
+.onboarding-bottom-button:active {
+    transform: scale(0.99);
+}
+
+/* =========================================
+   작은 화면 대응
+========================================= */
+
+@media (max-height: 760px) {
+    .intro-copy {
+        margin-top: 38px;
+    }
+
+    .onboarding-visual {
+        width: 210px;
+        height: 210px;
+    }
+
+    .onboarding-woman {
+        width: 190px;
+        height: 190px;
+    }
+
+    .question-title {
+        margin-top: 20px;
+    }
+
+    .skin-type-list {
+        margin-top: 18px;
+    }
+
+    .skin-type-card {
+        min-height: 68px;
+
+        padding-top: 9px;
+        padding-bottom: 9px;
+    }
+
+    .type-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .concern-card {
+        height: 88px;
+    }
+
+    .lifestyle-section {
+        margin-top: 27px;
+    }
+}
