@@ -17,6 +17,15 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+
+storage:
+  skin-image:
+    directory: ${SKIN_IMAGE_STORAGE_DIRECTORY:uploads/skin-images}
+    max-size-bytes: ${SKIN_IMAGE_MAX_SIZE_BYTES:10485760}
 
 jwt:
   secret: ${JWT_SECRET:local-development-secret-key-must-be-at-least-32-bytes}
