@@ -29,6 +29,8 @@ public enum ErrorCode {
     IMAGE_FILE_TOO_LARGE(HttpStatus.CONTENT_TOO_LARGE, "IMAGE_FILE_TOO_LARGE", "이미지 파일은 10MB 이하만 업로드할 수 있습니다."),
     FUTURE_CAPTURED_AT(HttpStatus.BAD_REQUEST, "FUTURE_CAPTURED_AT", "미래 시각의 피부 사진은 등록할 수 없습니다."),
     IMAGE_STORAGE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "IMAGE_STORAGE_ERROR", "이미지 파일을 저장하거나 불러오지 못했습니다."),
+    IMAGE_QUALITY_NOT_FOUND(HttpStatus.NOT_FOUND, "IMAGE_QUALITY_NOT_FOUND", "사진 품질 검사 결과를 찾을 수 없습니다."),
+    IMAGE_QUALITY_ANALYSIS_FAILED(HttpStatus.UNPROCESSABLE_CONTENT, "IMAGE_QUALITY_ANALYSIS_FAILED", "사진 품질을 분석할 수 없습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;

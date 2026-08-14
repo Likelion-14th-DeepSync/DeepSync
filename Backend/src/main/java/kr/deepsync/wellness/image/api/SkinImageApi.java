@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import kr.deepsync.wellness.common.response.ApiResponse;
 import kr.deepsync.wellness.image.dto.request.SkinImageUploadRequest;
 import kr.deepsync.wellness.image.dto.response.SkinImageResponse;
+import kr.deepsync.wellness.image.dto.response.SkinImageQualityResponse;
 import kr.deepsync.wellness.image.service.SkinImageFile;
 import kr.deepsync.wellness.image.service.SkinImageService;
+import kr.deepsync.wellness.image.service.SkinImageQualityService;
 import kr.deepsync.wellness.security.AuthenticatedMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,6 +34,19 @@ import java.util.List;
 @RequestMapping("/api/v1/skin-images")
 public class SkinImageApi {
     private final SkinImageService service;
+    private final SkinImageQualityService qualityService;
+
+    @PostMapping("/{imageId}/quality-check")
+    public ApiResponse<SkinImageQualityResponse> analyzeQuality(@AuthenticationPrincipal AuthenticatedMember member,
+                                                                 @PathVariable Long imageId) {
+        return ApiResponse.success(qualityService.analyze(member.memberId(), imageId));
+    }
+
+    @GetMapping("/{imageId}/quality")
+    public ApiResponse<SkinImageQualityResponse> getQuality(@AuthenticationPrincipal AuthenticatedMember member,
+                                                             @PathVariable Long imageId) {
+        return ApiResponse.success(qualityService.get(member.memberId(), imageId));
+    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<SkinImageResponse>> upload(
