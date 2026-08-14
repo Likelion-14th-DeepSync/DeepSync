@@ -71,4 +71,8 @@ public class SkinImage extends BaseTimeEntity {
                                    LocalDateTime capturedAt, FaceDirection direction, boolean makeupApplied) {
         return new SkinImage(member, storageKey, contentType, fileSize, capturedAt, direction, makeupApplied);
     }
+
+    public void updateQualityStatus(ImageQualityStatus qualityStatus) {
+        this.qualityStatus = qualityStatus;
+    }
 }

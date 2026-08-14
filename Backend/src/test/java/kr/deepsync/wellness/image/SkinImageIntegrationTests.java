@@ -1,6 +1,7 @@
 package kr.deepsync.wellness.image;
 
 import kr.deepsync.wellness.image.repository.SkinImageRepository;
+import kr.deepsync.wellness.image.repository.SkinImageQualityRepository;
 import kr.deepsync.wellness.member.repository.MemberRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,18 +35,46 @@ class SkinImageIntegrationTests {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
     @Autowired SkinImageRepository skinImageRepository;
+    @Autowired SkinImageQualityRepository qualityRepository;
     @Autowired MemberRepository memberRepository;
 
     @BeforeEach
     void cleanUp() {
+        qualityRepository.deleteAll();
         skinImageRepository.deleteAll();
         memberRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
+        qualityRepository.deleteAll();
         skinImageRepository.deleteAll();
         memberRepository.deleteAll();
+    }
+
+    @Test
+    void analyzesStoresAndReadsImageQuality() throws Exception {
+        String token = signUpAndLogin("quality@example.com");
+        String uploadResponse = upload(token, VALID_PNG, LocalDateTime.now().minusMinutes(1), "FRONT", false)
+                .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+        long imageId = objectMapper.readTree(uploadResponse).get("data").get("imageId").asLong();
+
+        mockMvc.perform(post("/api/v1/skin-images/{imageId}/quality-check", imageId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.imageId").value(imageId))
+                .andExpect(jsonPath("$.data.modelVersion").value("basic-quality-v1"))
+                .andExpect(jsonPath("$.data.qualityStatus").value("REJECTED"));
+
+        mockMvc.perform(get("/api/v1/skin-images/{imageId}/quality", imageId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.resolutionScore").isNumber());
+
+        mockMvc.perform(get("/api/v1/skin-images/{imageId}", imageId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.qualityStatus").value("REJECTED"));
     }
 
     @Test
