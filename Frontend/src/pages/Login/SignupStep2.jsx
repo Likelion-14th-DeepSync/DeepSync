@@ -43,10 +43,15 @@ function SignupStep2() {
       password,
     };
 
+    localStorage.setItem("deepSyncUserName", signupData.name ?? "");
+    localStorage.setItem("deepSyncUserNickname", signupData.nickname ?? "");
+
     console.log("회원가입 데이터", signupData);
 
     // 추후 여기서 백엔드 회원가입 API 연결
-    navigate("/signup/complete");
+    navigate("/signup/complete", {
+      state: signupData,
+    });
   };
 
   return (

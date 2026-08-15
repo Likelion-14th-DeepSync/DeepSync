@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  Home,
-  ClipboardList,
-  Sparkles,
-  Calendar,
-  User,
-  Clock,
-  ChevronRight,
-} from "lucide-react";
+import { Calendar, Clock, ChevronRight } from "lucide-react";
+import BottomNav from "../../components/BottomNav";
 import "./Dday.css";
 
 const WEEK_DAYS = [
@@ -36,19 +29,16 @@ const PLAN_ITEMS = [
   },
 ];
 
-const NAV_ITEMS = [
-  { key: "home", label: "홈", icon: Home },
-  { key: "record", label: "기록", icon: ClipboardList },
-  { key: "ai", label: "AI", icon: Sparkles, isCenter: true },
-  { key: "dday", label: "D-Day", icon: Calendar },
-  { key: "my", label: "마이", icon: User },
-];
-
 export default function DDayScreen() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const activeNav = location.pathname === "/home" ? "home" : "dday";
+  const activeNav =
+    location.pathname === "/my"
+      ? "my"
+      : location.pathname === "/home"
+        ? "home"
+        : "dday";
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -270,67 +260,24 @@ export default function DDayScreen() {
           </div>
         </div>
 
-        {/* Bottom nav */}
-        <div className="bottom-nav">
-          {NAV_ITEMS.map(
-            ({
-              key,
-              label,
-              icon: Icon,
-              isCenter,
-            }) => {
-              const isActive =
-                activeNav === key;
-
-              return (
-                <button
-                  key={key}
-                  onClick={() => {
-                    if (key === "home") {
-                      navigate("/home");
-                      return;
-                    }
-
-                    if (key === "dday") {
-                      navigate("/d-day");
-                    }
-                  }}
-                  className={`nav-button ${
-                    isCenter
-                      ? "center-nav"
-                      : ""
-                  }`}
-                >
-                  {isCenter ? (
-                    <span
-                      className={`center-icon ${
-                        isActive
-                          ? "active"
-                          : ""
-                      }`}
-                    >
-                      <Icon
-                        size={20}
-                        color="#fff"
-                      />
-                    </span>
-                  ) : (
-                    <Icon
-                      size={22}
-                      color={
-                        isActive
-                          ? "#6C5CE7"
-                          : "#767676"
-                      }
-                    />
-                  )}
-
-                  {label}
-                </button>
-              );
+        <BottomNav
+          activeNav={activeNav}
+          onChange={(key) => {
+            if (key === "home") {
+              navigate("/home");
+              return;
             }
-          )}
-        </div>
+
+            if (key === "dday") {
+              navigate("/dday");
+              return;
+            }
+
+            if (key === "my") {
+              navigate("/my");
+            }
+          }}
+        />
       </div>
     </div>
   );
