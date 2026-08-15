@@ -14,6 +14,8 @@ import Lifestyle from "./pages/Onboarding/Lifestyle";       // 온보딩 마지�
 
 import Home from "./pages/Home/Home";     // 홈 시작
 import Dday from "./pages/Dday/Dday";       // 디데이
+import MyScreen from "./pages/My/MyScreen"; // 마이
+import Wearable from "./pages/My/Wearable"; // 웨어러블 기기
 
 function App() {
   return (
@@ -58,6 +60,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/d-day" element={<Dday />} />
         <Route path="/dday" element={<Dday />} />
+        <Route path="/my" element={<MyScreen />} />
+        <Route path="/my/wearable" element={<Wearable />} />
 
       </Routes>
     </BrowserRouter>

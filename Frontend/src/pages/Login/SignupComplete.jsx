@@ -1,9 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import "./Login.css";
 
 function SignupComplete() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const signupData = location.state ?? {};
+
+  if (signupData.name) {
+    localStorage.setItem("deepSyncUserName", signupData.name);
+  }
+
+  if (signupData.nickname) {
+    localStorage.setItem("deepSyncUserNickname", signupData.nickname);
+  }
 
   return (
     <div className="signup-complete-page">
