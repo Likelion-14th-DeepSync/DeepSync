@@ -55,6 +55,8 @@ public enum ErrorCode {
     EXPERIMENT_ANALYSIS_DATA_INSUFFICIENT(HttpStatus.UNPROCESSABLE_CONTENT, "EXPERIMENT_ANALYSIS_DATA_INSUFFICIENT", "실험 전후 피부 분석 데이터가 각각 한 개 이상 필요합니다."),
     INVALID_FACTOR_ANALYSIS_PERIOD(HttpStatus.BAD_REQUEST, "INVALID_FACTOR_ANALYSIS_PERIOD", "영향 요인 분석 기간은 7일 이상 365일 이하여야 합니다."),
     FACTOR_ANALYSIS_NOT_FOUND(HttpStatus.NOT_FOUND, "FACTOR_ANALYSIS_NOT_FOUND", "개인별 영향 요인 분석 결과를 찾을 수 없습니다."),
+    INVALID_CONFIDENCE_ANALYSIS_PERIOD(HttpStatus.BAD_REQUEST, "INVALID_CONFIDENCE_ANALYSIS_PERIOD", "종합 신뢰도 분석 기간은 7일 이상 90일 이하여야 합니다."),
+    ANALYSIS_CONFIDENCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ANALYSIS_CONFIDENCE_NOT_FOUND", "종합 분석 신뢰도 결과를 찾을 수 없습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;
