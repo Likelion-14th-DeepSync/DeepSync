@@ -31,6 +31,14 @@ public enum ErrorCode {
     IMAGE_STORAGE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "IMAGE_STORAGE_ERROR", "이미지 파일을 저장하거나 불러오지 못했습니다."),
     IMAGE_QUALITY_NOT_FOUND(HttpStatus.NOT_FOUND, "IMAGE_QUALITY_NOT_FOUND", "사진 품질 검사 결과를 찾을 수 없습니다."),
     IMAGE_QUALITY_ANALYSIS_FAILED(HttpStatus.UNPROCESSABLE_CONTENT, "IMAGE_QUALITY_ANALYSIS_FAILED", "사진 품질을 분석할 수 없습니다."),
+    EXPERIMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "EXPERIMENT_NOT_FOUND", "생활 실험을 찾을 수 없습니다."),
+    OPEN_EXPERIMENT_EXISTS(HttpStatus.CONFLICT, "OPEN_EXPERIMENT_EXISTS", "이미 예정되었거나 진행 중인 생활 실험이 있습니다."),
+    INVALID_EXPERIMENT_START_DATE(HttpStatus.BAD_REQUEST, "INVALID_EXPERIMENT_START_DATE", "실험 시작일은 오늘 또는 이후여야 합니다."),
+    EXPERIMENT_NOT_EDITABLE(HttpStatus.CONFLICT, "EXPERIMENT_NOT_EDITABLE", "진행 가능한 실험만 변경할 수 있습니다."),
+    EXPERIMENT_DATE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "EXPERIMENT_DATE_OUT_OF_RANGE", "실험 기간에 포함된 날짜만 기록할 수 있습니다."),
+    FUTURE_EXPERIMENT_CHECK(HttpStatus.BAD_REQUEST, "FUTURE_EXPERIMENT_CHECK", "미래 날짜의 실천 여부는 기록할 수 없습니다."),
+    MANUAL_CHECK_REQUIRED(HttpStatus.BAD_REQUEST, "MANUAL_CHECK_REQUIRED", "이 실험은 생활 기록으로 자동 판정할 수 없습니다."),
+    EXPERIMENT_NOT_FINISHED(HttpStatus.CONFLICT, "EXPERIMENT_NOT_FINISHED", "실험 종료일이 지나야 완료할 수 있습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;
