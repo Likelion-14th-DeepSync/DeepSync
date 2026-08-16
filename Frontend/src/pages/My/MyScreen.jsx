@@ -56,7 +56,9 @@ export default function MyScreen({
       ? "home"
       : location.pathname === "/d-day" || location.pathname === "/dday"
         ? "dday"
-        : "my";
+        : location.pathname === "/ai"
+          ? "ai"
+          : "my";
 
   const handleConnectItemClick = (key) => {
     if (key === "wearable") {
@@ -84,6 +86,11 @@ export default function MyScreen({
 
     if (key === "home") {
       navigate("/home");
+      return;
+    }
+
+    if (key === "ai") {
+      navigate("/ai");
       return;
     }
 
