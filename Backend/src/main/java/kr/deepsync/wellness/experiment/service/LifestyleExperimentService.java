@@ -127,6 +127,85 @@ public class LifestyleExperimentService {
                 rate, checks);
     }
 
+    @Transactional
+    public ExperimentProgressSummaryResponse progressSummary(Long memberId, Long experimentId) {
+        LifestyleExperiment experiment = find(memberId, experimentId);
+        LocalDate today = LocalDate.now(clock);
+        experiment.activateIfStarted(today);
+        LocalDate summaryDate = summaryDate(experiment, today);
+        List<ExperimentDailyCheck> checks = checkRepository
+                .findAllByExperimentIdOrderByRecordDateAsc(experimentId);
+        int elapsed = elapsedDays(experiment, summaryDate);
+        ProgressTotalsResponse overall = totals(checks, experiment.getStartDate(),
+                effectiveEnd(experiment, summaryDate), elapsed);
+        List<ProgressSegmentResponse> weekly = segments(experiment, checks, summaryDate, 7);
+        List<ProgressSegmentResponse> monthly = experiment.getExperimentPeriod() == ExperimentPeriod.NINETY_DAYS
+                ? segments(experiment, checks, summaryDate, 30)
+                : List.of();
+        return new ExperimentProgressSummaryResponse(experiment.getId(), experiment.getStatus(),
+                experiment.getExperimentPeriod(), experiment.getExperimentPeriod().getDays(), overall,
+                weekly, monthly);
+    }
+
+    private List<ProgressSegmentResponse> segments(LifestyleExperiment experiment,
+                                                    List<ExperimentDailyCheck> checks,
+                                                    LocalDate today,
+                                                    int segmentDays) {
+        List<ProgressSegmentResponse> summaries = new ArrayList<>();
+        LocalDate segmentStart = experiment.getStartDate();
+        int sequence = 1;
+        while (!segmentStart.isAfter(experiment.getEndDate())) {
+            LocalDate segmentEnd = segmentStart.plusDays(segmentDays - 1L);
+            if (segmentEnd.isAfter(experiment.getEndDate())) segmentEnd = experiment.getEndDate();
+            int planned = (int) ChronoUnit.DAYS.between(segmentStart, segmentEnd) + 1;
+            int elapsed = elapsedDays(segmentStart, segmentEnd, today);
+            ProgressTotalsResponse totals = totals(checks, segmentStart,
+                    elapsed == 0 ? segmentStart.minusDays(1) : min(segmentEnd, today), elapsed);
+            summaries.add(new ProgressSegmentResponse(sequence, segmentStart, segmentEnd, planned,
+                    totals.elapsedDays(), totals.recordedDays(), totals.achievedDays(), totals.missingDays(),
+                    totals.completionRate()));
+            segmentStart = segmentEnd.plusDays(1);
+            sequence++;
+        }
+        return summaries;
+    }
+
+    private ProgressTotalsResponse totals(List<ExperimentDailyCheck> checks, LocalDate start,
+                                           LocalDate effectiveEnd, int elapsed) {
+        if (elapsed == 0) return new ProgressTotalsResponse(0, 0, 0, 0, 0.0);
+        List<ExperimentDailyCheck> included = checks.stream()
+                .filter(check -> !check.getRecordDate().isBefore(start)
+                        && !check.getRecordDate().isAfter(effectiveEnd))
+                .toList();
+        int recorded = included.size();
+        int achieved = (int) included.stream().filter(ExperimentDailyCheck::isAchieved).count();
+        int missing = Math.max(0, elapsed - recorded);
+        double rate = Math.round(achieved * 1000.0 / elapsed) / 10.0;
+        return new ProgressTotalsResponse(elapsed, recorded, achieved, missing, rate);
+    }
+
+    private int elapsedDays(LocalDate start, LocalDate end, LocalDate today) {
+        if (today.isBefore(start)) return 0;
+        LocalDate effective = min(end, today);
+        return (int) ChronoUnit.DAYS.between(start, effective) + 1;
+    }
+
+    private LocalDate effectiveEnd(LifestyleExperiment experiment, LocalDate today) {
+        if (today.isBefore(experiment.getStartDate())) return experiment.getStartDate().minusDays(1);
+        return min(experiment.getEndDate(), today);
+    }
+
+    private LocalDate min(LocalDate first, LocalDate second) {
+        return first.isBefore(second) ? first : second;
+    }
+
+    private LocalDate summaryDate(LifestyleExperiment experiment, LocalDate today) {
+        if (experiment.getStatus() == ExperimentStatus.CANCELLED && experiment.getUpdatedAt() != null) {
+            return min(today, experiment.getUpdatedAt().toLocalDate());
+        }
+        return today;
+    }
+
     private void upsertAutoCheck(LifestyleExperiment experiment, LifestyleRecord record) {
         Evaluation evaluation = evaluate(experiment.getExperimentType(), record);
         if (evaluation == null) return;
