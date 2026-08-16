@@ -38,6 +38,7 @@ public enum ErrorCode {
     EXPERIMENT_DATE_OUT_OF_RANGE(HttpStatus.BAD_REQUEST, "EXPERIMENT_DATE_OUT_OF_RANGE", "실험 기간에 포함된 날짜만 기록할 수 있습니다."),
     FUTURE_EXPERIMENT_CHECK(HttpStatus.BAD_REQUEST, "FUTURE_EXPERIMENT_CHECK", "미래 날짜의 실천 여부는 기록할 수 없습니다."),
     MANUAL_CHECK_REQUIRED(HttpStatus.BAD_REQUEST, "MANUAL_CHECK_REQUIRED", "이 실험은 생활 기록으로 자동 판정할 수 없습니다."),
+    MANUAL_CHECK_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "MANUAL_CHECK_NOT_ALLOWED", "이 실험은 생활 기록을 통해 자동으로 판정됩니다."),
     EXPERIMENT_NOT_FINISHED(HttpStatus.CONFLICT, "EXPERIMENT_NOT_FINISHED", "실험 종료일이 지나야 완료할 수 있습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 

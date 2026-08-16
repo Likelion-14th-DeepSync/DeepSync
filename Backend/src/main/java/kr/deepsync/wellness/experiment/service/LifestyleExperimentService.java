@@ -31,6 +31,7 @@ public class LifestyleExperimentService {
     private final LifestyleRecordRepository lifestyleRepository;
     private final MemberRepository memberRepository;
     private final Clock clock;
+    private final ExperimentAutoSyncService autoSyncService;
 
     @Transactional
     public ExperimentResponse create(Long memberId, CreateExperimentRequest request) {
@@ -85,6 +86,9 @@ public class LifestyleExperimentService {
     public DailyCheckResponse putManualCheck(Long memberId, Long experimentId, LocalDate date,
                                              DailyCheckRequest request) {
         LifestyleExperiment experiment = editableExperiment(memberId, experimentId, date);
+        if (experiment.getExperimentType() != ExperimentType.KEEP_SUNSCREEN_ROUTINE) {
+            throw new BusinessException(ErrorCode.MANUAL_CHECK_NOT_ALLOWED);
+        }
         ExperimentDailyCheck check = checkRepository.findByExperimentIdAndRecordDate(experimentId, date)
                 .orElseGet(() -> ExperimentDailyCheck.create(experiment, date, request.achieved(),
                         null, CheckSourceType.MANUAL, request.note()));
@@ -104,7 +108,7 @@ public class LifestyleExperimentService {
         if (syncEnd.isBefore(experiment.getStartDate())) return List.of();
         List<LifestyleRecord> records = lifestyleRepository
                 .findAllByMemberIdAndRecordDateBetweenOrderByRecordDateAsc(memberId, experiment.getStartDate(), syncEnd);
-        for (LifestyleRecord record : records) upsertAutoCheck(experiment, record);
+        for (LifestyleRecord record : records) autoSyncService.syncRecord(experiment, record);
         return checkRepository.findAllByExperimentIdOrderByRecordDateAsc(experimentId).stream()
                 .map(DailyCheckResponse::from).toList();
     }
@@ -206,32 +210,6 @@ public class LifestyleExperimentService {
         return today;
     }
 
-    private void upsertAutoCheck(LifestyleExperiment experiment, LifestyleRecord record) {
-        Evaluation evaluation = evaluate(experiment.getExperimentType(), record);
-        if (evaluation == null) return;
-        ExperimentDailyCheck check = checkRepository
-                .findByExperimentIdAndRecordDate(experiment.getId(), record.getRecordDate())
-                .orElseGet(() -> ExperimentDailyCheck.create(experiment, record.getRecordDate(),
-                        evaluation.achieved(), evaluation.actualValue(), CheckSourceType.AUTO, null));
-        check.update(evaluation.achieved(), evaluation.actualValue(), CheckSourceType.AUTO, null);
-        checkRepository.save(check);
-    }
-
-    private Evaluation evaluate(ExperimentType type, LifestyleRecord record) {
-        return switch (type) {
-            case SLEEP_AT_LEAST_7_HOURS -> record.getSleepDurationMinutes() == null ? null
-                    : new Evaluation(record.getSleepDurationMinutes() >= 420,
-                    record.getSleepDurationMinutes() + " minutes");
-            case SLEEP_BEFORE_MIDNIGHT -> record.getBedtime() == null ? null
-                    : new Evaluation(!record.getBedtime().isBefore(LocalTime.of(18, 0)),
-                    record.getBedtime().toString());
-            case NO_LATE_NIGHT_MEAL -> record.getLateNightMeal() == null ? null
-                    : new Evaluation(!record.getLateNightMeal(), record.getLateNightMeal().toString());
-            case WATER_AT_LEAST_1500_ML -> record.getWaterIntakeMl() == null ? null
-                    : new Evaluation(record.getWaterIntakeMl() >= 1500, record.getWaterIntakeMl() + " ml");
-            case KEEP_SUNSCREEN_ROUTINE -> null;
-        };
-    }
 
     private LifestyleExperiment editableExperiment(Long memberId, Long experimentId, LocalDate date) {
         LifestyleExperiment experiment = find(memberId, experimentId);
@@ -253,5 +231,4 @@ public class LifestyleExperimentService {
         return (int) ChronoUnit.DAYS.between(experiment.getStartDate(), effective) + 1;
     }
 
-    private record Evaluation(boolean achieved, String actualValue) {}
 }

@@ -154,6 +154,50 @@ class LifestyleExperimentIntegrationTests {
                 .andExpect(jsonPath("$.data.monthlySummaries[0].plannedDays").value(30));
     }
 
+    @Test
+    void automaticallySyncsWhenLifestyleRecordIsCreatedUpdatedOrCleared() throws Exception {
+        String token = signUpAndLogin("auto-sync@example.com");
+        LocalDate today = LocalDate.now();
+        long id = create(token, "SEVEN_DAYS", today, "자동 물 섭취 실험").andReturnId(objectMapper);
+
+        mockMvc.perform(post("/api/v1/lifestyle-records").header("Authorization", bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON).content(lifestyleBody(today, 1800)))
+                .andExpect(status().isCreated());
+        expectProgress(token, id, 1, 1, 100.0);
+
+        mockMvc.perform(patch("/api/v1/lifestyle-records/{date}", today)
+                        .header("Authorization", bearer(token)).contentType(MediaType.APPLICATION_JSON)
+                        .content(lifestyleBody(today, 1000)))
+                .andExpect(status().isOk());
+        expectProgress(token, id, 1, 0, 0.0);
+
+        mockMvc.perform(patch("/api/v1/lifestyle-records/{date}", today)
+                        .header("Authorization", bearer(token)).contentType(MediaType.APPLICATION_JSON)
+                        .content(lifestyleBody(today, null)))
+                .andExpect(status().isOk());
+        expectProgress(token, id, 0, 0, 0.0);
+
+        mockMvc.perform(put("/api/v1/experiments/{id}/daily-checks/{date}", id, today)
+                        .header("Authorization", bearer(token)).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"achieved\":true}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("MANUAL_CHECK_NOT_ALLOWED"));
+    }
+
+    private void expectProgress(String token, long id, int recorded, int achieved, double rate) throws Exception {
+        mockMvc.perform(get("/api/v1/experiments/{id}/progress", id).header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.recordedDays").value(recorded))
+                .andExpect(jsonPath("$.data.achievedDays").value(achieved))
+                .andExpect(jsonPath("$.data.completionRate").value(rate));
+    }
+
+    private String lifestyleBody(LocalDate date, Integer water) {
+        return """
+                {"recordDate":"%s","waterIntakeMl":%s,"sourceType":"MANUAL"}
+                """.formatted(date, water == null ? "null" : water);
+    }
+
     private CreateResult create(String token, String period, LocalDate startDate, String title) {
         return new CreateResult(token, period, startDate, title, "WATER_AT_LEAST_1500_ML");
     }
