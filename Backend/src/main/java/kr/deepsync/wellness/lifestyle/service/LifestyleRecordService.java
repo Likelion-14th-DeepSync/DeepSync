@@ -3,6 +3,7 @@ package kr.deepsync.wellness.lifestyle.service;
 import kr.deepsync.wellness.common.exception.BusinessException;
 import kr.deepsync.wellness.common.exception.ErrorCode;
 import kr.deepsync.wellness.lifestyle.domain.LifestyleRecord;
+import kr.deepsync.wellness.experiment.service.ExperimentAutoSyncService;
 import kr.deepsync.wellness.lifestyle.dto.request.LifestyleRecordRequest;
 import kr.deepsync.wellness.lifestyle.dto.response.LifestyleRecordResponse;
 import kr.deepsync.wellness.lifestyle.exception.LifestyleRecordNotFoundException;
@@ -25,6 +26,7 @@ public class LifestyleRecordService {
     private final LifestyleRecordRepository repository;
     private final MemberRepository memberRepository;
     private final Clock clock;
+    private final ExperimentAutoSyncService experimentAutoSyncService;
 
     @Transactional
     public LifestyleRecordResponse create(Long memberId, LifestyleRecordRequest request) {
@@ -36,7 +38,9 @@ public class LifestyleRecordService {
         LifestyleRecord record = LifestyleRecord.create(member, request.recordDate(),
                 request.sleepDurationMinutes(), request.bedtime(), request.wakeUpTime(),
                 request.lateNightMeal(), request.waterIntakeMl(), request.sourceType());
-        return LifestyleRecordResponse.from(repository.save(record));
+        LifestyleRecord saved = repository.save(record);
+        experimentAutoSyncService.syncLifestyleRecord(saved);
+        return LifestyleRecordResponse.from(saved);
     }
 
     public LifestyleRecordResponse get(Long memberId, LocalDate date) {
@@ -58,6 +62,7 @@ public class LifestyleRecordService {
         LifestyleRecord record = find(memberId, date);
         record.update(date, request.sleepDurationMinutes(), request.bedtime(), request.wakeUpTime(),
                 request.lateNightMeal(), request.waterIntakeMl(), request.sourceType());
+        experimentAutoSyncService.syncLifestyleRecord(record);
         return LifestyleRecordResponse.from(record);
     }
 
