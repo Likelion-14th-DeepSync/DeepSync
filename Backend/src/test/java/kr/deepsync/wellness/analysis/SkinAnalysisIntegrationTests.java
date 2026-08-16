@@ -1,6 +1,7 @@
 package kr.deepsync.wellness.analysis;
 
 import kr.deepsync.wellness.analysis.repository.SkinAnalysisRepository;
+import kr.deepsync.wellness.analysis.repository.SkinAnalysisBaselineRepository;
 import kr.deepsync.wellness.image.domain.FaceDirection;
 import kr.deepsync.wellness.image.domain.ImageQualityStatus;
 import kr.deepsync.wellness.image.domain.SkinImage;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,11 +34,13 @@ class SkinAnalysisIntegrationTests {
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
     @Autowired SkinAnalysisRepository analysisRepository;
+    @Autowired SkinAnalysisBaselineRepository baselineRepository;
     @Autowired SkinImageRepository imageRepository;
     @Autowired MemberRepository memberRepository;
 
     @BeforeEach
     void cleanUp() {
+        baselineRepository.deleteAll();
         analysisRepository.deleteAll();
         imageRepository.deleteAll();
         memberRepository.deleteAll();
@@ -170,6 +174,95 @@ class SkinAnalysisIntegrationTests {
                 .andExpect(status().isAccepted())
                 .andExpect(jsonPath("$.data.status").value("PENDING"))
                 .andExpect(jsonPath("$.data.failureReason").isEmpty());
+    }
+
+    @Test
+    void createsDefaultBaselineComparesScoresAndReturnsTimeline() throws Exception {
+        String token = signUpAndLogin("comparison@example.com");
+        LocalDateTime firstCapturedAt = LocalDateTime.now().minusDays(3).withNano(0);
+        Long firstImageId = saveImage("comparison@example.com", ImageQualityStatus.PASSED, firstCapturedAt);
+        long firstAnalysisId = completeAnalysis(token, firstImageId, 70, 65, 60, 75, 68);
+
+        mockMvc.perform(get("/api/v1/skin-analysis-baseline").header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.analysisId").value(firstAnalysisId))
+                .andExpect(jsonPath("$.data.overallScore").value(68));
+
+        Long secondImageId = saveImage("comparison@example.com", ImageQualityStatus.PASSED,
+                LocalDateTime.now().minusDays(1).withNano(0));
+        long secondAnalysisId = completeAnalysis(token, secondImageId, 76, 64, 69, 80, 74);
+
+        mockMvc.perform(get("/api/v1/skin-analyses/{analysisId}/comparison", secondAnalysisId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.current.overallScore").value(74))
+                .andExpect(jsonPath("$.data.baselineComparison.comparedAnalysisId").value(firstAnalysisId))
+                .andExpect(jsonPath("$.data.baselineComparison.overallScoreChange").value(6))
+                .andExpect(jsonPath("$.data.baselineComparison.troubleScoreChange").value(-1))
+                .andExpect(jsonPath("$.data.previousComparison.comparedAnalysisId").value(firstAnalysisId));
+
+        mockMvc.perform(get("/api/v1/skin-analyses/timeline")
+                        .param("period", "SEVEN_DAYS")
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.period").value("SEVEN_DAYS"))
+                .andExpect(jsonPath("$.data.analysisCount").value(2))
+                .andExpect(jsonPath("$.data.analyses[0].analysisId").value(firstAnalysisId))
+                .andExpect(jsonPath("$.data.analyses[1].analysisId").value(secondAnalysisId));
+
+        mockMvc.perform(put("/api/v1/skin-analysis-baseline/{analysisId}", secondAnalysisId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.analysisId").value(secondAnalysisId));
+
+        mockMvc.perform(get("/api/v1/skin-analyses/{analysisId}/comparison", secondAnalysisId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.baselineComparison.overallScoreChange").value(0));
+    }
+
+    @Test
+    void rejectsPendingAnalysisAsBaselineAndComparisonTarget() throws Exception {
+        String token = signUpAndLogin("pending-comparison@example.com");
+        Long imageId = saveImage("pending-comparison@example.com", ImageQualityStatus.PASSED,
+                LocalDateTime.now().minusMinutes(5));
+        String response = mockMvc.perform(post("/api/v1/skin-images/{imageId}/analyses", imageId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isAccepted())
+                .andReturn().getResponse().getContentAsString();
+        long analysisId = objectMapper.readTree(response).get("data").get("analysisId").asLong();
+
+        mockMvc.perform(put("/api/v1/skin-analysis-baseline/{analysisId}", analysisId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.error.code").value("SKIN_ANALYSIS_NOT_COMPLETED"));
+
+        mockMvc.perform(get("/api/v1/skin-analyses/{analysisId}/comparison", analysisId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.error.code").value("SKIN_ANALYSIS_NOT_COMPLETED"));
+    }
+
+    private long completeAnalysis(String token, Long imageId, int redness, int trouble,
+                                  int dryness, int tone, int overall) throws Exception {
+        String requested = mockMvc.perform(post("/api/v1/skin-images/{imageId}/analyses", imageId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isAccepted())
+                .andReturn().getResponse().getContentAsString();
+        long analysisId = objectMapper.readTree(requested).get("data").get("analysisId").asLong();
+        mockMvc.perform(patch("/api/v1/skin-analyses/{analysisId}/start", analysisId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk());
+        mockMvc.perform(patch("/api/v1/skin-analyses/{analysisId}/result", analysisId)
+                        .header("Authorization", bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"rednessScore":%d,"troubleScore":%d,"drynessScore":%d,
+                                 "toneUniformityScore":%d,"overallScore":%d,"confidenceScore":85,
+                                 "modelVersion":"skin-ai-v1"}
+                                """.formatted(redness, trouble, dryness, tone, overall)))
+                .andExpect(status().isOk());
+        return analysisId;
     }
 
     private Long saveImage(String email, ImageQualityStatus status, LocalDateTime capturedAt) {
