@@ -49,6 +49,10 @@ public enum ErrorCode {
     MANUAL_CHECK_REQUIRED(HttpStatus.BAD_REQUEST, "MANUAL_CHECK_REQUIRED", "이 실험은 생활 기록으로 자동 판정할 수 없습니다."),
     MANUAL_CHECK_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "MANUAL_CHECK_NOT_ALLOWED", "이 실험은 생활 기록을 통해 자동으로 판정됩니다."),
     EXPERIMENT_NOT_FINISHED(HttpStatus.CONFLICT, "EXPERIMENT_NOT_FINISHED", "실험 종료일이 지나야 완료할 수 있습니다."),
+    EXPERIMENT_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "EXPERIMENT_RESULT_NOT_FOUND", "생활 실험 결과를 찾을 수 없습니다."),
+    EXPERIMENT_RESULT_EXISTS(HttpStatus.CONFLICT, "EXPERIMENT_RESULT_EXISTS", "이미 생성된 생활 실험 결과가 있습니다."),
+    EXPERIMENT_RESULT_REQUIRES_COMPLETION(HttpStatus.CONFLICT, "EXPERIMENT_RESULT_REQUIRES_COMPLETION", "완료된 생활 실험만 결과를 계산할 수 있습니다."),
+    EXPERIMENT_ANALYSIS_DATA_INSUFFICIENT(HttpStatus.UNPROCESSABLE_CONTENT, "EXPERIMENT_ANALYSIS_DATA_INSUFFICIENT", "실험 전후 피부 분석 데이터가 각각 한 개 이상 필요합니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;

@@ -8,7 +8,9 @@ import kr.deepsync.wellness.experiment.dto.response.DailyCheckResponse;
 import kr.deepsync.wellness.experiment.dto.response.ExperimentProgressResponse;
 import kr.deepsync.wellness.experiment.dto.response.ExperimentProgressSummaryResponse;
 import kr.deepsync.wellness.experiment.dto.response.ExperimentResponse;
+import kr.deepsync.wellness.experiment.dto.response.ExperimentResultResponse;
 import kr.deepsync.wellness.experiment.service.LifestyleExperimentService;
+import kr.deepsync.wellness.experiment.service.LifestyleExperimentResultService;
 import kr.deepsync.wellness.security.AuthenticatedMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,6 +34,29 @@ import java.util.List;
 @RequestMapping("/api/v1/experiments")
 public class LifestyleExperimentApi {
     private final LifestyleExperimentService service;
+    private final LifestyleExperimentResultService resultService;
+
+    @PostMapping("/{id}/result")
+    public ResponseEntity<ApiResponse<ExperimentResultResponse>> createResult(
+            @AuthenticationPrincipal AuthenticatedMember member,
+            @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(resultService.create(member.memberId(), id)));
+    }
+
+    @GetMapping("/{id}/result")
+    public ApiResponse<ExperimentResultResponse> getResult(
+            @AuthenticationPrincipal AuthenticatedMember member,
+            @PathVariable Long id) {
+        return ApiResponse.success(resultService.get(member.memberId(), id));
+    }
+
+    @PutMapping("/{id}/result")
+    public ApiResponse<ExperimentResultResponse> recalculateResult(
+            @AuthenticationPrincipal AuthenticatedMember member,
+            @PathVariable Long id) {
+        return ApiResponse.success(resultService.recalculate(member.memberId(), id));
+    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<ExperimentResponse>> create(

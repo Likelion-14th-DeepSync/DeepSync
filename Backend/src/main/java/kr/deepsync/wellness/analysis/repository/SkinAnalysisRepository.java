@@ -27,4 +27,10 @@ public interface SkinAnalysisRepository extends JpaRepository<SkinAnalysis, Long
 
     List<SkinAnalysis> findAllBySkinImageMemberIdAndStatusAndSkinImageCapturedAtGreaterThanEqualAndSkinImageCapturedAtLessThanOrderBySkinImageCapturedAtAsc(
             Long memberId, SkinAnalysisStatus status, LocalDateTime startInclusive, LocalDateTime endExclusive);
+
+    List<SkinAnalysis> findTop3BySkinImageMemberIdAndStatusAndSkinImageCapturedAtLessThanOrderBySkinImageCapturedAtDesc(
+            Long memberId, SkinAnalysisStatus status, LocalDateTime capturedAt);
+
+    List<SkinAnalysis> findTop3BySkinImageMemberIdAndStatusAndSkinImageCapturedAtGreaterThanEqualAndSkinImageCapturedAtLessThanOrderBySkinImageCapturedAtDesc(
+            Long memberId, SkinAnalysisStatus status, LocalDateTime startInclusive, LocalDateTime endExclusive);
 }
