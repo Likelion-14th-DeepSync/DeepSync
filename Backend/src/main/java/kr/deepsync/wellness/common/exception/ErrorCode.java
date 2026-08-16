@@ -38,6 +38,8 @@ public enum ErrorCode {
     SKIN_ANALYSIS_ALREADY_COMPLETED(HttpStatus.CONFLICT, "SKIN_ANALYSIS_ALREADY_COMPLETED", "이미 완료된 피부 분석입니다."),
     SKIN_ANALYSIS_NOT_PENDING(HttpStatus.CONFLICT, "SKIN_ANALYSIS_NOT_PENDING", "대기 중인 피부 분석만 처리를 시작할 수 있습니다."),
     SKIN_ANALYSIS_NOT_PROCESSING(HttpStatus.CONFLICT, "SKIN_ANALYSIS_NOT_PROCESSING", "처리 중인 피부 분석만 완료하거나 실패 처리할 수 있습니다."),
+    SKIN_ANALYSIS_NOT_COMPLETED(HttpStatus.CONFLICT, "SKIN_ANALYSIS_NOT_COMPLETED", "완료된 피부 분석만 비교하거나 기준으로 설정할 수 있습니다."),
+    SKIN_ANALYSIS_BASELINE_NOT_FOUND(HttpStatus.NOT_FOUND, "SKIN_ANALYSIS_BASELINE_NOT_FOUND", "피부 분석 기준일을 찾을 수 없습니다."),
     EXPERIMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "EXPERIMENT_NOT_FOUND", "생활 실험을 찾을 수 없습니다."),
     OPEN_EXPERIMENT_EXISTS(HttpStatus.CONFLICT, "OPEN_EXPERIMENT_EXISTS", "이미 예정되었거나 진행 중인 생활 실험이 있습니다."),
     INVALID_EXPERIMENT_START_DATE(HttpStatus.BAD_REQUEST, "INVALID_EXPERIMENT_START_DATE", "실험 시작일은 오늘 또는 이후여야 합니다."),

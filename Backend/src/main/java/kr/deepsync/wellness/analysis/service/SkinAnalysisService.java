@@ -28,6 +28,7 @@ import java.util.List;
 public class SkinAnalysisService {
     private final SkinAnalysisRepository repository;
     private final SkinImageRepository imageRepository;
+    private final SkinAnalysisComparisonService comparisonService;
     private final Clock clock;
 
     @Transactional
@@ -64,6 +65,7 @@ public class SkinAnalysisService {
     public SkinAnalysisResponse complete(Long memberId, Long analysisId, SkinAnalysisResultRequest request) {
         SkinAnalysis analysis = findProcessing(memberId, analysisId);
         analysis.complete(request, LocalDateTime.now(clock));
+        comparisonService.initializeBaselineIfAbsent(analysis);
         return SkinAnalysisResponse.from(analysis);
     }
 
