@@ -123,6 +123,37 @@ class LifestyleExperimentIntegrationTests {
                 .andExpect(status().isNotFound()).andExpect(jsonPath("$.error.code").value("EXPERIMENT_NOT_FOUND"));
     }
 
+    @Test
+    void returnsPeriodAwareWeeklyAndMonthlySummaries() throws Exception {
+        String token = signUpAndLogin("summary@example.com");
+        LocalDate today = LocalDate.now();
+        long thirtyId = create(token, "THIRTY_DAYS", today, "30일 요약")
+                .withType("KEEP_SUNSCREEN_ROUTINE").andReturnId(objectMapper);
+        mockMvc.perform(put("/api/v1/experiments/{id}/daily-checks/{date}", thirtyId, today)
+                        .header("Authorization", bearer(token)).contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"achieved\":true}"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/v1/experiments/{id}/progress/summary", thirtyId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.overall.elapsedDays").value(1))
+                .andExpect(jsonPath("$.data.overall.completionRate").value(100.0))
+                .andExpect(jsonPath("$.data.weeklySummaries.length()").value(5))
+                .andExpect(jsonPath("$.data.weeklySummaries[4].plannedDays").value(2))
+                .andExpect(jsonPath("$.data.monthlySummaries.length()").value(0));
+        cancel(token, thirtyId);
+
+        long ninetyId = create(token, "NINETY_DAYS", today, "90일 요약").andReturnId(objectMapper);
+        mockMvc.perform(get("/api/v1/experiments/{id}/progress/summary", ninetyId)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.weeklySummaries.length()").value(13))
+                .andExpect(jsonPath("$.data.weeklySummaries[12].plannedDays").value(6))
+                .andExpect(jsonPath("$.data.monthlySummaries.length()").value(3))
+                .andExpect(jsonPath("$.data.monthlySummaries[0].plannedDays").value(30));
+    }
+
     private CreateResult create(String token, String period, LocalDate startDate, String title) {
         return new CreateResult(token, period, startDate, title, "WATER_AT_LEAST_1500_ML");
     }

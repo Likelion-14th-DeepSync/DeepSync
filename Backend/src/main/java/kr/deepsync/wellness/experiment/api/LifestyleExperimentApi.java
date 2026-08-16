@@ -6,6 +6,7 @@ import kr.deepsync.wellness.experiment.dto.request.CreateExperimentRequest;
 import kr.deepsync.wellness.experiment.dto.request.DailyCheckRequest;
 import kr.deepsync.wellness.experiment.dto.response.DailyCheckResponse;
 import kr.deepsync.wellness.experiment.dto.response.ExperimentProgressResponse;
+import kr.deepsync.wellness.experiment.dto.response.ExperimentProgressSummaryResponse;
 import kr.deepsync.wellness.experiment.dto.response.ExperimentResponse;
 import kr.deepsync.wellness.experiment.service.LifestyleExperimentService;
 import kr.deepsync.wellness.security.AuthenticatedMember;
@@ -87,5 +88,12 @@ public class LifestyleExperimentApi {
     public ApiResponse<ExperimentProgressResponse> progress(@AuthenticationPrincipal AuthenticatedMember member,
                                                             @PathVariable Long id) {
         return ApiResponse.success(service.progress(member.memberId(), id));
+    }
+
+    @GetMapping("/{id}/progress/summary")
+    public ApiResponse<ExperimentProgressSummaryResponse> progressSummary(
+            @AuthenticationPrincipal AuthenticatedMember member,
+            @PathVariable Long id) {
+        return ApiResponse.success(service.progressSummary(member.memberId(), id));
     }
 }
