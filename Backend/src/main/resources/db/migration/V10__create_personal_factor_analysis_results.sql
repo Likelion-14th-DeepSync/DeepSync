@@ -1,0 +1,27 @@
+CREATE TABLE personal_factor_analysis_results (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    member_id BIGINT NOT NULL,
+    factor_type VARCHAR(40) NOT NULL,
+    target_metric VARCHAR(30) NOT NULL,
+    analysis_status VARCHAR(30) NOT NULL,
+    exposed_average DECIMAL(5,1),
+    normal_average DECIMAL(5,1),
+    observed_difference DECIMAL(5,1),
+    exposed_count INT NOT NULL,
+    normal_count INT NOT NULL,
+    missing_count INT NOT NULL,
+    average_model_confidence DECIMAL(5,1) NOT NULL,
+    confidence_level VARCHAR(20) NOT NULL,
+    association_direction VARCHAR(30) NOT NULL,
+    summary VARCHAR(500) NOT NULL,
+    analyzed_from DATE NOT NULL,
+    analyzed_to DATE NOT NULL,
+    calculated_at DATETIME(6) NOT NULL,
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT uk_personal_factor_result UNIQUE (member_id, factor_type, target_metric),
+    CONSTRAINT fk_personal_factor_result_member
+        FOREIGN KEY (member_id) REFERENCES members (id) ON DELETE CASCADE,
+    INDEX idx_personal_factor_result_member_confidence (member_id, confidence_level)
+);
