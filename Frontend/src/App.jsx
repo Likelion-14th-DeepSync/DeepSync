@@ -13,6 +13,7 @@ import SkinConcern from "./pages/Onboarding/SkinConcern";
 import Lifestyle from "./pages/Onboarding/Lifestyle";       // 온보딩 마지막화면
 
 import Home from "./pages/Home/Home";     // 홈 시작
+import Record from "./pages/Record/Record";     // 기록
 import Dday from "./pages/Dday/Dday";       // 디데이
 import AI from "./pages/Ai/Ai";             // AI
 import MyScreen from "./pages/My/MyScreen"; // 마이
@@ -59,6 +60,7 @@ function App() {
 
         {/* 홈 화면 */}
         <Route path="/home" element={<Home />} />
+        <Route path="/record" element={<Record />} />
         <Route path="/d-day" element={<Dday />} />
         <Route path="/dday" element={<Dday />} />
         <Route path="/ai" element={<AI />} />
