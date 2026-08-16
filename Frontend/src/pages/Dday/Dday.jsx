@@ -38,7 +38,9 @@ export default function DDayScreen() {
       ? "my"
       : location.pathname === "/home"
         ? "home"
-        : "dday";
+        : location.pathname === "/ai"
+          ? "ai"
+          : "dday";
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -265,6 +267,11 @@ export default function DDayScreen() {
           onChange={(key) => {
             if (key === "home") {
               navigate("/home");
+              return;
+            }
+
+            if (key === "ai") {
+              navigate("/ai");
               return;
             }
 

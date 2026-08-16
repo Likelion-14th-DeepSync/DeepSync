@@ -10,11 +10,18 @@ function Home() {
       ? "my"
       : location.pathname === "/d-day" || location.pathname === "/dday"
         ? "dday"
-        : "home";
+        : location.pathname === "/ai"
+          ? "ai"
+          : "home";
 
   const handleNavChange = (key) => {
     if (key === "dday") {
       navigate("/dday");
+      return;
+    }
+
+    if (key === "ai") {
+      navigate("/ai");
       return;
     }
 

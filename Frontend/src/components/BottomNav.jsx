@@ -22,12 +22,15 @@ export default function BottomNav({ activeNav = "home", onChange }) {
         left: 0,
         right: 0,
         bottom: 0,
+        width: "100%",
+        height: 82,
         background: "#fff",
         borderTop: "1px solid #ECECEC",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-around",
-        padding: "10px 4px 24px",
+        padding: "10px 4px 18px",
+        boxSizing: "border-box",
         zIndex: 10,
       }}
     >
