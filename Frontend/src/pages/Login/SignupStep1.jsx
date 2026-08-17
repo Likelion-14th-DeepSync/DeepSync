@@ -22,6 +22,8 @@ function SignupStep1() {
   const handleNext = () => {
     if (!canNext) return;
 
+    localStorage.setItem("wellness-user-name", name.trim());
+
     navigate("/signup/step2", {
       state: {
         email: email.trim(),

@@ -1,5 +1,148 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Bell, Camera, Info, FlaskConical } from "lucide-react";
 import BottomNav from "../../components/BottomNav";
+import ReminderCard from "../../components/ReminderCard/ReminderCard";
+import "./Home.css";
+
+const ROUTINE_STORAGE_KEY = "wellness-daily-routines";
+const SCHEDULE_STORAGE_KEY = "wellness-calendar-schedules";
+const DDAY_STORAGE_KEY = "wellness-dday-selected-schedule-id";
+
+const DEFAULT_ROUTINES = [
+  {
+    id: 1,
+    icon: "🌙",
+    title: "자정 전에 취침하기",
+    desc: "피부 회복을 위해 일정한 수면 시간을 유지해요.",
+    done: false,
+  },
+  {
+    id: 2,
+    icon: "💧",
+    title: "하루 물 1.5L 이상 마시기",
+    desc: "충분한 수분 섭취로 피부 컨디션을 관리해요.",
+    done: false,
+  },
+  {
+    id: 3,
+    icon: "☀️",
+    title: "외출 전 자외선 차단제 바르기",
+    desc: "붉은기와 피부톤 관리를 도와요.",
+    done: false,
+  },
+];
+
+function getTodayKey() {
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function loadTodayRoutines() {
+  try {
+    const saved = localStorage.getItem(ROUTINE_STORAGE_KEY);
+
+    if (!saved) {
+      return DEFAULT_ROUTINES;
+    }
+
+    const parsed = JSON.parse(saved);
+
+    if (parsed.date !== getTodayKey()) {
+      return DEFAULT_ROUTINES;
+    }
+
+    if (!Array.isArray(parsed.routines)) {
+      return DEFAULT_ROUTINES;
+    }
+
+    return parsed.routines;
+  } catch {
+    return DEFAULT_ROUTINES;
+  }
+}
+
+function calculateHomeDday() {
+  try {
+    const savedSchedules = localStorage.getItem(SCHEDULE_STORAGE_KEY);
+
+    const schedules = savedSchedules ? JSON.parse(savedSchedules) : [];
+
+    if (!Array.isArray(schedules) || schedules.length === 0) {
+      return {
+        label: "-",
+        title: "피부 목표 D-Day",
+      };
+    }
+
+    const selectedId = localStorage.getItem(DDAY_STORAGE_KEY);
+
+    let selectedSchedule = schedules.find((schedule) => String(schedule.id) === String(selectedId));
+
+    /*
+      선택된 D-Day 일정이 없다면
+      가장 가까운 미래 일정을 자동 사용
+    */
+    if (!selectedSchedule) {
+      const today = new Date();
+
+      today.setHours(0, 0, 0, 0);
+
+      const sorted = [...schedules].sort(
+        (a, b) => new Date(`${a.date}T00:00:00`) - new Date(`${b.date}T00:00:00`),
+      );
+
+      selectedSchedule =
+        sorted.find((schedule) => new Date(`${schedule.date}T00:00:00`) >= today) ?? sorted[0];
+
+      if (selectedSchedule) {
+        localStorage.setItem(DDAY_STORAGE_KEY, String(selectedSchedule.id));
+      }
+    }
+
+    if (!selectedSchedule) {
+      return {
+        label: "-",
+        title: "피부 목표 D-Day",
+      };
+    }
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+    const targetDate = new Date(`${selectedSchedule.date}T00:00:00`);
+
+    targetDate.setHours(0, 0, 0, 0);
+
+    const diff = Math.round((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+    let label;
+
+    if (diff > 0) {
+      label = `D-${diff}`;
+    } else if (diff === 0) {
+      label = "D-Day";
+    } else {
+      label = `D+${Math.abs(diff)}`;
+    }
+
+    return {
+      label,
+      title: `${selectedSchedule.title}까지`,
+    };
+  } catch {
+    return {
+      label: "-",
+      title: "피부 목표 D-Day",
+    };
+  }
+}
 
 function Home() {
   const navigate = useNavigate();
@@ -12,285 +155,366 @@ function Home() {
         ? "dday"
         : location.pathname === "/ai"
           ? "ai"
-          : "home";
+          : location.pathname === "/record"
+            ? "record"
+            : "home";
 
   const handleNavChange = (key) => {
-    if (key === "dday") { navigate("/dday"); return; }
-    if (key === "ai") { navigate("/ai"); return; }
-    if (key === "home") { navigate("/home"); return; }
-    if (key === "record") { navigate("/record"); return; }
-    if (key === "my") { navigate("/my"); }
+    if (key === "dday") return navigate("/dday");
+    if (key === "ai") return navigate("/ai");
+    if (key === "home") return navigate("/home");
+    if (key === "record") return navigate("/record");
+    if (key === "my") return navigate("/my");
   };
 
-  // 👇 나중에 API 연동하면 이 부분을 fetch 해온 데이터로 교체하면 됨
-  const userName = "김민재";
-  const dDay = 14;
-  const skinScore = 78;
-  const skinChange = "+4점";
-  const stats = [
-    { label: "붉은기", value: "-6%", trend: "down" },
-    { label: "트러블", value: "변화 없음", trend: "same" },
-    { label: "피부톤 균일도", value: "+3%", trend: "up" },
+  const [userName, setUserName] = useState("사용자");
+
+  const [skinAnalysis, setSkinAnalysis] = useState(null);
+
+  const [activeExperiment, setActiveExperiment] = useState(null);
+
+  const [routines, setRoutines] = useState(() => loadTodayRoutines());
+
+  const [homeDday, setHomeDday] = useState(() => calculateHomeDday());
+
+  useEffect(() => {
+    const savedName =
+      localStorage.getItem("wellness-user-name") || localStorage.getItem("deepSyncUserName");
+
+    if (savedName) {
+      setUserName(savedName);
+    }
+
+    try {
+      const savedAnalysis = localStorage.getItem("wellness-today-skin-analysis");
+
+      setSkinAnalysis(savedAnalysis ? JSON.parse(savedAnalysis) : null);
+    } catch {
+      setSkinAnalysis(null);
+    }
+
+    try {
+      const savedExperiment = localStorage.getItem("wellness-active-experiment");
+
+      setActiveExperiment(savedExperiment ? JSON.parse(savedExperiment) : null);
+    } catch {
+      setActiveExperiment(null);
+    }
+
+    /*
+      D-Day / 루틴을 다른 화면에서 바꾼 후
+      홈으로 돌아오면 최신 상태 다시 읽기
+    */
+    setRoutines(loadTodayRoutines());
+
+    setHomeDday(calculateHomeDday());
+  }, [location.key]);
+
+  /*
+    루틴 변경될 때마다 저장
+  */
+  useEffect(() => {
+    localStorage.setItem(
+      ROUTINE_STORAGE_KEY,
+      JSON.stringify({
+        date: getTodayKey(),
+        routines,
+      }),
+    );
+  }, [routines]);
+
+  const hasTodayPhoto = Boolean(skinAnalysis);
+
+  const skinScore = skinAnalysis?.score ?? null;
+
+  const skinChange = skinAnalysis?.change ?? null;
+
+  const stats = skinAnalysis?.stats ?? [
+    {
+      label: "붉은기",
+      value: "-6%",
+      trend: "down",
+    },
+    {
+      label: "트러블",
+      value: "변화 없음",
+      trend: "same",
+    },
+    {
+      label: "피부톤 균일도",
+      value: "+3%",
+      trend: "up",
+    },
   ];
-  const routines = [
-    { icon: "🌙", title: "자정 전에 취침하기", desc: "수면이 피부 회복에 도움을 줘요.", done: true },
-    { icon: "💧", title: "오후 2시 전에 물 1L 마시기", desc: "수분 섭취는 피부 컨디션에 중요해요.", done: false },
-  ];
-  const dailyMission = {
-    icon: "☀️",
-    title: "외출 전 자외선 차단제 바르기",
-    desc: "UV 차단은 피부톤 유지에 도움을 줘요.",
-    progress: "1 / 3 완료",
-    progressPercent: 33,
+
+  const toggleRoutine = (id) => {
+    setRoutines((prev) =>
+      prev.map((routine) =>
+        routine.id === id
+          ? {
+              ...routine,
+              done: !routine.done,
+            }
+          : routine,
+      ),
+    );
   };
-  const experiment = {
-    title: "7시간 이상 수면",
-    badge: "7일 실험",
-    day: "Day 4 / 7",
-    progressPercent: 57,
-    rate: "75%",
-    scoreChange: "+4점",
-    confidence: "보통",
-  };
-  const nextShoot = { time: "오늘 20:00" };
+
+  const completedRoutineCount = routines.filter((routine) => routine.done).length;
+
+  const routineProgress =
+    routines.length === 0 ? 0 : (completedRoutineCount / routines.length) * 100;
+
+  const experimentProgress = activeExperiment
+    ? (activeExperiment.currentDay / activeExperiment.duration) * 100
+    : 0;
+
+  const totalCompletions =
+    activeExperiment?.habits?.reduce((sum, habit) => sum + (habit.completedDays?.length ?? 0), 0) ??
+    0;
+
+  const totalPossible = activeExperiment?.habits?.length
+    ? activeExperiment.habits.length * Math.max(activeExperiment.currentDay, 1)
+    : 1;
+
+  const experimentRate = Math.round((totalCompletions / totalPossible) * 100);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#E9E9EE",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-      }}
-    >
-      <div
-        style={{
-          width: 390,
-          height: 844,
-          background: "#F5F5F7",
-          borderRadius: 36,
-          overflow: "hidden",
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          boxShadow: "0 30px 60px rgba(0,0,0,0.25)",
-        }}
-      >
-        {/* 스크롤되는 콘텐츠 영역 */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 12px" }}>
+    <div className="home-page">
+      <div className="home-phone">
+        <main className="home-scroll">
           {/* 상단 헤더 */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-            <div style={{ fontSize: 20, fontWeight: 700, color: "#111" }}>Wellness Care</div>
-            <div style={{ fontSize: 20 }}>🔔</div>
-          </div>
+          <header className="home-header">
+            <h1 className="home-brand">Wellness Care</h1>
+
+            <button className="home-icon-button" type="button" aria-label="알림">
+              <Bell size={22} />
+            </button>
+          </header>
 
           {/* 인사말 */}
-          <div style={{ fontSize: 16, color: "#333", marginBottom: 8 }}>
-            안녕하세요, {userName}님 👋
-          </div>
+          <p className="home-greeting">안녕하세요, {userName}님 👋</p>
 
           {/* D-Day */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-            <div style={{ fontSize: 13, color: "#888" }}>면접까지 D-Day</div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: "#6C5CE7" }}>D - {dDay}</div>
-          </div>
+          <div className="home-dday-row">
+            <span className="home-muted">{homeDday.title}</span>
 
-          {/* 피부 컨디션 카드 */}
-          <div style={{ background: "#fff", borderRadius: 20, padding: 20, marginBottom: 16 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "#333" }}>오늘의 피부 컨디션</div>
-              <div style={{ color: "#aaa" }}>ⓘ</div>
-            </div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 4, margin: "8px 0" }}>
-              <span style={{ fontSize: 40, fontWeight: 800, color: "#111" }}>{skinScore}</span>
-              <span style={{ fontSize: 14, color: "#999" }}>/ 100</span>
-            </div>
-            <div style={{ fontSize: 12, color: "#4CAF50", marginBottom: 16 }}>
-              어제보다 {skinChange} ↑
-            </div>
             <button
+              type="button"
+              onClick={() => navigate("/dday")}
               style={{
-                width: "100%",
-                background: "#6C5CE7",
-                color: "#fff",
                 border: "none",
-                borderRadius: 14,
-                padding: "14px 0",
-                fontSize: 14,
-                fontWeight: 600,
+                background: "transparent",
+                padding: 0,
                 cursor: "pointer",
+                fontFamily: "inherit",
               }}
             >
-              📷 AI 피부 분석하기
+              <strong className="home-dday">{homeDday.label}</strong>
             </button>
           </div>
 
-          {/* 통계 3개 박스 */}
-          <div style={{ display: "flex", gap: 10, marginBottom: 24 }}>
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                style={{
-                  flex: 1,
-                  background: "#fff",
-                  borderRadius: 14,
-                  padding: "12px 8px",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{ fontSize: 12, color: "#666", marginBottom: 4 }}>{s.label}</div>
-                <div
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 700,
-                    color: s.trend === "down" ? "#4CAF50" : s.trend === "up" ? "#6C5CE7" : "#333",
-                  }}
-                >
-                  {s.value}
+          {/* 오늘의 피부 */}
+          <section className="home-card home-skin-card">
+            <div className="home-section-row">
+              <h2 className="home-card-title">오늘의 피부 컨디션</h2>
+
+              <Info size={16} className="home-info-icon" />
+            </div>
+
+            {hasTodayPhoto ? (
+              <>
+                <div className="home-score-row">
+                  <span className="home-score">{skinScore}</span>
+
+                  <span className="home-score-max">/ 100</span>
                 </div>
-                <div style={{ fontSize: 10, color: "#aaa", marginTop: 2 }}>어제 대비</div>
+
+                <p className="home-score-change">어제보다 {skinChange} ↑</p>
+              </>
+            ) : (
+              <div className="home-empty-analysis">
+                <div className="home-empty-icon">
+                  <Camera size={28} />
+                </div>
+
+                <h3>오늘의 피부 사진이 아직 없어요</h3>
+
+                <p>
+                  같은 조건에서 얼굴을 촬영하면
+                  <br />
+                  피부 점수와 변화를 확인할 수 있어요.
+                </p>
               </div>
+            )}
+
+            <button
+              type="button"
+              className="home-primary-button"
+              onClick={() => navigate("/ai?mode=capture&from=home")}
+            >
+              <Camera size={17} />
+
+              {hasTodayPhoto ? "다시 AI 피부 분석하기" : "AI 피부 분석하기"}
+            </button>
+          </section>
+
+          {/* 피부 세부 지표 */}
+          {hasTodayPhoto && (
+            <div className="home-stats-grid">
+              {stats.map((stat) => (
+                <div className="home-stat-card" key={stat.label}>
+                  <span className="home-stat-label">{stat.label}</span>
+
+                  <strong className={`home-stat-value home-stat-${stat.trend}`}>
+                    {stat.value}
+                  </strong>
+
+                  <span className="home-stat-caption">어제 대비</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* 오늘의 AI 루틴 */}
+          <div className="home-section-heading">
+            <h2>오늘의 AI 루틴</h2>
+
+            <button type="button" onClick={() => navigate("/ai/routine")}>
+              전체 보기 ›
+            </button>
+          </div>
+
+          <div className="home-routine-list">
+            {routines.map((routine) => (
+              <article className="home-routine-card" key={routine.id}>
+                <div className="home-routine-main">
+                  <span className="home-routine-icon">{routine.icon}</span>
+
+                  <div>
+                    <h3>{routine.title}</h3>
+
+                    <p>{routine.desc}</p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className={`home-check ${routine.done ? "is-done" : ""}`}
+                  onClick={() => toggleRoutine(routine.id)}
+                  aria-pressed={routine.done}
+                >
+                  {routine.done ? "✓" : ""}
+                </button>
+              </article>
             ))}
           </div>
 
-          {/* 오늘의 AI 루틴 */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#111" }}>오늘의 AI 루틴</div>
-            <div style={{ fontSize: 12, color: "#6C5CE7" }}>전체 보기 ›</div>
+          {/* 루틴 진행률 */}
+          <div className="home-routine-progress">
+            <div className="home-progress-top">
+              <p className="home-progress-label">
+                {completedRoutineCount} / {routines.length} 완료
+              </p>
+
+              <span className="home-progress-percent">{Math.round(routineProgress)}%</span>
+            </div>
+
+            <div className="home-progress-track">
+              <div
+                className="home-progress-bar"
+                style={{
+                  width: `${routineProgress}%`,
+                }}
+              />
+            </div>
           </div>
-          {routines.map((r) => (
-            <div
-              key={r.title}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                background: "#fff",
-                borderRadius: 14,
-                padding: "14px 16px",
-                marginBottom: 10,
-              }}
+
+          {/* 생활 실험 */}
+          <div className="home-section-heading">
+            <h2>진행 중인 생활 실험</h2>
+
+            {activeExperiment && (
+              <button type="button" onClick={() => navigate("/experiment/1")}>
+                실험 상세 ›
+              </button>
+            )}
+          </div>
+
+          {activeExperiment ? (
+            <section
+              className="home-card home-experiment-card home-experiment-clickable"
+              onClick={() => navigate("/experiment/1")}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{ fontSize: 20 }}>{r.icon}</div>
+              <div className="home-experiment-top">
+                <div className="home-experiment-title">
+                  <span className="home-experiment-flask">
+                    <FlaskConical size={18} />
+                  </span>
+
+                  <h3>{activeExperiment.habits.length}개 습관 관찰 중</h3>
+                </div>
+
+                <span className="home-badge">{activeExperiment.duration}일 실험</span>
+              </div>
+
+              <div className="home-experiment-habits">
+                {activeExperiment.habits.map((habit) => (
+                  <span key={habit.id}>{habit.title}</span>
+                ))}
+              </div>
+
+              <p className="home-experiment-day">
+                Day {activeExperiment.currentDay} / {activeExperiment.duration}
+              </p>
+
+              <div className="home-progress-track home-experiment-progress">
+                <div
+                  className="home-progress-bar"
+                  style={{
+                    width: `${experimentProgress}%`,
+                  }}
+                />
+              </div>
+
+              <div className="home-experiment-stats">
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "#111" }}>{r.title}</div>
-                  <div style={{ fontSize: 12, color: "#999" }}>{r.desc}</div>
+                  <span>실천율</span>
+
+                  <strong>{experimentRate}%</strong>
+                </div>
+
+                <div>
+                  <span>피부 점수 변화</span>
+
+                  <strong>관찰 중</strong>
+                </div>
+
+                <div>
+                  <span>AI 분석</span>
+
+                  <strong>{activeExperiment.currentDay < 3 ? "데이터 부족" : "진행 중"}</strong>
                 </div>
               </div>
-              <div
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: "50%",
-                  border: r.done ? "none" : "2px solid #ddd",
-                  background: r.done ? "#6C5CE7" : "transparent",
-                  color: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 12,
-                }}
-              >
-                {r.done ? "✓" : ""}
+            </section>
+          ) : (
+            <section className="home-card home-experiment-empty">
+              <div className="home-experiment-empty-icon">
+                <FlaskConical size={24} />
               </div>
-            </div>
-          ))}
 
-          {/* 스크롤 아래 영역 — 오늘의 미션 카드 */}
-          <div style={{ background: "#fff", borderRadius: 16, padding: 16, marginTop: 20, marginBottom: 20 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 10,
-                  background: "#FFF3D6",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 16,
-                }}
-              >
-                {dailyMission.icon}
-              </div>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "#111" }}>{dailyMission.title}</div>
-                <div style={{ fontSize: 12, color: "#999" }}>{dailyMission.desc}</div>
-              </div>
-            </div>
-            <div style={{ fontSize: 12, color: "#666", marginBottom: 6 }}>{dailyMission.progress}</div>
-            <div style={{ height: 6, background: "#eee", borderRadius: 3, overflow: "hidden" }}>
-              <div
-                style={{
-                  width: `${dailyMission.progressPercent}%`,
-                  height: "100%",
-                  background: "#6C5CE7",
-                }}
-              />
-            </div>
-          </div>
+              <h3>생활 실험을 시작해보세요</h3>
 
-          {/* 진행 중인 생활 실험 */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#111" }}>진행 중인 생활 실험</div>
-            <div style={{ fontSize: 12, color: "#6C5CE7" }}>실험 상세 ›</div>
-          </div>
-          <div style={{ background: "#fff", borderRadius: 16, padding: 16, marginBottom: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span>🌙</span>
-                <span style={{ fontSize: 14, fontWeight: 600, color: "#111" }}>{experiment.title}</span>
-              </div>
-              <span
-                style={{
-                  fontSize: 11,
-                  color: "#6C5CE7",
-                  background: "#F0EDFE",
-                  padding: "4px 10px",
-                  borderRadius: 20,
-                }}
-              >
-                {experiment.badge}
-              </span>
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#6C5CE7", marginBottom: 6 }}>{experiment.day}</div>
-            <div style={{ height: 6, background: "#eee", borderRadius: 3, overflow: "hidden", marginBottom: 14 }}>
-              <div
-                style={{
-                  width: `${experiment.progressPercent}%`,
-                  height: "100%",
-                  background: "#6C5CE7",
-                }}
-              />
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", textAlign: "center" }}>
-              <div>
-                <div style={{ fontSize: 11, color: "#999" }}>실천율</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{experiment.rate}</div>
-              </div>
-              <div>
-                <div style={{ fontSize: 11, color: "#999" }}>피부 점수 변화</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{experiment.scoreChange}</div>
-              </div>
-              <div>
-                <div style={{ fontSize: 11, color: "#999" }}>신뢰도</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{experiment.confidence}</div>
-              </div>
-            </div>
-          </div>
+              <p>최대 3개의 생활 습관을 선택하고 피부 변화를 비교할 수 있어요.</p>
 
-          {/* 다음 촬영 리마인더 */}
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>다음 촬영 리마인더</div>
-            <div style={{ fontSize: 12, color: "#666" }}>{nextShoot.time} 🔔</div>
-          </div>
-          <div style={{ fontSize: 12, color: "#999", marginBottom: 12 }}>
-            매일 같은 시간에 촬영하면 더 정확한 분석이 가능해요.
-          </div>
-        </div>
+              <button type="button" onClick={() => navigate("/experiment/start")}>
+                + 새 실험 시작하기
+              </button>
+            </section>
+          )}
+
+          <ReminderCard />
+        </main>
 
         <BottomNav activeNav={active} onChange={handleNavChange} />
       </div>

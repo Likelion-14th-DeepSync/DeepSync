@@ -1,34 +1,28 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, Watch, Check, Bluetooth } from "lucide-react";
+import { ChevronLeft, HeartPulse, Check, Smartphone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const WEARABLE_CONNECTION_KEY = "wellness-wearable-connection";
+const HEALTH_CONNECTION_KEY = "wellness-health-connection";
 
-const DEVICES = [
+const HEALTH_PROVIDERS = [
   {
-    id: "apple-watch",
-    name: "Apple Watch",
-    desc: "수면 및 활동 데이터를 기록해요.",
-    icon: "⌚",
+    id: "apple",
+    name: "Apple 건강",
+    desc: "수면과 활동 데이터를 연동해요.",
+    icon: "🍎",
   },
   {
-    id: "galaxy-watch",
-    name: "Galaxy Watch",
-    desc: "Samsung Health 기반 데이터를 활용해요.",
-    icon: "⌚",
-  },
-  {
-    id: "fitbit",
-    name: "Fitbit",
-    desc: "수면과 활동 데이터를 연결해요.",
-    icon: "⌚",
+    id: "google",
+    name: "Google Fit",
+    desc: "건강 및 활동 기록을 연동해요.",
+    icon: "❤️",
   },
 ];
 
-export default function Wearable() {
+export default function HealthConnect() {
   const navigate = useNavigate();
 
-  const [selectedDevice, setSelectedDevice] = useState("apple-watch");
+  const [selectedProvider, setSelectedProvider] = useState("apple");
 
   const [connection, setConnection] = useState({
     connected: false,
@@ -36,15 +30,15 @@ export default function Wearable() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(WEARABLE_CONNECTION_KEY);
+      const saved = localStorage.getItem(HEALTH_CONNECTION_KEY);
 
       if (saved) {
         const parsed = JSON.parse(saved);
 
         setConnection(parsed);
 
-        if (parsed.deviceId) {
-          setSelectedDevice(parsed.deviceId);
+        if (parsed.providerId) {
+          setSelectedProvider(parsed.providerId);
         }
       }
     } catch {
@@ -55,24 +49,24 @@ export default function Wearable() {
   }, []);
 
   const handleConnect = () => {
-    const device = DEVICES.find((item) => item.id === selectedDevice);
+    const provider = HEALTH_PROVIDERS.find((item) => item.id === selectedProvider);
 
-    if (!device) return;
+    if (!provider) return;
 
     const next = {
       connected: true,
-      deviceId: device.id,
-      device: device.name,
+      providerId: provider.id,
+      provider: provider.name,
       connectedAt: new Date().toISOString(),
     };
 
-    localStorage.setItem(WEARABLE_CONNECTION_KEY, JSON.stringify(next));
+    localStorage.setItem(HEALTH_CONNECTION_KEY, JSON.stringify(next));
 
     setConnection(next);
   };
 
   const handleDisconnect = () => {
-    localStorage.removeItem(WEARABLE_CONNECTION_KEY);
+    localStorage.removeItem(HEALTH_CONNECTION_KEY);
 
     setConnection({
       connected: false,
@@ -131,7 +125,7 @@ export default function Wearable() {
               fontWeight: 700,
             }}
           >
-            웨어러블 기기
+            건강 앱 연동
           </h1>
         </header>
 
@@ -143,7 +137,7 @@ export default function Wearable() {
             borderRadius: 18,
           }}
         >
-          <Watch size={28} color="#6C5CE7" />
+          <HeartPulse size={28} color="#6C5CE7" />
 
           <h2
             style={{
@@ -151,7 +145,7 @@ export default function Wearable() {
               fontSize: 16,
             }}
           >
-            더 편하게 생활 습관을 기록하세요
+            생활 데이터를 자동으로 기록해요
           </h2>
 
           <p
@@ -162,7 +156,7 @@ export default function Wearable() {
               lineHeight: 1.6,
             }}
           >
-            웨어러블 기기를 연결하면 수면과 활동 데이터를 생활 기록에 활용할 수 있어요.
+            건강 앱의 수면 및 활동 정보를 Wellness Care의 생활 기록과 연결할 수 있어요.
           </p>
         </section>
 
@@ -172,7 +166,7 @@ export default function Wearable() {
             fontSize: 15,
           }}
         >
-          기기 선택
+          연동할 건강 앱
         </h2>
 
         <div
@@ -182,14 +176,14 @@ export default function Wearable() {
             gap: 10,
           }}
         >
-          {DEVICES.map((device) => {
-            const selected = selectedDevice === device.id;
+          {HEALTH_PROVIDERS.map((provider) => {
+            const selected = selectedProvider === provider.id;
 
             return (
               <button
-                key={device.id}
+                key={provider.id}
                 type="button"
-                onClick={() => !connection.connected && setSelectedDevice(device.id)}
+                onClick={() => !connection.connected && setSelectedProvider(provider.id)}
                 style={{
                   width: "100%",
                   display: "flex",
@@ -208,14 +202,14 @@ export default function Wearable() {
                     width: 42,
                     height: 42,
                     borderRadius: 12,
-                    background: "#F0EDFF",
+                    background: "#F5F5F7",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: 20,
                   }}
                 >
-                  {device.icon}
+                  {provider.icon}
                 </div>
 
                 <div
@@ -230,7 +224,7 @@ export default function Wearable() {
                       color: "#111",
                     }}
                   >
-                    {device.name}
+                    {provider.name}
                   </strong>
 
                   <span
@@ -239,7 +233,7 @@ export default function Wearable() {
                       color: "#999",
                     }}
                   >
-                    {device.desc}
+                    {provider.desc}
                   </span>
                 </div>
 
@@ -251,15 +245,15 @@ export default function Wearable() {
 
         <div
           style={{
-            display: "flex",
-            gap: 9,
-            padding: 14,
             marginTop: 20,
+            padding: 14,
             borderRadius: 13,
             background: "#fff",
+            display: "flex",
+            gap: 10,
           }}
         >
-          <Bluetooth size={18} color="#6C5CE7" />
+          <Smartphone size={18} color="#6C5CE7" />
 
           <p
             style={{
@@ -269,8 +263,8 @@ export default function Wearable() {
               color: "#888",
             }}
           >
-            현재 기기 연결은 MVP 시연용입니다. 실제 서비스에서는 각 제조사의 건강 플랫폼 권한을 통해
-            데이터를 받아옵니다.
+            현재는 해커톤 MVP용 연동 시뮬레이션입니다. 실제 서비스에서는 사용자 동의를 받은 건강
+            데이터만 불러오게 됩니다.
           </p>
         </div>
 
@@ -290,7 +284,7 @@ export default function Wearable() {
             cursor: "pointer",
           }}
         >
-          {connection.connected ? `${connection.device} 연결 해제` : "기기 연결하기"}
+          {connection.connected ? `${connection.provider} 연동 해제` : "건강 앱 연동하기"}
         </button>
 
         {connection.connected && (
@@ -303,7 +297,7 @@ export default function Wearable() {
               fontWeight: 600,
             }}
           >
-            ✓ {connection.device} 연결 완료
+            ✓ {connection.provider} 연동 완료
           </div>
         )}
       </div>
