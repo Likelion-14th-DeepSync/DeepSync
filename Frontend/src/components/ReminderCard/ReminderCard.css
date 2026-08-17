@@ -1,0 +1,166 @@
+.reminder-card {
+  margin-bottom: 18px;
+
+  padding: 17px;
+
+  background: #fff;
+
+  border-radius: 16px;
+}
+
+.reminder-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  margin-bottom: 16px;
+}
+
+.reminder-top h2 {
+  margin: 0 0 5px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #111;
+}
+
+.reminder-top p {
+  margin: 0;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+  color: #999;
+}
+
+.reminder-toggle {
+  width: 44px;
+  height: 25px;
+
+  flex: 0 0 44px;
+
+  padding: 3px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #dedee4;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.reminder-toggle span {
+  width: 19px;
+  height: 19px;
+
+  display: block;
+
+  background: #fff;
+
+  border-radius: 50%;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+  transition: transform 0.2s ease;
+}
+
+.reminder-toggle.is-enabled {
+  background: #6c5ce7;
+}
+
+.reminder-toggle.is-enabled span {
+  transform: translateX(19px);
+}
+
+.reminder-time-box {
+  display: flex;
+  align-items: center;
+
+  padding: 12px;
+
+  background: #f7f7fa;
+
+  border-radius: 13px;
+
+  transition: opacity 0.2s ease;
+}
+
+.reminder-time-box.is-disabled {
+  opacity: 0.55;
+}
+
+.reminder-icon {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 10px;
+
+  border-radius: 10px;
+
+  background: #f0edff;
+
+  color: #6c5ce7;
+}
+
+.reminder-time-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.reminder-time-content span {
+  font-size: 10px;
+
+  color: #999;
+}
+
+.reminder-time-content strong {
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #222;
+}
+
+.reminder-time-box input {
+  width: 86px;
+
+  padding: 7px 8px;
+
+  border: 1px solid #e4e4e9;
+  border-radius: 9px;
+
+  background: #fff;
+
+  color: #333;
+
+  font-size: 12px;
+
+  outline: none;
+}
+
+.reminder-time-box input:focus {
+  border-color: #6c5ce7;
+}
+
+.reminder-status {
+  margin-top: 9px;
+
+  font-size: 10px;
+
+  color: #999;
+}

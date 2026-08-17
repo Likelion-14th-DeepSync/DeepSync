@@ -1,11 +1,12 @@
 .phoneWrap {
   min-height: 100vh;
-  background: #E9E9EE;
+  background: #e9e9ee;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 
 .screen {
@@ -36,7 +37,7 @@
 /* Profile card */
 .profileCard {
   background: #fff;
-  border: 1px solid #ECECEC;
+  border: 1px solid #ececec;
   border-radius: 16px;
   padding: 20px;
 }
@@ -51,7 +52,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: #C7C7C7;
+  background: #c7c7c7;
   flex-shrink: 0;
 }
 
@@ -76,8 +77,8 @@
 .profileBadge {
   font-size: 11px;
   font-weight: 700;
-  color: #6C5CE7;
-  border: 1px solid #6C5CE7;
+  color: #6c5ce7;
+  border: 1px solid #6c5ce7;
   border-radius: 20px;
   padding: 4px 10px;
   white-space: nowrap;
@@ -98,38 +99,74 @@
 
 .profileId {
   font-size: 13px;
-  color: #A5A5A5;
+  color: #a5a5a5;
   margin-top: 6px;
 }
 
 .statsRow {
-  display: flex;
-  margin-top: 20px;
-  border-top: 1px solid #ECECEC;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 0;
+
+  margin-top: 18px;
   padding-top: 18px;
+
+  border-top: 1px solid #ececf0;
 }
 
 .statBlock {
-  flex: 1;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  min-width: 0;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  text-align: left;
+
+  color: inherit;
+
+  font-family: inherit;
+
+  cursor: pointer;
 }
 
-.statBlock + .statBlock {
-  border-left: 1px solid #ECECEC;
+.statBlock:first-child {
+  padding-right: 18px;
+}
+
+.statBlock:last-child {
+  padding-left: 18px;
 }
 
 .statLabel {
-  font-size: 12px;
-  color: #A5A5A5;
   margin-bottom: 8px;
+
+  font-size: 13px;
+  font-weight: 400;
+
+  color: #999;
 }
 
 .statValue {
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 700;
+
+  line-height: 1.2;
+
   color: #222;
 }
 
+.statBlock:active {
+  opacity: 0.65;
+}
 /* Section titles */
 .sectionTitle {
   font-size: 18px;
@@ -141,7 +178,7 @@
 /* List card */
 .listCard {
   background: #fff;
-  border: 1px solid #ECECEC;
+  border: 1px solid #ececec;
   border-radius: 16px;
   overflow: hidden;
 }
@@ -154,7 +191,7 @@
   padding: 18px;
   background: none;
   border: none;
-  border-bottom: 1px solid #ECECEC;
+  border-bottom: 1px solid #ececec;
   cursor: pointer;
   text-align: left;
 }
@@ -177,7 +214,7 @@
 
 .listRowSub {
   font-size: 12px;
-  color: #A5A5A5;
+  color: #a5a5a5;
 }
 
 .listRowRight {
@@ -189,7 +226,7 @@
 .statusPill {
   font-size: 12px;
   font-weight: 700;
-  color: #2FB380;
+  color: #2fb380;
 }
 
 .statusPill.disconnected {
@@ -197,7 +234,7 @@
 }
 
 .chevron {
-  color: #A5A5A5;
+  color: #a5a5a5;
 }
 
 /* Plain rows (settings, no status pill) */
@@ -209,7 +246,7 @@
   padding: 18px;
   background: none;
   border: none;
-  border-bottom: 1px solid #ECECEC;
+  border-bottom: 1px solid #ececec;
   cursor: pointer;
   text-align: left;
   font-size: 15px;
@@ -227,9 +264,9 @@
   margin-top: 28px;
   padding: 15px;
   background: #fff;
-  border: 1px solid #EB5757;
+  border: 1px solid #eb5757;
   border-radius: 14px;
-  color: #EB5757;
+  color: #eb5757;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
@@ -243,6 +280,6 @@
   text-align: center;
   margin-top: 20px;
   font-size: 12px;
-  color: #A5A5A5;
+  color: #a5a5a5;
   line-height: 1.9;
 }
