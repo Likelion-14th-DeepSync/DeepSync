@@ -27,13 +27,13 @@ public class PersonalFactorAnalysisResult extends BaseTimeEntity {
     private TargetSkinMetric targetMetric;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 30)
     private FactorAnalysisStatus analysisStatus;
-    private Double exposedAverage;
-    private Double normalAverage;
-    private Double observedDifference;
+    @Column(columnDefinition = "DECIMAL(5,1)") private Double exposedAverage;
+    @Column(columnDefinition = "DECIMAL(5,1)") private Double normalAverage;
+    @Column(columnDefinition = "DECIMAL(5,1)") private Double observedDifference;
     @Column(nullable = false) private int exposedCount;
     @Column(nullable = false) private int normalCount;
     @Column(nullable = false) private int missingCount;
-    @Column(nullable = false) private double averageModelConfidence;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double averageModelConfidence;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20)
     private AnalysisConfidenceLevel confidenceLevel;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 30)
