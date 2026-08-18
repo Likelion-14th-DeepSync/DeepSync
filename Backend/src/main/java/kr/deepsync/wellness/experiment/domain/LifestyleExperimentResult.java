@@ -21,22 +21,22 @@ public class LifestyleExperimentResult extends BaseTimeEntity {
     @Column(nullable = false) private int evaluatedDays;
     @Column(nullable = false) private int achievedDays;
     @Column(nullable = false) private int missingDays;
-    @Column(nullable = false) private double achievementRate;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double achievementRate;
     @Column(nullable = false) private int beforeAnalysisCount;
     @Column(nullable = false) private int afterAnalysisCount;
-    @Column(nullable = false) private double beforeRednessScore;
-    @Column(nullable = false) private double afterRednessScore;
-    @Column(nullable = false) private double beforeTroubleScore;
-    @Column(nullable = false) private double afterTroubleScore;
-    @Column(nullable = false) private double beforeDrynessScore;
-    @Column(nullable = false) private double afterDrynessScore;
-    @Column(nullable = false) private double beforeToneUniformityScore;
-    @Column(nullable = false) private double afterToneUniformityScore;
-    @Column(nullable = false) private double beforeOverallScore;
-    @Column(nullable = false) private double afterOverallScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double beforeRednessScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double afterRednessScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double beforeTroubleScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double afterTroubleScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double beforeDrynessScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double afterDrynessScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double beforeToneUniformityScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double afterToneUniformityScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double beforeOverallScore;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double afterOverallScore;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 30)
     private SkinMetric mostChangedMetric;
-    @Column(nullable = false) private double mostChangedAmount;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,1)") private double mostChangedAmount;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20)
     private ChangeDirection changeDirection;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20)
