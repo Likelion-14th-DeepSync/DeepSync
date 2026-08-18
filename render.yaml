@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: deepsync-backend
+    runtime: docker
+    plan: free
+    region: singapore
+    branch: main
+    autoDeployTrigger: commit
+    dockerfilePath: ./Backend/Dockerfile
+    dockerContext: ./Backend
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_TOKEN_EXPIRATION_SECONDS
+        value: 3600
+      - key: SKIN_IMAGE_STORAGE_DIRECTORY
+        value: /tmp/deepsync/skin-images
+      - key: SKIN_IMAGE_MAX_SIZE_BYTES
+        value: 10485760
