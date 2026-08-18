@@ -59,6 +59,8 @@ public enum ErrorCode {
     ANALYSIS_CONFIDENCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ANALYSIS_CONFIDENCE_NOT_FOUND", "종합 분석 신뢰도 결과를 찾을 수 없습니다."),
     DAILY_SKIN_ANALYSIS_NOT_FOUND(HttpStatus.NOT_FOUND, "DAILY_SKIN_ANALYSIS_NOT_FOUND", "해당 날짜에 완료된 피부 분석이 없습니다."),
     FUTURE_INSIGHT_DATE(HttpStatus.BAD_REQUEST, "FUTURE_INSIGHT_DATE", "미래 날짜의 피부 변화 설명은 조회할 수 없습니다."),
+    FUTURE_REPORT_PERIOD(HttpStatus.BAD_REQUEST, "FUTURE_REPORT_PERIOD", "미래 기간의 피부 리포트는 조회할 수 없습니다."),
+    INVALID_MONTHLY_REPORT_PERIOD(HttpStatus.BAD_REQUEST, "INVALID_MONTHLY_REPORT_PERIOD", "월간 리포트의 연도와 월을 올바르게 입력해 주세요."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;
