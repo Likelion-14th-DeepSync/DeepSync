@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Droplets, ShieldCheck, Sparkles, BarChart3 } from "lucide-react";
 
 import onboardingImage from "../../assets/Onboarding.png";
@@ -6,6 +6,15 @@ import "./Onboarding.css";
 
 function OnboardingStart() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const signupData = location.state ?? {};
+
+  const handleStart = () => {
+    navigate("/onboarding/skin-type", {
+      state: signupData,
+    });
+  };
 
   return (
     <div className="onboarding-page">
@@ -54,10 +63,7 @@ function OnboardingStart() {
           <span className="intro-dot" />
         </div>
 
-        <button
-          className="onboarding-bottom-button"
-          onClick={() => navigate("/onboarding/skin-type")}
-        >
+        <button className="onboarding-bottom-button" onClick={handleStart}>
           시작하기
         </button>
       </div>

@@ -1,37 +1,78 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
+import { signup } from "../../api/auth";
 import "./Onboarding.css";
 
 function Lifestyle() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 회원가입 → 피부타입 → 피부고민까지 누적된 데이터
+  const onboardingData = location.state ?? {};
 
   const [sleep, setSleep] = useState("6-7");
   const [smoking, setSmoking] = useState("no");
   const [drinking, setDrinking] = useState("sometimes");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleComplete = () => {
-    const lifestyleData = {
-      sleep,
-      smoking,
-      drinking,
+  const handleBack = () => {
+    navigate("/onboarding/concern", {
+      state: onboardingData,
+    });
+  };
+
+  const handleComplete = async () => {
+    if (isLoading) return;
+
+    const finalData = {
+      ...onboardingData,
+      lifestyle: {
+        sleep,
+        smoking,
+        drinking,
+      },
     };
 
-    console.log("온보딩 생활 습관 데이터:", lifestyleData);
+    const requestData = {
+      email: onboardingData.email,
+      password: onboardingData.password,
+      nickname: onboardingData.name,
+      skinType: onboardingData.skinType.toUpperCase(),
+      skinConcerns: onboardingData.concerns,
+    };
 
-    // 추후 여기서 백엔드 온보딩 API 연동
-    navigate("/home");
+    console.log("최종 온보딩 데이터:", finalData);
+    console.log("회원가입 요청 데이터:", requestData);
+
+    try {
+      setIsLoading(true);
+
+      const response = await signup(requestData);
+
+      console.log("회원가입 성공:", response);
+
+      localStorage.setItem("deepSyncOnboarding", JSON.stringify(finalData));
+
+      navigate("/signup/complete", {
+        state: finalData,
+      });
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+
+      const message = error.response?.data?.error?.message ?? "회원가입에 실패했습니다.";
+
+      alert(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="onboarding-page">
       <div className="onboarding-screen">
         <header className="question-header">
-          <button
-            type="button"
-            className="question-back"
-            onClick={() => navigate("/onboarding/concern")}
-          >
+          <button type="button" className="question-back" onClick={handleBack}>
             <ChevronLeft size={24} />
             <span>뒤로</span>
           </button>
@@ -112,8 +153,13 @@ function Lifestyle() {
           </div>
         </section>
 
-        <button type="button" className="onboarding-bottom-button" onClick={handleComplete}>
-          시작하기
+        <button
+          type="button"
+          className="onboarding-bottom-button"
+          onClick={handleComplete}
+          disabled={isLoading}
+        >
+          {isLoading ? "가입 중..." : "시작하기"}
         </button>
       </div>
     </div>

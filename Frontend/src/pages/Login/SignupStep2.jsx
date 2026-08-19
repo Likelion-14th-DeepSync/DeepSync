@@ -39,17 +39,16 @@ function SignupStep2() {
     if (!canSubmit) return;
 
     const signupData = {
-      ...signupInfo,
+      email: signupInfo.email,
+      name: signupInfo.name,
       password,
     };
 
     localStorage.setItem("deepSyncUserName", signupData.name ?? "");
-    localStorage.setItem("deepSyncUserNickname", signupData.nickname ?? "");
 
-    console.log("회원가입 데이터", signupData);
+    console.log("회원가입 입력 데이터", signupData);
 
-    // 추후 여기서 백엔드 회원가입 API 연결
-    navigate("/signup/complete", {
+    navigate("/onboarding", {
       state: signupData,
     });
   };
@@ -90,7 +89,7 @@ function SignupStep2() {
             <p>
               안전한 비밀번호를 설정하고
               <br />
-              가입을 완료해주세요.
+              가입을 계속해주세요.
             </p>
           </section>
 
@@ -199,7 +198,7 @@ function SignupStep2() {
           disabled={!canSubmit}
           onClick={handleSubmit}
         >
-          회원가입 완료
+          다음
         </button>
       </div>
     </div>

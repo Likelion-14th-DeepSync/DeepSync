@@ -1,67 +1,39 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  ChevronLeft,
-  Check,
-  CircleDot,
-  ScanFace,
-  Sun,
-  Waves,
-  HeartPulse,
-  Activity,
-  Eye,
-  Droplets,
-} from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ChevronLeft, Check, CircleDot, Sun, HeartPulse, Droplets } from "lucide-react";
 
 import "./Onboarding.css";
 
 const concerns = [
   {
-    id: "acne",
-    label: "여드름",
+    id: "TROUBLE",
+    label: "트러블",
     icon: CircleDot,
   },
   {
-    id: "pores",
-    label: "모공",
-    icon: ScanFace,
-  },
-  {
-    id: "blemish",
-    label: "잡티",
-    icon: Sun,
-  },
-  {
-    id: "wrinkle",
-    label: "주름",
-    icon: Waves,
-  },
-  {
-    id: "redness",
+    id: "REDNESS",
     label: "홍조",
     icon: HeartPulse,
   },
   {
-    id: "elasticity",
-    label: "탄력",
-    icon: Activity,
-  },
-  {
-    id: "darkcircle",
-    label: "다크서클",
-    icon: Eye,
-  },
-  {
-    id: "dryness",
+    id: "DRYNESS",
     label: "건조함",
     icon: Droplets,
+  },
+  {
+    id: "SKIN_TONE",
+    label: "피부톤",
+    icon: Sun,
   },
 ];
 
 function SkinConcern() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [selected, setSelected] = useState(["acne", "pores", "blemish"]);
+  const signupData = location.state ?? {};
+
+  const [selected, setSelected] = useState([]);
 
   const toggleConcern = (id) => {
     if (selected.includes(id)) {
@@ -74,15 +46,28 @@ function SkinConcern() {
     }
   };
 
+  const handleNext = () => {
+    if (selected.length === 0) return;
+
+    navigate("/onboarding/lifestyle", {
+      state: {
+        ...signupData,
+        concerns: selected,
+      },
+    });
+  };
+
+  const handleBack = () => {
+    navigate("/onboarding/skin-type", {
+      state: signupData,
+    });
+  };
+
   return (
     <div className="onboarding-page">
       <div className="onboarding-screen">
         <header className="question-header">
-          <button
-            type="button"
-            className="question-back"
-            onClick={() => navigate("/onboarding/skin-type")}
-          >
+          <button type="button" className="question-back" onClick={handleBack}>
             <ChevronLeft size={24} />
             <span>뒤로</span>
           </button>
@@ -135,13 +120,8 @@ function SkinConcern() {
         <button
           type="button"
           className="onboarding-bottom-button"
-          onClick={() =>
-            navigate("/onboarding/lifestyle", {
-              state: {
-                concerns: selected,
-              },
-            })
-          }
+          onClick={handleNext}
+          disabled={selected.length === 0}
         >
           다음
         </button>
