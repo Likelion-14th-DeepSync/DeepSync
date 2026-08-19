@@ -1,29 +1,47 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight, LogOut, Camera, X, Check } from "lucide-react";
+import { ChevronRight, Camera, X, Check } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import BottomNav from "../../components/BottomNav";
+
+import { getMyProfile, updateMyProfile } from "../../api/user";
+
+import { getDdayDashboard } from "../../api/dashboard";
+
 import "./MyScreen.css";
 
-const SCHEDULE_STORAGE_KEY = "wellness-calendar-schedules";
-const DDAY_STORAGE_KEY = "wellness-dday-selected-schedule-id";
 const DAILY_RECORD_STORAGE_KEY = "wellness-daily-records";
 
 const PROFILE_NAME_KEY = "deepSyncUserName";
+
 const HOME_NAME_KEY = "wellness-user-name";
+
 const PROFILE_IMAGE_KEY = "wellness-profile-image";
 
 const HEALTH_CONNECTION_KEY = "wellness-health-connection";
+
 const WEARABLE_CONNECTION_KEY = "wellness-wearable-connection";
 
 const SETTING_ITEMS = [
-  { key: "alarm", title: "알림 설정" },
-  { key: "data", title: "데이터 관리" },
-  { key: "withdraw", title: "회원 탈퇴" },
+  {
+    key: "alarm",
+    title: "알림 설정",
+  },
+  {
+    key: "data",
+    title: "데이터 관리",
+  },
+  {
+    key: "withdraw",
+    title: "회원 탈퇴",
+  },
 ];
 
 function getLocalDateKey(date = new Date()) {
   const year = date.getFullYear();
+
   const month = String(date.getMonth() + 1).padStart(2, "0");
+
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
@@ -45,77 +63,6 @@ function readConnection(key) {
   }
 }
 
-function calculateDday() {
-  try {
-    const savedSchedules = localStorage.getItem(SCHEDULE_STORAGE_KEY);
-
-    const schedules = savedSchedules ? JSON.parse(savedSchedules) : [];
-
-    if (!Array.isArray(schedules) || schedules.length === 0) {
-      return {
-        label: "-",
-        daysLeft: null,
-      };
-    }
-
-    const selectedId = localStorage.getItem(DDAY_STORAGE_KEY);
-
-    let selectedSchedule = schedules.find((schedule) => String(schedule.id) === String(selectedId));
-
-    if (!selectedSchedule) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const sorted = [...schedules].sort(
-        (a, b) => new Date(`${a.date}T00:00:00`) - new Date(`${b.date}T00:00:00`),
-      );
-
-      selectedSchedule =
-        sorted.find((schedule) => new Date(`${schedule.date}T00:00:00`) >= today) ?? sorted[0];
-    }
-
-    if (!selectedSchedule) {
-      return {
-        label: "-",
-        daysLeft: null,
-      };
-    }
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const target = new Date(`${selectedSchedule.date}T00:00:00`);
-
-    target.setHours(0, 0, 0, 0);
-
-    const diff = Math.round((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-
-    if (diff > 0) {
-      return {
-        label: `${diff}일 남음`,
-        daysLeft: diff,
-      };
-    }
-
-    if (diff === 0) {
-      return {
-        label: "오늘",
-        daysLeft: 0,
-      };
-    }
-
-    return {
-      label: `D+${Math.abs(diff)}`,
-      daysLeft: diff,
-    };
-  } catch {
-    return {
-      label: "-",
-      daysLeft: null,
-    };
-  }
-}
-
 function calculateStreak() {
   try {
     const saved = localStorage.getItem(DAILY_RECORD_STORAGE_KEY);
@@ -128,7 +75,9 @@ function calculateStreak() {
 
     const recordDates = Object.entries(records)
       .filter(([, record]) => {
-        if (!record) return false;
+        if (!record) {
+          return false;
+        }
 
         const hasSkin = Boolean(record.skinScore) || Boolean(record.photoDataUrl);
 
@@ -145,6 +94,7 @@ function calculateStreak() {
     const recordSet = new Set(recordDates);
 
     const today = new Date();
+
     today.setHours(0, 0, 0, 0);
 
     let cursor = new Date(today);
@@ -161,6 +111,7 @@ function calculateStreak() {
 
     while (recordSet.has(getLocalDateKey(cursor))) {
       streak += 1;
+
       cursor.setDate(cursor.getDate() - 1);
     }
 
@@ -171,7 +122,7 @@ function calculateStreak() {
 }
 
 export default function MyScreen({
-  name = "홍길동님",
+  name = "사용자님",
   userId = "wellness_user",
   activeNav = "my",
   onNavChange,
@@ -179,24 +130,21 @@ export default function MyScreen({
   onLogout,
 }) {
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const fileInputRef = useRef(null);
 
-  const [profileName, setProfileName] = useState(() => {
-    const savedName = localStorage.getItem(PROFILE_NAME_KEY) || localStorage.getItem(HOME_NAME_KEY);
+  const [memberId, setMemberId] = useState(null);
 
-    return savedName ? `${savedName}님` : name;
-  });
+  const [profileName, setProfileName] = useState(name);
+
+  const [editName, setEditName] = useState(name.replace(/님$/, ""));
+
+  const [skinConcerns, setSkinConcerns] = useState([]);
 
   const [profileImage, setProfileImage] = useState(() => {
     return localStorage.getItem(PROFILE_IMAGE_KEY) || "";
-  });
-
-  const [editName, setEditName] = useState(() => {
-    const savedName = localStorage.getItem(PROFILE_NAME_KEY) || localStorage.getItem(HOME_NAME_KEY);
-
-    return savedName || name.replace(/님$/, "");
   });
 
   const [editImage, setEditImage] = useState(() => {
@@ -205,7 +153,12 @@ export default function MyScreen({
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
-  const [dDayInfo, setDDayInfo] = useState(() => calculateDday());
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
+
+  const [dDayInfo, setDDayInfo] = useState({
+    label: "-",
+    daysLeft: null,
+  });
 
   const [streakDays, setStreakDays] = useState(() => calculateStreak());
 
@@ -217,20 +170,100 @@ export default function MyScreen({
     readConnection(WEARABLE_CONNECTION_KEY),
   );
 
+  /*
+    내 프로필 조회
+  */
   useEffect(() => {
-    const savedName = localStorage.getItem(PROFILE_NAME_KEY) || localStorage.getItem(HOME_NAME_KEY);
+    const fetchProfile = async () => {
+      try {
+        const response = await getMyProfile();
 
-    if (savedName) {
-      setProfileName(`${savedName}님`);
-      setEditName(savedName);
-    }
+        console.log("마이페이지 프로필:", response);
 
+        const nickname = response.data?.nickname ?? "사용자";
+
+        const concerns = response.data?.skinConcerns ?? [];
+
+        setMemberId(response.data?.memberId ?? null);
+
+        setProfileName(`${nickname}님`);
+
+        setEditName(nickname);
+
+        setSkinConcerns(concerns);
+
+        localStorage.setItem(PROFILE_NAME_KEY, nickname);
+
+        localStorage.setItem(HOME_NAME_KEY, nickname);
+      } catch (error) {
+        console.error("마이페이지 프로필 조회 실패:", error);
+
+        const savedName =
+          localStorage.getItem(PROFILE_NAME_KEY) || localStorage.getItem(HOME_NAME_KEY);
+
+        if (savedName) {
+          setProfileName(`${savedName}님`);
+
+          setEditName(savedName);
+        }
+      }
+    };
+
+    fetchProfile();
+  }, [location.key]);
+
+  /*
+    실제 서버 D-Day
+  */
+  useEffect(() => {
+    const fetchDday = async () => {
+      try {
+        const response = await getDdayDashboard("SEVEN_DAYS");
+
+        console.log("마이 D-Day:", response);
+
+        const goal = response.data?.goal;
+
+        if (!goal) {
+          setDDayInfo({
+            label: "-",
+            daysLeft: null,
+          });
+
+          return;
+        }
+
+        setDDayInfo({
+          label:
+            goal.dayLabel ??
+            (goal.daysRemaining === 0
+              ? "D-Day"
+              : goal.daysRemaining > 0
+                ? `D-${goal.daysRemaining}`
+                : `D+${Math.abs(goal.daysRemaining)}`),
+
+          daysLeft: goal.daysRemaining ?? null,
+        });
+      } catch (error) {
+        console.error("마이 D-Day 조회 실패:", error);
+
+        setDDayInfo({
+          label: "-",
+          daysLeft: null,
+        });
+      }
+    };
+
+    fetchDday();
+  }, [location.key]);
+
+  useEffect(() => {
     const savedImage = localStorage.getItem(PROFILE_IMAGE_KEY) || "";
 
     setProfileImage(savedImage);
+
     setEditImage(savedImage);
 
-    setDDayInfo(calculateDday());
     setStreakDays(calculateStreak());
 
     setHealthConnection(readConnection(HEALTH_CONNECTION_KEY));
@@ -250,7 +283,18 @@ export default function MyScreen({
             : "my";
 
   const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+
+    localStorage.removeItem("tokenType");
+
+    localStorage.removeItem("expiresIn");
+
+    localStorage.removeItem("rememberLogin");
+
     localStorage.removeItem(PROFILE_NAME_KEY);
+
+    localStorage.removeItem(HOME_NAME_KEY);
+
     localStorage.removeItem("deepSyncUserNickname");
 
     onLogout?.();
@@ -261,11 +305,25 @@ export default function MyScreen({
   const handleNavChange = (key) => {
     onNavChange?.(key);
 
-    if (key === "home") return navigate("/home");
-    if (key === "record") return navigate("/record");
-    if (key === "ai") return navigate("/ai");
-    if (key === "dday") return navigate("/dday");
-    if (key === "my") return navigate("/my");
+    if (key === "home") {
+      return navigate("/home");
+    }
+
+    if (key === "record") {
+      return navigate("/record");
+    }
+
+    if (key === "ai") {
+      return navigate("/ai");
+    }
+
+    if (key === "dday") {
+      return navigate("/dday");
+    }
+
+    if (key === "my") {
+      return navigate("/my");
+    }
   };
 
   const openProfileModal = () => {
@@ -279,10 +337,13 @@ export default function MyScreen({
   const handleProfileImageSelect = (event) => {
     const file = event.target.files?.[0];
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     if (!file.type.startsWith("image/")) {
       alert("이미지 파일을 선택해주세요.");
+
       return;
     }
 
@@ -305,41 +366,80 @@ export default function MyScreen({
     }
   };
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     const trimmedName = editName.trim();
 
     if (trimmedName.length < 2) {
       alert("이름을 2자 이상 입력해주세요.");
+
       return;
     }
 
-    localStorage.setItem(PROFILE_NAME_KEY, trimmedName);
-
-    localStorage.setItem(HOME_NAME_KEY, trimmedName);
-
-    if (editImage) {
-      localStorage.setItem(PROFILE_IMAGE_KEY, editImage);
-    } else {
-      localStorage.removeItem(PROFILE_IMAGE_KEY);
+    if (isSavingProfile) {
+      return;
     }
 
-    setProfileName(`${trimmedName}님`);
-    setProfileImage(editImage);
+    try {
+      setIsSavingProfile(true);
 
-    setIsProfileModalOpen(false);
+      const response = await updateMyProfile({
+        nickname: trimmedName,
+
+        skinConcerns,
+      });
+
+      console.log("프로필 수정 성공:", response);
+
+      const updatedNickname = response.data?.nickname ?? trimmedName;
+
+      setProfileName(`${updatedNickname}님`);
+
+      setEditName(updatedNickname);
+
+      localStorage.setItem(PROFILE_NAME_KEY, updatedNickname);
+
+      localStorage.setItem(HOME_NAME_KEY, updatedNickname);
+
+      /*
+          프로필 사진 API가 아직 없어서
+          사진만 localStorage
+        */
+      if (editImage) {
+        localStorage.setItem(PROFILE_IMAGE_KEY, editImage);
+      } else {
+        localStorage.removeItem(PROFILE_IMAGE_KEY);
+      }
+
+      setProfileImage(editImage);
+
+      setIsProfileModalOpen(false);
+    } catch (error) {
+      console.error("프로필 수정 실패:", error);
+
+      const message = error.response?.data?.error?.message ?? "프로필 수정에 실패했습니다.";
+
+      alert(message);
+    } finally {
+      setIsSavingProfile(false);
+    }
   };
 
   const connectItems = [
     {
       key: "health",
       title: "건강 앱 연동",
+
       sub: healthConnection.connected ? healthConnection.provider : "미연동",
+
       status: healthConnection.connected ? "연동됨" : "연동 안됨",
     },
+
     {
       key: "wearable",
       title: "웨어러블 기기",
+
       sub: wearableConnection.connected ? wearableConnection.device : "미연동",
+
       status: wearableConnection.connected ? "연동됨" : "연동 안됨",
     },
   ];
@@ -350,17 +450,21 @@ export default function MyScreen({
         <div className="content">
           <div className="pageTitle">My</div>
 
-          {/* PROFILE */}
           <div className="profileCard">
             <div className="profileTop">
               <div
                 className="avatar"
                 style={{
                   overflow: "hidden",
+
                   display: "flex",
+
                   alignItems: "center",
+
                   justifyContent: "center",
+
                   background: profileImage ? "#eee" : "#F0EDFF",
+
                   color: "#6C5CE7",
                 }}
               >
@@ -370,8 +474,11 @@ export default function MyScreen({
                     alt="프로필"
                     style={{
                       width: "100%",
+
                       height: "100%",
+
                       objectFit: "cover",
+
                       display: "block",
                     }}
                   />
@@ -389,11 +496,10 @@ export default function MyScreen({
                   </button>
                 </div>
 
-                <div className="profileId">ID {userId}</div>
+                <div className="profileId">ID {memberId ?? userId}</div>
               </div>
             </div>
 
-            {/* D-Day / 연속 기록 */}
             <div className="statsRow">
               <button type="button" className="statBlock" onClick={() => navigate("/dday")}>
                 <div className="statLabel">D-Day</div>
@@ -413,7 +519,6 @@ export default function MyScreen({
             </div>
           </div>
 
-          {/* 연동 & 기기 */}
           <div className="sectionTitle">연동 &amp; 기기</div>
 
           <div className="listCard">
@@ -454,7 +559,6 @@ export default function MyScreen({
             ))}
           </div>
 
-          {/* 설정 */}
           <div className="sectionTitle">설정</div>
 
           <div className="listCard">
@@ -466,16 +570,19 @@ export default function MyScreen({
                 onClick={() => {
                   if (item.key === "alarm") {
                     navigate("/my/notifications");
+
                     return;
                   }
 
                   if (item.key === "data") {
                     navigate("/my/data");
+
                     return;
                   }
 
                   if (item.key === "withdraw") {
                     navigate("/my/withdraw");
+
                     return;
                   }
 
@@ -489,6 +596,34 @@ export default function MyScreen({
             ))}
           </div>
 
+          <button
+            type="button"
+            onClick={handleLogout}
+            style={{
+              width: "100%",
+
+              marginTop: 18,
+
+              padding: "13px 0",
+
+              border: "none",
+
+              borderRadius: 12,
+
+              background: "#F8F8FC",
+
+              color: "#666",
+
+              fontSize: 13,
+
+              fontWeight: 600,
+
+              cursor: "pointer",
+            }}
+          >
+            로그아웃
+          </button>
+
           <div className="footerText">
             개인정보처리방침 | 이용약관
             <br />
@@ -498,18 +633,24 @@ export default function MyScreen({
 
         <BottomNav activeNav={currentActiveNav ?? activeNav} onChange={handleNavChange} />
 
-        {/* 프로필 수정 */}
         {isProfileModalOpen && (
           <div
             onClick={() => setIsProfileModalOpen(false)}
             style={{
               position: "absolute",
+
               inset: 0,
+
               zIndex: 100,
+
               display: "flex",
+
               alignItems: "center",
+
               justifyContent: "center",
+
               padding: 20,
+
               background: "rgba(0,0,0,0.38)",
             }}
           >
@@ -517,18 +658,26 @@ export default function MyScreen({
               onClick={(e) => e.stopPropagation()}
               style={{
                 width: "100%",
+
                 maxWidth: 340,
+
                 padding: 20,
+
                 boxSizing: "border-box",
+
                 borderRadius: 20,
+
                 background: "#fff",
               }}
             >
               <div
                 style={{
                   display: "flex",
+
                   justifyContent: "space-between",
+
                   alignItems: "center",
+
                   marginBottom: 20,
                 }}
               >
@@ -536,6 +685,7 @@ export default function MyScreen({
                   <h2
                     style={{
                       margin: "0 0 3px",
+
                       fontSize: 18,
                     }}
                   >
@@ -545,6 +695,7 @@ export default function MyScreen({
                   <span
                     style={{
                       fontSize: 10,
+
                       color: "#999",
                     }}
                   >
@@ -557,9 +708,13 @@ export default function MyScreen({
                   onClick={() => setIsProfileModalOpen(false)}
                   style={{
                     width: 32,
+
                     height: 32,
+
                     border: "none",
+
                     borderRadius: "50%",
+
                     background: "#F5F5F7",
                   }}
                 >
@@ -570,22 +725,34 @@ export default function MyScreen({
               <div
                 style={{
                   display: "flex",
+
                   flexDirection: "column",
+
                   alignItems: "center",
+
                   marginBottom: 22,
                 }}
               >
                 <div
                   style={{
                     width: 84,
+
                     height: 84,
+
                     display: "flex",
+
                     alignItems: "center",
+
                     justifyContent: "center",
+
                     overflow: "hidden",
+
                     marginBottom: 10,
+
                     borderRadius: "50%",
+
                     background: "#F0EDFF",
+
                     color: "#6C5CE7",
                   }}
                 >
@@ -595,7 +762,9 @@ export default function MyScreen({
                       alt="프로필 미리보기"
                       style={{
                         width: "100%",
+
                         height: "100%",
+
                         objectFit: "cover",
                       }}
                     />
@@ -607,6 +776,7 @@ export default function MyScreen({
                 <div
                   style={{
                     display: "flex",
+
                     gap: 7,
                   }}
                 >
@@ -641,8 +811,11 @@ export default function MyScreen({
                   htmlFor="profile-name"
                   style={{
                     display: "block",
+
                     marginBottom: 7,
+
                     fontSize: 12,
+
                     fontWeight: 600,
                   }}
                 >
@@ -656,9 +829,13 @@ export default function MyScreen({
                   onChange={(e) => setEditName(e.target.value)}
                   style={{
                     width: "100%",
+
                     padding: "11px 12px",
+
                     boxSizing: "border-box",
+
                     border: "1px solid #E5E5EA",
+
                     borderRadius: 11,
                   }}
                 />
@@ -667,22 +844,36 @@ export default function MyScreen({
               <button
                 type="button"
                 onClick={handleSaveProfile}
+                disabled={isSavingProfile}
                 style={{
                   width: "100%",
+
                   display: "flex",
+
                   alignItems: "center",
+
                   justifyContent: "center",
+
                   gap: 6,
+
                   padding: "13px 0",
+
                   border: "none",
+
                   borderRadius: 12,
+
                   background: "#6C5CE7",
+
                   color: "#fff",
+
                   fontWeight: 600,
+
+                  opacity: isSavingProfile ? 0.65 : 1,
                 }}
               >
                 <Check size={16} />
-                저장
+
+                {isSavingProfile ? "저장 중..." : "저장"}
               </button>
             </div>
           </div>

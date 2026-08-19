@@ -8,14 +8,12 @@ function SignupStep1() {
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [nickname, setNickname] = useState("");
 
   const emailValid = useMemo(() => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }, [email]);
 
   const nameValid = name.trim().length >= 2;
-  const nicknameValid = nickname.trim().length > 0;
 
   const canNext = emailValid && nameValid;
 
@@ -28,7 +26,6 @@ function SignupStep1() {
       state: {
         email: email.trim(),
         name: name.trim(),
-        nickname: nickname.trim(),
       },
     });
   };
@@ -114,22 +111,6 @@ function SignupStep1() {
               {name.length > 0 && !nameValid && (
                 <p className="field-message error-color">이름을 2자 이상 입력해주세요.</p>
               )}
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="signup-nickname">닉네임 (선택)</label>
-
-              <div className={`field-box ${nicknameValid ? "field-success" : ""}`}>
-                <input
-                  id="signup-nickname"
-                  type="text"
-                  value={nickname}
-                  placeholder="닉네임을 입력하세요"
-                  onChange={(e) => setNickname(e.target.value)}
-                />
-
-                {nicknameValid && <CheckCircle2 className="field-status success-color" size={20} />}
-              </div>
             </div>
           </section>
         </main>

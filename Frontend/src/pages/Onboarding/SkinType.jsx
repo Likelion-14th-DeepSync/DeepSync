@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
   Check,
@@ -47,14 +47,32 @@ const skinTypes = [
 
 function SkinType() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const signupData = location.state ?? {};
 
   const [selected, setSelected] = useState("dry");
+
+  const handleNext = () => {
+    navigate("/onboarding/concern", {
+      state: {
+        ...signupData,
+        skinType: selected,
+      },
+    });
+  };
+
+  const handleBack = () => {
+    navigate("/onboarding", {
+      state: signupData,
+    });
+  };
 
   return (
     <div className="onboarding-page">
       <div className="onboarding-screen">
         <header className="question-header">
-          <button type="button" className="question-back" onClick={() => navigate("/onboarding")}>
+          <button type="button" className="question-back" onClick={handleBack}>
             <ChevronLeft size={24} />
             <span>뒤로</span>
           </button>
@@ -110,17 +128,7 @@ function SkinType() {
           })}
         </div>
 
-        <button
-          type="button"
-          className="onboarding-bottom-button"
-          onClick={() =>
-            navigate("/onboarding/concern", {
-              state: {
-                skinType: selected,
-              },
-            })
-          }
-        >
+        <button type="button" className="onboarding-bottom-button" onClick={handleNext}>
           다음
         </button>
       </div>

@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell, Camera, Info, FlaskConical } from "lucide-react";
+
 import BottomNav from "../../components/BottomNav";
 import ReminderCard from "../../components/ReminderCard/ReminderCard";
+
+import { getMyProfile } from "../../api/user";
+import { getDdayDashboard } from "../../api/dashboard";
+
 import "./Home.css";
 
 const ROUTINE_STORAGE_KEY = "wellness-daily-routines";
-const SCHEDULE_STORAGE_KEY = "wellness-calendar-schedules";
-const DDAY_STORAGE_KEY = "wellness-dday-selected-schedule-id";
 
 const DEFAULT_ROUTINES = [
   {
@@ -67,81 +70,24 @@ function loadTodayRoutines() {
   }
 }
 
-function calculateHomeDday() {
-  try {
-    const savedSchedules = localStorage.getItem(SCHEDULE_STORAGE_KEY);
-
-    const schedules = savedSchedules ? JSON.parse(savedSchedules) : [];
-
-    if (!Array.isArray(schedules) || schedules.length === 0) {
-      return {
-        label: "-",
-        title: "피부 목표 D-Day",
-      };
-    }
-
-    const selectedId = localStorage.getItem(DDAY_STORAGE_KEY);
-
-    let selectedSchedule = schedules.find((schedule) => String(schedule.id) === String(selectedId));
-
-    /*
-      선택된 D-Day 일정이 없다면
-      가장 가까운 미래 일정을 자동 사용
-    */
-    if (!selectedSchedule) {
-      const today = new Date();
-
-      today.setHours(0, 0, 0, 0);
-
-      const sorted = [...schedules].sort(
-        (a, b) => new Date(`${a.date}T00:00:00`) - new Date(`${b.date}T00:00:00`),
-      );
-
-      selectedSchedule =
-        sorted.find((schedule) => new Date(`${schedule.date}T00:00:00`) >= today) ?? sorted[0];
-
-      if (selectedSchedule) {
-        localStorage.setItem(DDAY_STORAGE_KEY, String(selectedSchedule.id));
-      }
-    }
-
-    if (!selectedSchedule) {
-      return {
-        label: "-",
-        title: "피부 목표 D-Day",
-      };
-    }
-
-    const today = new Date();
-
-    today.setHours(0, 0, 0, 0);
-
-    const targetDate = new Date(`${selectedSchedule.date}T00:00:00`);
-
-    targetDate.setHours(0, 0, 0, 0);
-
-    const diff = Math.round((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-
-    let label;
-
-    if (diff > 0) {
-      label = `D-${diff}`;
-    } else if (diff === 0) {
-      label = "D-Day";
-    } else {
-      label = `D+${Math.abs(diff)}`;
-    }
-
-    return {
-      label,
-      title: `${selectedSchedule.title}까지`,
-    };
-  } catch {
-    return {
-      label: "-",
-      title: "피부 목표 D-Day",
-    };
+function formatChange(value) {
+  if (value === null || value === undefined) {
+    return "-";
   }
+
+  if (value > 0) {
+    return `+${value}`;
+  }
+
+  return String(value);
+}
+
+function getTrend(value) {
+  if (value === null || value === undefined || value === 0) {
+    return "same";
+  }
+
+  return value > 0 ? "up" : "down";
 }
 
 function Home() {
@@ -169,50 +115,80 @@ function Home() {
 
   const [userName, setUserName] = useState("사용자");
 
-  const [skinAnalysis, setSkinAnalysis] = useState(null);
-
-  const [activeExperiment, setActiveExperiment] = useState(null);
+  const [dashboard, setDashboard] = useState(null);
+  const [dashboardLoading, setDashboardLoading] = useState(true);
+  const [dashboardError, setDashboardError] = useState("");
 
   const [routines, setRoutines] = useState(() => loadTodayRoutines());
 
-  const [homeDday, setHomeDday] = useState(() => calculateHomeDday());
-
+  /*
+    실제 로그인 회원 정보
+  */
   useEffect(() => {
-    const savedName =
-      localStorage.getItem("wellness-user-name") || localStorage.getItem("deepSyncUserName");
+    const fetchProfile = async () => {
+      try {
+        const response = await getMyProfile();
 
-    if (savedName) {
-      setUserName(savedName);
-    }
+        console.log("홈 내 프로필:", response);
 
-    try {
-      const savedAnalysis = localStorage.getItem("wellness-today-skin-analysis");
+        const nickname = response.data?.nickname;
 
-      setSkinAnalysis(savedAnalysis ? JSON.parse(savedAnalysis) : null);
-    } catch {
-      setSkinAnalysis(null);
-    }
+        if (nickname) {
+          setUserName(nickname);
 
-    try {
-      const savedExperiment = localStorage.getItem("wellness-active-experiment");
+          localStorage.setItem("deepSyncUserName", nickname);
+        }
+      } catch (error) {
+        console.error("프로필 조회 실패:", error);
 
-      setActiveExperiment(savedExperiment ? JSON.parse(savedExperiment) : null);
-    } catch {
-      setActiveExperiment(null);
-    }
+        const savedName =
+          localStorage.getItem("deepSyncUserName") || localStorage.getItem("wellness-user-name");
 
-    /*
-      D-Day / 루틴을 다른 화면에서 바꾼 후
-      홈으로 돌아오면 최신 상태 다시 읽기
-    */
-    setRoutines(loadTodayRoutines());
+        if (savedName) {
+          setUserName(savedName);
+        }
+      }
+    };
 
-    setHomeDday(calculateHomeDday());
+    fetchProfile();
+  }, []);
+
+  /*
+    D-Day 통합 대시보드
+  */
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        setDashboardLoading(true);
+        setDashboardError("");
+
+        const response = await getDdayDashboard("SEVEN_DAYS");
+
+        console.log("홈 대시보드:", response);
+
+        setDashboard(response.data ?? null);
+      } catch (error) {
+        console.error("홈 대시보드 조회 실패:", error);
+
+        setDashboard(null);
+
+        setDashboardError(error.response?.data?.error?.message ?? "홈 정보를 불러오지 못했습니다.");
+      } finally {
+        setDashboardLoading(false);
+      }
+    };
+
+    fetchDashboard();
   }, [location.key]);
 
   /*
-    루틴 변경될 때마다 저장
+    아직 실제 AI 루틴 리스트 API가 없기 때문에
+    루틴 체크 상태만 localStorage 유지
   */
+  useEffect(() => {
+    setRoutines(loadTodayRoutines());
+  }, [location.key]);
+
   useEffect(() => {
     localStorage.setItem(
       ROUTINE_STORAGE_KEY,
@@ -223,29 +199,50 @@ function Home() {
     );
   }, [routines]);
 
-  const hasTodayPhoto = Boolean(skinAnalysis);
+  const goal = dashboard?.goal ?? null;
 
-  const skinScore = skinAnalysis?.score ?? null;
+  const skinInsight = dashboard?.skinInsight ?? null;
 
-  const skinChange = skinAnalysis?.change ?? null;
+  const todayAnalysis = skinInsight?.today ?? null;
 
-  const stats = skinAnalysis?.stats ?? [
-    {
-      label: "붉은기",
-      value: "-6%",
-      trend: "down",
-    },
-    {
-      label: "트러블",
-      value: "변화 없음",
-      trend: "same",
-    },
-    {
-      label: "피부톤 균일도",
-      value: "+3%",
-      trend: "up",
-    },
-  ];
+  const comparison = skinInsight?.changes?.previous ?? skinInsight?.changes?.baseline ?? null;
+
+  const activeExperiment = dashboard?.activeExperiment ?? null;
+
+  const experiment = activeExperiment?.experiment ?? null;
+
+  const experimentProgressData = activeExperiment?.progress ?? null;
+
+  const hasTodayPhoto = Boolean(todayAnalysis);
+
+  const skinScore = todayAnalysis?.overallScore ?? null;
+
+  const skinChange = comparison?.overallScoreChange ?? null;
+
+  const stats = todayAnalysis
+    ? [
+        {
+          label: "붉은기",
+          value: formatChange(comparison?.rednessScoreChange),
+          trend: getTrend(comparison?.rednessScoreChange),
+        },
+        {
+          label: "트러블",
+          value: formatChange(comparison?.troubleScoreChange),
+          trend: getTrend(comparison?.troubleScoreChange),
+        },
+        {
+          label: "건조함",
+          value: formatChange(comparison?.drynessScoreChange),
+          trend: getTrend(comparison?.drynessScoreChange),
+        },
+        {
+          label: "피부톤 균일도",
+          value: formatChange(comparison?.toneUniformityScoreChange),
+          trend: getTrend(comparison?.toneUniformityScoreChange),
+        },
+      ]
+    : [];
 
   const toggleRoutine = (id) => {
     setRoutines((prev) =>
@@ -265,25 +262,25 @@ function Home() {
   const routineProgress =
     routines.length === 0 ? 0 : (completedRoutineCount / routines.length) * 100;
 
-  const experimentProgress = activeExperiment
-    ? (activeExperiment.currentDay / activeExperiment.duration) * 100
-    : 0;
+  const experimentPercent =
+    experiment?.durationDays && experimentProgressData
+      ? Math.min(
+          100,
+          Math.round((experimentProgressData.currentDay / experiment.durationDays) * 100),
+        )
+      : 0;
 
-  const totalCompletions =
-    activeExperiment?.habits?.reduce((sum, habit) => sum + (habit.completedDays?.length ?? 0), 0) ??
-    0;
-
-  const totalPossible = activeExperiment?.habits?.length
-    ? activeExperiment.habits.length * Math.max(activeExperiment.currentDay, 1)
-    : 1;
-
-  const experimentRate = Math.round((totalCompletions / totalPossible) * 100);
+  const experimentRate =
+    typeof experimentProgressData?.completionRate === "number"
+      ? experimentProgressData.completionRate <= 1
+        ? Math.round(experimentProgressData.completionRate * 100)
+        : Math.round(experimentProgressData.completionRate)
+      : 0;
 
   return (
     <div className="home-page">
       <div className="home-phone">
         <main className="home-scroll">
-          {/* 상단 헤더 */}
           <header className="home-header">
             <h1 className="home-brand">Wellness Care</h1>
 
@@ -292,12 +289,12 @@ function Home() {
             </button>
           </header>
 
-          {/* 인사말 */}
           <p className="home-greeting">안녕하세요, {userName}님 👋</p>
 
-          {/* D-Day */}
           <div className="home-dday-row">
-            <span className="home-muted">{homeDday.title}</span>
+            <span className="home-muted">
+              {goal?.title ? `${goal.title}까지` : "피부 목표 D-Day"}
+            </span>
 
             <button
               type="button"
@@ -310,11 +307,10 @@ function Home() {
                 fontFamily: "inherit",
               }}
             >
-              <strong className="home-dday">{homeDday.label}</strong>
+              <strong className="home-dday">{goal?.dayLabel ?? "-"}</strong>
             </button>
           </div>
 
-          {/* 오늘의 피부 */}
           <section className="home-card home-skin-card">
             <div className="home-section-row">
               <h2 className="home-card-title">오늘의 피부 컨디션</h2>
@@ -322,7 +318,11 @@ function Home() {
               <Info size={16} className="home-info-icon" />
             </div>
 
-            {hasTodayPhoto ? (
+            {dashboardLoading ? (
+              <div className="home-empty-analysis">
+                <h3>피부 정보를 불러오는 중이에요</h3>
+              </div>
+            ) : hasTodayPhoto ? (
               <>
                 <div className="home-score-row">
                   <span className="home-score">{skinScore}</span>
@@ -330,7 +330,13 @@ function Home() {
                   <span className="home-score-max">/ 100</span>
                 </div>
 
-                <p className="home-score-change">어제보다 {skinChange} ↑</p>
+                {skinChange !== null && (
+                  <p className="home-score-change">
+                    {skinChange === 0
+                      ? "이전 분석과 동일해요"
+                      : `이전보다 ${formatChange(skinChange)}점`}
+                  </p>
+                )}
               </>
             ) : (
               <div className="home-empty-analysis">
@@ -345,6 +351,8 @@ function Home() {
                   <br />
                   피부 점수와 변화를 확인할 수 있어요.
                 </p>
+
+                {dashboardError && <p>{dashboardError}</p>}
               </div>
             )}
 
@@ -359,7 +367,6 @@ function Home() {
             </button>
           </section>
 
-          {/* 피부 세부 지표 */}
           {hasTodayPhoto && (
             <div className="home-stats-grid">
               {stats.map((stat) => (
@@ -370,13 +377,12 @@ function Home() {
                     {stat.value}
                   </strong>
 
-                  <span className="home-stat-caption">어제 대비</span>
+                  <span className="home-stat-caption">이전 분석 대비</span>
                 </div>
               ))}
             </div>
           )}
 
-          {/* 오늘의 AI 루틴 */}
           <div className="home-section-heading">
             <h2>오늘의 AI 루틴</h2>
 
@@ -384,6 +390,18 @@ function Home() {
               전체 보기 ›
             </button>
           </div>
+
+          {dashboard?.routine?.available === false && (
+            <p
+              style={{
+                margin: "0 0 10px",
+                fontSize: 11,
+                color: "#999",
+              }}
+            >
+              {dashboard.routine.message}
+            </p>
+          )}
 
           <div className="home-routine-list">
             {routines.map((routine) => (
@@ -393,7 +411,6 @@ function Home() {
 
                   <div>
                     <h3>{routine.title}</h3>
-
                     <p>{routine.desc}</p>
                   </div>
                 </div>
@@ -410,7 +427,6 @@ function Home() {
             ))}
           </div>
 
-          {/* 루틴 진행률 */}
           <div className="home-routine-progress">
             <div className="home-progress-top">
               <p className="home-progress-label">
@@ -430,12 +446,14 @@ function Home() {
             </div>
           </div>
 
-          {/* 생활 실험 */}
           <div className="home-section-heading">
             <h2>진행 중인 생활 실험</h2>
 
             {activeExperiment && (
-              <button type="button" onClick={() => navigate("/experiment/1")}>
+              <button
+                type="button"
+                onClick={() => navigate(`/experiment/${experiment?.experimentId ?? 1}`)}
+              >
                 실험 상세 ›
               </button>
             )}
@@ -444,7 +462,7 @@ function Home() {
           {activeExperiment ? (
             <section
               className="home-card home-experiment-card home-experiment-clickable"
-              onClick={() => navigate("/experiment/1")}
+              onClick={() => navigate(`/experiment/${experiment?.experimentId ?? 1}`)}
             >
               <div className="home-experiment-top">
                 <div className="home-experiment-title">
@@ -452,27 +470,21 @@ function Home() {
                     <FlaskConical size={18} />
                   </span>
 
-                  <h3>{activeExperiment.habits.length}개 습관 관찰 중</h3>
+                  <h3>{experiment?.title ?? "생활 실험"}</h3>
                 </div>
 
-                <span className="home-badge">{activeExperiment.duration}일 실험</span>
-              </div>
-
-              <div className="home-experiment-habits">
-                {activeExperiment.habits.map((habit) => (
-                  <span key={habit.id}>{habit.title}</span>
-                ))}
+                <span className="home-badge">{experiment?.durationDays ?? 0}일 실험</span>
               </div>
 
               <p className="home-experiment-day">
-                Day {activeExperiment.currentDay} / {activeExperiment.duration}
+                Day {experimentProgressData?.currentDay ?? 0} / {experiment?.durationDays ?? 0}
               </p>
 
               <div className="home-progress-track home-experiment-progress">
                 <div
                   className="home-progress-bar"
                   style={{
-                    width: `${experimentProgress}%`,
+                    width: `${experimentPercent}%`,
                   }}
                 />
               </div>
@@ -485,15 +497,15 @@ function Home() {
                 </div>
 
                 <div>
-                  <span>피부 점수 변화</span>
+                  <span>기록 일수</span>
 
-                  <strong>관찰 중</strong>
+                  <strong>{experimentProgressData?.recordedDays ?? 0}일</strong>
                 </div>
 
                 <div>
-                  <span>AI 분석</span>
+                  <span>달성 일수</span>
 
-                  <strong>{activeExperiment.currentDay < 3 ? "데이터 부족" : "진행 중"}</strong>
+                  <strong>{experimentProgressData?.achievedDays ?? 0}일</strong>
                 </div>
               </div>
             </section>
@@ -505,7 +517,7 @@ function Home() {
 
               <h3>생활 실험을 시작해보세요</h3>
 
-              <p>최대 3개의 생활 습관을 선택하고 피부 변화를 비교할 수 있어요.</p>
+              <p>생활 습관을 기록하고 피부 변화를 비교할 수 있어요.</p>
 
               <button type="button" onClick={() => navigate("/experiment/start")}>
                 + 새 실험 시작하기

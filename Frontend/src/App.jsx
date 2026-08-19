@@ -82,7 +82,7 @@ function App() {
         {/* 생활 실험 */}
         <Route path="/experiment/start" element={<ExperimentStart />} />
 
-        <Route path="/experiment/1" element={<ExperimentDetail />} />
+        <Route path="/experiment/:id" element={<ExperimentDetail />} />
 
         <Route path="/my/notifications" element={<NotificationSettings />} />
 
