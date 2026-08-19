@@ -1,0 +1,2 @@
+ALTER TABLE members
+ADD COLUMN skin_type VARCHAR(20) NOT NULL;

@@ -49,16 +49,21 @@ public class Member extends BaseTimeEntity {
     @Column(name = "concern", nullable = false, length = 30)
     private Set<SkinConcern> skinConcerns = new HashSet<>();
 
-    private Member(String email, String password, String nickname, Set<SkinConcern> skinConcerns) {
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private SkinType skinType;
+
+    private Member(String email, String password, String nickname, Set<SkinConcern> skinConcerns, SkinType skinType) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.role = MemberRole.USER;
         this.skinConcerns = new HashSet<>(skinConcerns);
+        this.skinType = skinType;
     }
 
-    public static Member create(String email, String encodedPassword, String nickname, Set<SkinConcern> skinConcerns) {
-        return new Member(email.toLowerCase(), encodedPassword, nickname, skinConcerns);
+    public static Member create(String email, String encodedPassword, String nickname, Set<SkinConcern> skinConcerns, SkinType skinType) {
+        return new Member(email.toLowerCase(), encodedPassword, nickname, skinConcerns, skinType);
     }
 
     public void updateProfile(String nickname, Set<SkinConcern> skinConcerns) {

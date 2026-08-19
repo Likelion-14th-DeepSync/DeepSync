@@ -34,7 +34,8 @@ public class AuthService {
                 email,
                 passwordEncoder.encode(request.password()),
                 request.nickname(),
-                request.skinConcerns()
+                request.skinConcerns(),
+                request.skinType()
         );
         return SignUpResponse.from(memberRepository.save(member));
     }
