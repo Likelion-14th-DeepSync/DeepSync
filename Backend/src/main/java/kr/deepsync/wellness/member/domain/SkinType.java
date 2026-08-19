@@ -4,5 +4,6 @@ public enum SkinType {
     DRY,
     OILY,
     COMBINATION,
-    NORMAL
+    SENSITIVE,
+    UNKNOWN
 }
