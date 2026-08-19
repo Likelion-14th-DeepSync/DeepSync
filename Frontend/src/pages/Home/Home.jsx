@@ -4,6 +4,7 @@ import { Bell, Camera, Info, FlaskConical } from "lucide-react";
 
 import BottomNav from "../../components/BottomNav";
 import ReminderCard from "../../components/ReminderCard/ReminderCard";
+import TodayReminderModal from "../../components/TodayReminderModal";
 
 import { getMyProfile } from "../../api/user";
 import { getDdayDashboard } from "../../api/dashboard";
@@ -118,8 +119,8 @@ function Home() {
   const [dashboard, setDashboard] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(true);
   const [dashboardError, setDashboardError] = useState("");
-
   const [routines, setRoutines] = useState(() => loadTodayRoutines());
+  const [isReminderOpen, setIsReminderOpen] = useState(false);
 
   /*
     실제 로그인 회원 정보
@@ -276,7 +277,7 @@ function Home() {
         ? Math.round(experimentProgressData.completionRate * 100)
         : Math.round(experimentProgressData.completionRate)
       : 0;
-
+      
   return (
     <div className="home-page">
       <div className="home-phone">
@@ -284,7 +285,8 @@ function Home() {
           <header className="home-header">
             <h1 className="home-brand">Wellness Care</h1>
 
-            <button className="home-icon-button" type="button" aria-label="알림">
+            <button className="home-icon-button" type="button" aria-label="알림"
+            onClick={() => setIsReminderOpen(true)}>
               <Bell size={22} />
             </button>
           </header>
@@ -529,6 +531,12 @@ function Home() {
         </main>
 
         <BottomNav activeNav={active} onChange={handleNavChange} />
+
+        {/* 오늘의 알림 모달 */}
+        <TodayReminderModal
+          isOpen={isReminderOpen}
+          onClose={() => setIsReminderOpen(false)}
+        />
       </div>
     </div>
   );
