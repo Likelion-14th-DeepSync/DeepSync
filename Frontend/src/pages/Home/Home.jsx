@@ -204,10 +204,43 @@ function Home() {
 
   const skinInsight = dashboard?.skinInsight ?? null;
 
-  const todayAnalysis = skinInsight?.today ?? null;
+  /*
+   * 백엔드 피부 분석이 아직 품질검사 때문에 막혀 있으므로
+   * AI 촬영 화면에서 저장한 MVP 분석값을 fallback으로 사용
+   */
+  let localSkinAnalysis = null;
+
+  try {
+    const savedAnalysis = localStorage.getItem("wellness-today-skin-analysis");
+
+    localSkinAnalysis = savedAnalysis ? JSON.parse(savedAnalysis) : null;
+  } catch (error) {
+    console.error("로컬 피부 분석 데이터 파싱 실패:", error);
+  }
+
+  const serverTodayAnalysis = skinInsight?.today ?? null;
+
+  /*
+   * 서버 데이터가 있으면 서버 우선,
+   * 없으면 localStorage mock 사용
+   */
+  const todayAnalysis =
+    serverTodayAnalysis ??
+    (localSkinAnalysis
+      ? {
+          overallScore: localSkinAnalysis.score,
+          capturedAt: localSkinAnalysis.capturedAt,
+
+          rednessScore: null,
+          troubleScore: null,
+          drynessScore: null,
+          toneUniformityScore: null,
+
+          _localFallback: true,
+        }
+      : null);
 
   const comparison = skinInsight?.changes?.previous ?? skinInsight?.changes?.baseline ?? null;
-
   const activeExperiment = dashboard?.activeExperiment ?? null;
 
   const experiment = activeExperiment?.experiment ?? null;
@@ -218,31 +251,35 @@ function Home() {
 
   const skinScore = todayAnalysis?.overallScore ?? null;
 
-  const skinChange = comparison?.overallScoreChange ?? null;
+  const skinChange = todayAnalysis?._localFallback
+    ? null
+    : (comparison?.overallScoreChange ?? null);
 
   const stats = todayAnalysis
-    ? [
-        {
-          label: "붉은기",
-          value: formatChange(comparison?.rednessScoreChange),
-          trend: getTrend(comparison?.rednessScoreChange),
-        },
-        {
-          label: "트러블",
-          value: formatChange(comparison?.troubleScoreChange),
-          trend: getTrend(comparison?.troubleScoreChange),
-        },
-        {
-          label: "건조함",
-          value: formatChange(comparison?.drynessScoreChange),
-          trend: getTrend(comparison?.drynessScoreChange),
-        },
-        {
-          label: "피부톤 균일도",
-          value: formatChange(comparison?.toneUniformityScoreChange),
-          trend: getTrend(comparison?.toneUniformityScoreChange),
-        },
-      ]
+    ? todayAnalysis._localFallback && Array.isArray(localSkinAnalysis?.stats)
+      ? localSkinAnalysis.stats
+      : [
+          {
+            label: "붉은기",
+            value: formatChange(comparison?.rednessScoreChange),
+            trend: getTrend(comparison?.rednessScoreChange),
+          },
+          {
+            label: "트러블",
+            value: formatChange(comparison?.troubleScoreChange),
+            trend: getTrend(comparison?.troubleScoreChange),
+          },
+          {
+            label: "건조함",
+            value: formatChange(comparison?.drynessScoreChange),
+            trend: getTrend(comparison?.drynessScoreChange),
+          },
+          {
+            label: "피부톤 균일도",
+            value: formatChange(comparison?.toneUniformityScoreChange),
+            trend: getTrend(comparison?.toneUniformityScoreChange),
+          },
+        ]
     : [];
 
   const toggleRoutine = (id) => {
@@ -277,7 +314,7 @@ function Home() {
         ? Math.round(experimentProgressData.completionRate * 100)
         : Math.round(experimentProgressData.completionRate)
       : 0;
-      
+
   return (
     <div className="home-page">
       <div className="home-phone">
@@ -285,8 +322,12 @@ function Home() {
           <header className="home-header">
             <h1 className="home-brand">Wellness Care</h1>
 
-            <button className="home-icon-button" type="button" aria-label="알림"
-            onClick={() => setIsReminderOpen(true)}>
+            <button
+              className="home-icon-button"
+              type="button"
+              aria-label="알림"
+              onClick={() => setIsReminderOpen(true)}
+            >
               <Bell size={22} />
             </button>
           </header>
@@ -533,10 +574,7 @@ function Home() {
         <BottomNav activeNav={active} onChange={handleNavChange} />
 
         {/* 오늘의 알림 모달 */}
-        <TodayReminderModal
-          isOpen={isReminderOpen}
-          onClose={() => setIsReminderOpen(false)}
-        />
+        <TodayReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />
       </div>
     </div>
   );
