@@ -101,8 +101,14 @@ function RecordCalendar() {
           date: todayKey,
           skinScore: analysis.score ?? previousRecord.skinScore ?? 78,
           change: analysis.change ?? previousRecord.change ?? "+4점",
-          photoDataUrl: analysis.photoDataUrl ?? previousRecord.photoDataUrl ?? null,
+
+          // photoDataUrl은 localStorage 용량 때문에 저장하지 않음
+          photoDataUrl: null,
+
+          imageId: analysis.imageId ?? previousRecord.imageId ?? null,
+
           capturedAt: analysis.capturedAt ?? previousRecord.capturedAt ?? new Date().toISOString(),
+
           stats: analysis.stats ??
             previousRecord.stats ?? [
               {
@@ -121,6 +127,7 @@ function RecordCalendar() {
                 trend: "up",
               },
             ],
+
           lifeLog: previousRecord.lifeLog ?? [],
         };
 
@@ -321,13 +328,8 @@ function RecordCalendar() {
       return;
     }
 
-    if (!bedtime) {
-      alert("취침 시간을 입력해주세요.");
-      return;
-    }
-
-    if (!wakeUpTime) {
-      alert("기상 시간을 입력해주세요.");
+    if (!bedtime || !wakeUpTime) {
+      alert("취침 시간과 기상 시간을 입력해주세요.");
       return;
     }
 
@@ -335,31 +337,53 @@ function RecordCalendar() {
     const waterIntakeMl = Math.round(waterLiter * 1000);
     const lateNightMeal = lateSnack === "먹음";
 
+    const normalizeTime = (time) => {
+      if (!time) return null;
+
+      return time.length === 5 ? `${time}:00` : time;
+    };
+
     const payload = {
       recordDate: selectedDateKey,
       sleepDurationMinutes,
-      bedtime,
-      wakeUpTime,
+      bedtime: normalizeTime(bedtime),
+      wakeUpTime: normalizeTime(wakeUpTime),
       lateNightMeal,
       waterIntakeMl,
       sourceType: "MANUAL",
     };
 
+    console.log("🔥 생활 기록 저장 payload:", payload);
+
     try {
       setIsSavingLifeLog(true);
 
+      let existingRecord = null;
+
       try {
-        await getLifestyleRecord(selectedDateKey);
+        const getResponse = await getLifestyleRecord(selectedDateKey);
+
+        existingRecord = getResponse?.data ?? null;
+
+        console.log("✅ 기존 생활 기록 조회:", existingRecord);
+      } catch (getError) {
+        if (getError.response?.status !== 404) {
+          throw getError;
+        }
+      }
+
+      if (existingRecord) {
+        console.log("🔥 생활 기록 PATCH 시작");
 
         const response = await updateLifestyleRecord(selectedDateKey, payload);
-        console.log("생활 기록 수정 성공:", response);
-      } catch (error) {
-        if (error.response?.status === 404) {
-          const response = await createLifestyleRecord(payload);
-          console.log("생활 기록 생성 성공:", response);
-        } else {
-          throw error;
-        }
+
+        console.log("✅ 생활 기록 수정 성공:", response);
+      } else {
+        console.log("🔥 생활 기록 POST 시작");
+
+        const response = await createLifestyleRecord(payload);
+
+        console.log("✅ 생활 기록 생성 성공:", response);
       }
 
       const lifeLog = [
@@ -414,13 +438,28 @@ function RecordCalendar() {
       };
 
       setDailyRecords(updatedRecords);
+
       localStorage.setItem(DAILY_RECORD_STORAGE_KEY, JSON.stringify(updatedRecords));
 
       setIsLifeLogModalOpen(false);
+
       alert("생활 기록이 저장되었습니다.");
     } catch (error) {
-      console.error("생활 기록 저장 실패:", error);
-      alert(error.response?.data?.error?.message ?? "생활 기록 저장에 실패했습니다.");
+      console.error("❌ 생활 기록 저장 실패:", error);
+
+      console.error("❌ status:", error.response?.status);
+
+      console.error("❌ server data:", error.response?.data);
+
+      console.error("❌ request payload:", payload);
+
+      const message =
+        error.response?.data?.error?.message ??
+        error.response?.data?.message ??
+        error.message ??
+        "생활 기록 저장에 실패했습니다.";
+
+      alert(message);
     } finally {
       setIsSavingLifeLog(false);
     }

@@ -35,6 +35,10 @@ function getTodayKey() {
 function getExperimentTypeLabel(type) {
   const labels = {
     SLEEP_BEFORE_MIDNIGHT: "자정 전에 취침하기",
+    SLEEP_AT_LEAST_7_HOURS: "하루 7시간 이상 수면하기",
+    NO_LATE_NIGHT_MEAL: "야식 안 먹기",
+    WATER_AT_LEAST_1500_ML: "하루 물 1.5L 이상 마시기",
+    KEEP_SUNSCREEN_ROUTINE: "매일 선크림 바르기",
   };
 
   return labels[type] ?? type ?? "생활 실험";
@@ -398,8 +402,8 @@ function ExperimentDetail() {
                     color: "#777",
                   }}
                 >
-                  이 실험은 생활 기록을 통해 자동으로 판정됩니다. 수면 기록을 입력하면 자정 전 취침
-                  여부가 자동으로 반영돼요.
+                  이 실험은 생활 기록을 통해 자동으로 판정됩니다. 관련 생활 기록을 입력하면 오늘의
+                  실천 여부에 자동으로 반영돼요.
                 </p>
               </div>
 
