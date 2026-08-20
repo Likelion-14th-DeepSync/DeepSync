@@ -39,10 +39,7 @@ function SignupComplete() {
         </p>
       </div>
 
-      <button
-        className="auth-bottom-button complete-button"
-        onClick={() => navigate("/onboarding")}
-      >
+      <button className="auth-bottom-button complete-button" onClick={() => navigate("/login")}>
         시작하기
       </button>
     </div>

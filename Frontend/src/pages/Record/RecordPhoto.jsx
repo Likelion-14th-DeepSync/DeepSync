@@ -1,24 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Camera, Image as ImageIcon, ArrowRight } from "lucide-react";
-
-const DAILY_RECORD_STORAGE_KEY = "wellness-daily-records";
+import { getSkinImages } from "../../api/skinImages";
 
 function formatDate(dateKey) {
+  if (!dateKey) return "-";
+
   const [, month, day] = dateKey.split("-").map(Number);
-
   const date = new Date(`${dateKey}T00:00:00`);
-
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
   return `${month}/${day} (${weekdays[date.getDay()]})`;
 }
 
 function formatLongDate(dateKey) {
+  if (!dateKey) return "-";
+
   const [, month, day] = dateKey.split("-").map(Number);
-
   const date = new Date(`${dateKey}T00:00:00`);
-
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
   return `${month}월 ${day}일 (${weekdays[date.getDay()]})`;
@@ -28,46 +27,64 @@ function RecordPhoto() {
   const navigate = useNavigate();
 
   const [records, setRecords] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(DAILY_RECORD_STORAGE_KEY);
+    const fetchSkinImages = async () => {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
 
-      const parsed = saved ? JSON.parse(saved) : {};
+        const response = await getSkinImages();
 
-      const recordArray = Object.entries(parsed)
-        .map(([date, record]) => ({
-          date,
-          ...record,
-        }))
-        /*
-         * 실제 사진을 찍은 기록만 사진 기록에 표시
-         */
-        .filter((record) => record.photoDataUrl)
-        /*
-         * 최신 날짜부터
-         */
-        .sort((a, b) => new Date(`${b.date}T00:00:00`) - new Date(`${a.date}T00:00:00`));
+        console.log("피부 사진 조회 성공:", response);
 
-      setRecords(recordArray);
-    } catch {
-      setRecords([]);
-    }
+        const images = Array.isArray(response?.data) ? response.data : [];
+
+        const recordArray = images
+          .map((image) => ({
+            id: image.imageId,
+            date: image.capturedAt ? image.capturedAt.split("T")[0] : null,
+            photoDataUrl: image.imageUrl,
+            skinScore: null,
+            direction: image.direction,
+            makeupApplied: image.makeupApplied,
+            contentType: image.contentType,
+            fileSize: image.fileSize,
+            qualityStatus: image.qualityStatus,
+            createdAt: image.createdAt,
+          }))
+          .filter((record) => record.id && record.date && record.photoDataUrl)
+          .sort((a, b) => new Date(`${b.date}T00:00:00`) - new Date(`${a.date}T00:00:00`));
+
+        setRecords(recordArray);
+      } catch (error) {
+        console.error("피부 사진 조회 실패:", error);
+
+        const message =
+          error.response?.data?.error?.message ??
+          error.message ??
+          "피부 사진 기록을 불러오지 못했습니다.";
+
+        setErrorMessage(message);
+        setRecords([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSkinImages();
   }, []);
 
   const latestRecords = records.slice(0, 6);
 
-  /*
-   * 사진 비교:
-   * 가장 오래된 기록 ↔ 가장 최신 기록
-   */
   const comparison = useMemo(() => {
     if (records.length < 2) {
       return null;
     }
 
     const latest = records[0];
-
     const oldest = records[records.length - 1];
 
     return {
@@ -88,13 +105,16 @@ function RecordPhoto() {
     navigate("/record?tab=change");
   };
 
+  const handleRetry = () => {
+    window.location.reload();
+  };
+
   return (
     <div
       style={{
         padding: "22px 20px 120px",
       }}
     >
-      {/* 사진 기록 제목 */}
       <div
         style={{
           display: "flex",
@@ -131,8 +151,108 @@ function RecordPhoto() {
         )}
       </div>
 
-      {/* 사진이 하나도 없는 경우 */}
-      {records.length === 0 ? (
+      {isLoading ? (
+        <section
+          style={{
+            padding: "38px 20px",
+            marginBottom: 18,
+            background: "#fff",
+            borderRadius: 16,
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              width: 50,
+              height: 50,
+              margin: "0 auto 12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 15,
+              background: "#F0EDFF",
+              color: "#6C5CE7",
+            }}
+          >
+            <ImageIcon size={24} strokeWidth={1.8} />
+          </div>
+
+          <p
+            style={{
+              margin: 0,
+              fontSize: 11,
+              color: "#999",
+            }}
+          >
+            피부 사진 기록을 불러오는 중이에요...
+          </p>
+        </section>
+      ) : errorMessage ? (
+        <section
+          style={{
+            padding: "34px 20px",
+            marginBottom: 18,
+            background: "#fff",
+            borderRadius: 16,
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              width: 50,
+              height: 50,
+              margin: "0 auto 12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 15,
+              background: "#F0EDFF",
+              color: "#6C5CE7",
+            }}
+          >
+            <ImageIcon size={24} strokeWidth={1.8} />
+          </div>
+
+          <h3
+            style={{
+              margin: "0 0 6px",
+              fontSize: 14,
+              fontWeight: 700,
+              color: "#222",
+            }}
+          >
+            사진 기록을 불러오지 못했어요
+          </h3>
+
+          <p
+            style={{
+              margin: "0 0 16px",
+              fontSize: 10,
+              lineHeight: 1.5,
+              color: "#999",
+            }}
+          >
+            {errorMessage}
+          </p>
+
+          <button
+            type="button"
+            onClick={handleRetry}
+            style={{
+              padding: "10px 16px",
+              border: "none",
+              borderRadius: 10,
+              background: "#6C5CE7",
+              color: "#fff",
+              fontSize: 11,
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
+          >
+            다시 불러오기
+          </button>
+        </section>
+      ) : records.length === 0 ? (
         <section
           style={{
             padding: "38px 20px",
@@ -205,7 +325,6 @@ function RecordPhoto() {
         </section>
       ) : (
         <>
-          {/* 실제 사진 목록 */}
           <section
             style={{
               padding: 14,
@@ -223,7 +342,7 @@ function RecordPhoto() {
             >
               {latestRecords.map((record) => (
                 <div
-                  key={record.date}
+                  key={record.id}
                   style={{
                     minWidth: 0,
                   }}
@@ -265,14 +384,13 @@ function RecordPhoto() {
                         color: "#111",
                       }}
                     >
-                      {record.skinScore ?? "-"}점
+                      {record.skinScore != null ? `${record.skinScore}점` : "분석 전"}
                     </strong>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* 촬영 안내 */}
             <div
               style={{
                 display: "flex",
@@ -320,7 +438,6 @@ function RecordPhoto() {
             </div>
           </section>
 
-          {/* 사진 비교 */}
           <div
             style={{
               display: "flex",
@@ -375,7 +492,6 @@ function RecordPhoto() {
                   gap: 8,
                 }}
               >
-                {/* 이전 */}
                 <div
                   style={{
                     textAlign: "center",
@@ -409,7 +525,9 @@ function RecordPhoto() {
                       color: "#111",
                     }}
                   >
-                    {comparison.before.skinScore}점
+                    {comparison.before.skinScore != null
+                      ? `${comparison.before.skinScore}점`
+                      : "분석 전"}
                   </strong>
                 </div>
 
@@ -423,7 +541,6 @@ function RecordPhoto() {
                   <ArrowRight size={22} />
                 </div>
 
-                {/* 현재 */}
                 <div
                   style={{
                     textAlign: "center",
@@ -457,41 +574,44 @@ function RecordPhoto() {
                       color: "#6C5CE7",
                     }}
                   >
-                    {comparison.after.skinScore}점
+                    {comparison.after.skinScore != null
+                      ? `${comparison.after.skinScore}점`
+                      : "분석 전"}
                   </strong>
                 </div>
               </div>
 
-              <div
-                style={{
-                  marginTop: 15,
-                  paddingTop: 13,
-                  borderTop: "1px solid #F0F0F0",
-                  textAlign: "center",
-                }}
-              >
-                <span
+              {comparison.before.skinScore != null && comparison.after.skinScore != null && (
+                <div
                   style={{
-                    fontSize: 11,
-                    color: "#999",
+                    marginTop: 15,
+                    paddingTop: 13,
+                    borderTop: "1px solid #F0F0F0",
+                    textAlign: "center",
                   }}
                 >
-                  피부 점수 변화{" "}
-                </span>
+                  <span
+                    style={{
+                      fontSize: 11,
+                      color: "#999",
+                    }}
+                  >
+                    피부 점수 변화{" "}
+                  </span>
 
-                <strong
-                  style={{
-                    fontSize: 12,
-                    color: scoreDifference >= 0 ? "#4CAF50" : "#E35D6A",
-                  }}
-                >
-                  {scoreDifference > 0 ? "+" : ""}
-                  {scoreDifference}점
-                </strong>
-              </div>
+                  <strong
+                    style={{
+                      fontSize: 12,
+                      color: scoreDifference >= 0 ? "#4CAF50" : "#E35D6A",
+                    }}
+                  >
+                    {scoreDifference > 0 ? "+" : ""}
+                    {scoreDifference}점
+                  </strong>
+                </div>
+              )}
             </section>
           ) : (
-            /* 사진 1장밖에 없을 때 */
             <section
               style={{
                 padding: "28px 20px",
