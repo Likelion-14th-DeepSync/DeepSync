@@ -1,0 +1,144 @@
+name: SkinSense
+options:
+  bundleIdPrefix: com.mjmac
+  deploymentTarget:
+    iOS: "17.0"
+    watchOS: "10.0"
+  createIntermediateGroups: true
+settings:
+  SWIFT_VERSION: 5.0
+
+targets:
+  SkinSense:
+    type: application
+    platform: iOS
+    sources:
+      - path: SkinSense
+    dependencies:
+      - target: SkinSenseWidgetsExtension
+        embed: true
+      - target: SkinSenseWatch
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mjmac.skinsense
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        TARGETED_DEVICE_FAMILY: "1"
+        DEVELOPMENT_ASSET_PATHS: "\"SkinSense/Resources/Preview Content\""
+        ENABLE_PREVIEWS: YES
+      configs:
+        # iCloud 동기화 폴더라 빌드 중 엔티틀먼트 파일 타임스탬프가 바뀐다.
+        # 시뮬레이터 개발 빌드에서만 허용하고 Release는 그대로 검증한다.
+        Debug:
+          CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION: YES
+    entitlements:
+      path: SkinSense/SkinSense.entitlements
+    info:
+      path: SkinSense/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIAppFonts:
+          - Inter-Regular.ttf
+          - Inter-Medium.ttf
+          - Inter-SemiBold.ttf
+          - Inter-Bold.ttf
+          - Inter-ExtraBold.ttf
+          - Inter-Black.ttf
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        CFBundleURLTypes:
+          - CFBundleURLName: com.mjmac.skinsense
+            CFBundleURLSchemes: [skinsense]
+        NSHealthShareUsageDescription: "Apple Watch가 기록한 수면·심박·활동 데이터를 읽어 피부 컨디션과의 관계를 분석합니다."
+        NSCameraUsageDescription: "피부 상태를 촬영하기 위해 카메라 접근 권한이 필요합니다."
+        NSPhotoLibraryUsageDescription: "피부 사진을 기록하기 위해 사진 보관함 접근 권한이 필요합니다."
+        NSPhotoLibraryAddUsageDescription: "촬영한 피부 사진을 사진 보관함에 저장하기 위해 접근 권한이 필요합니다."
+
+  SkinSenseWidgetsExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: SkinSenseWidgets
+      - path: SkinSense/Shared
+    entitlements:
+      path: SkinSenseWidgets/SkinSenseWidgets.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mjmac.skinsense.widgets
+        PRODUCT_NAME: SkinSenseWidgets
+        SKIP_INSTALL: YES
+        TARGETED_DEVICE_FAMILY: "1"
+    info:
+      path: SkinSenseWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: SkinSense
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+
+  SkinSenseWatchWidgets:
+    type: app-extension
+    platform: watchOS
+    sources:
+      - path: SkinSenseWatchWidgets
+      - path: SkinSense/Shared/SkinSnapshot.swift
+      - path: SkinSense/Shared/SnapshotTheme.swift
+    entitlements:
+      path: SkinSenseWatchWidgets/SkinSenseWatchWidgets.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mjmac.skinsense.watchkitapp.widgets
+        PRODUCT_NAME: SkinSenseWatchWidgets
+        SKIP_INSTALL: YES
+        TARGETED_DEVICE_FAMILY: "4"
+    info:
+      path: SkinSenseWatchWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: SkinSense
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+
+  SkinSenseWatch:
+    type: application
+    platform: watchOS
+    dependencies:
+      - target: SkinSenseWatchWidgets
+        embed: true
+    sources:
+      - path: SkinSenseWatch
+      - path: SkinSense/Shared
+    entitlements:
+      path: SkinSenseWatch/SkinSenseWatch.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mjmac.skinsense.watchkitapp
+        INFOPLIST_KEY_WKCompanionAppBundleIdentifier: com.mjmac.skinsense
+        INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp: YES
+        INFOPLIST_KEY_CFBundleDisplayName: SkinSense
+        GENERATE_INFOPLIST_FILE: YES
+        SKIP_INSTALL: YES
+        TARGETED_DEVICE_FAMILY: "4"
+
+  SkinSenseTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: SkinSenseTests
+    dependencies:
+      - target: SkinSense
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mjmac.skinsense.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  SkinSense:
+    build:
+      targets:
+        SkinSense: all
+        SkinSenseTests: [test]
+    test:
+      targets:
+        - SkinSenseTests
+    run:
+      config: Debug

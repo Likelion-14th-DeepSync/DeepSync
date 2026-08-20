@@ -1,0 +1,1292 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		011D1302A863C6AF9D66AED4 /* MetricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341C55ECD582C22D8C5C962 /* MetricsWidget.swift */; };
+		012FAC3FE44F9C778A4057ED /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75396F710080B6931919B4D /* SplashView.swift */; };
+		0436A8314537C5B092CB6BC1 /* ComedoneClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 13C4856D0BDD827C8E73677F /* ComedoneClassifier.mlmodel */; };
+		04D4A8B5C22F46A111D954E7 /* RecordEditSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F72F791813E214469AE436 /* RecordEditSheets.swift */; };
+		07376762A9FE86BA5B816450 /* DTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FEA891BB0C8C4BB4F43CF8 /* DTOs.swift */; };
+		0B2D0D9433952085A057CA78 /* SnapshotFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = F262526D21F597F578154DDE /* SnapshotFamily.swift */; };
+		0C745E9FFAE2DEF479B9287B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A86B48EC87CB772D0F624E /* HomeView.swift */; };
+		0EC466D49FF0014024B6801E /* WearableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E28900001228BE195F9AA6 /* WearableView.swift */; };
+		152EB6314D5AF54F9B707EB6 /* DDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B7FF3233F830E56BBC603E /* DDayView.swift */; };
+		1BDCC5F3D47E7705478E279C /* AISecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76526C585C7D07B7EA25F194 /* AISecrets.swift */; };
+		1DCE3349B9EEC6367866A44C /* LegalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E724D96B58D7EB75A3952263 /* LegalView.swift */; };
+		1DEBB6C48881DF8000155227 /* NoduleClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 681E9A13E8A40E3607681340 /* NoduleClassifier.mlmodel */; };
+		2062BFBF9D8D608E8E943D57 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCB62DF6D66A15F959E3690 /* Components.swift */; };
+		23236DC26CFCC285FCBD39B7 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A05A6767BCB7C64E40CE24E /* Inter-ExtraBold.ttf */; };
+		25220833A76A7EA4C90EFD4A /* TroubleClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 43627B81622D33FA540F6579 /* TroubleClassifier.mlmodel */; };
+		2673672687F4694BC6020168 /* PapuleClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CCDE76D8EC251674A956FA0C /* PapuleClassifier.mlmodel */; };
+		2779F3D96A5F1C023B0CA7D8 /* OnboardingProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2293D8D22720FA1A0DEB204 /* OnboardingProfileFlow.swift */; };
+		2B58017024C833018BEDC287 /* SnapshotFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = F262526D21F597F578154DDE /* SnapshotFamily.swift */; };
+		2C8684D7DBE7E6A76E8D0411 /* SignUpFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06D8A5C6B009B6102E2C4C /* SignUpFlowView.swift */; };
+		2FDA5B3EA500A3034347441C /* ReminderWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE34FA3C523AD3CB7F25B9 /* ReminderWidget.swift */; };
+		307B91AC574FDA09F764B042 /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBF9263A11D592297A3A027 /* LoadState.swift */; };
+		344E5C4E6420DC00934C1806 /* SnapshotPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C37213F2386690C0ED4532 /* SnapshotPublisher.swift */; };
+		3840CDB89062828ED2C098A8 /* ExperimentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A5EEAFEEBAE997024E2F4 /* ExperimentWidget.swift */; };
+		3A8E022D59370472EE06A182 /* RecordChangeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4686CE64FB4786E1758C46 /* RecordChangeTab.swift */; };
+		3B8667047349EAE529D50A20 /* WatchWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7AB7C1BF472AA621DF3053 /* WatchWidgetBundle.swift */; };
+		3C002C2FA31F8EEDC8E3863B /* SkinSenseWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315F906345B27D372223203F /* SkinSenseWatchApp.swift */; };
+		3C8FF6A3BFF22A739833E497 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A22C71DC52E1A15C0643C /* CameraController.swift */; };
+		3DC3E1F47CEFC0431EA86E4E /* DebugScreenLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2031A7C09085D6A1FEB5E /* DebugScreenLoader.swift */; };
+		3F409090786D3C8E53FC9B13 /* SnapshotTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91123CE7969B92D3499C878 /* SnapshotTheme.swift */; };
+		435C6D31EEF0BF57E9B2FADA /* SkinSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7295CE73C11CD4A43DC4B5 /* SkinSnapshot.swift */; };
+		453D05F39D897264D71A3680 /* LocalReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BC38C834E48BC5BC86E4E4 /* LocalReminderScheduler.swift */; };
+		462C2FD98E491D29727C5D53 /* SkinScoreWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93DF1C45A8CB8B8FAC9C617 /* SkinScoreWidget.swift */; };
+		4729E180AA48F2AB2E306D4E /* ExperimentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A5EEAFEEBAE997024E2F4 /* ExperimentWidget.swift */; };
+		489799C1DC61DEB672A2276C /* ScoreMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2D0509B991EA0142103D0B /* ScoreMappingTests.swift */; };
+		4D56F17F0819AAE19CD1ECFC /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17A3CBD6CF6B3B433C77A680 /* Inter-Bold.ttf */; };
+		4E753DC469B1A1D197545377 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E611A89C304D7C7EF97E20A1 /* WatchRootView.swift */; };
+		4F2C338E8CACED14D54D6D7B /* SnapshotTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91123CE7969B92D3499C878 /* SnapshotTheme.swift */; };
+		4FEDADD8A0062585E509AAB8 /* SnapshotTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91123CE7969B92D3499C878 /* SnapshotTheme.swift */; };
+		53080193D2AEC5DBAF6F6D98 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06828ADE08ADCB9CFDBF5052 /* RecordView.swift */; };
+		58EF4B02E01B077462707E9D /* ExperimentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7A5EEAFEEBAE997024E2F4 /* ExperimentWidget.swift */; };
+		596410FEE2C444AFAC5C6FE3 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 606BF469A7DC575368B90323 /* Inter-SemiBold.ttf */; };
+		5F6B4F84B1C4345E495CC1F6 /* CaptureFlowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A61C8A7429925A3BCE253F /* CaptureFlowViewModel.swift */; };
+		5FBA27D6ADC5F0578CDAF229 /* ReminderWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE34FA3C523AD3CB7F25B9 /* ReminderWidget.swift */; };
+		611294B0686EA2877480075C /* ReminderSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C775E23E9BAC6A08FD9D03A /* ReminderSettingsView.swift */; };
+		6838C7FC36A2949875BAEA52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C33A8BD0BB453E914BC5A402 /* Assets.xcassets */; };
+		6C6D6CD1D31EA690BC804C8E /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638FCD6FD756A932BD8C8E3E /* SampleData.swift */; };
+		6CE9024DF97717D8D31A0B6F /* SkinSenseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CC05095D32420F20B11327 /* SkinSenseApp.swift */; };
+		6D18BC6090A2811ACE79714D /* SkinSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7295CE73C11CD4A43DC4B5 /* SkinSnapshot.swift */; };
+		6D99A79498460DBA730CD3CF /* MetricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341C55ECD582C22D8C5C962 /* MetricsWidget.swift */; };
+		700043A296097BB18C9C986D /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E6D274610CAD48F67DBFF0 /* RecordViewModel.swift */; };
+		7710F874C5B45E4A2AD59627 /* AIHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545B264C06E94E0D1EEBCBCA /* AIHomeView.swift */; };
+		795B44570EC6FA98EF5767B5 /* PhotoGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E946A8A6597EAA5EC4E57FC /* PhotoGalleryView.swift */; };
+		7B9F46DC3FBAFF73C4A3AB68 /* ReminderWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEE34FA3C523AD3CB7F25B9 /* ReminderWidget.swift */; };
+		8713B0A87BB0E4C5A63CDC75 /* ServerDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D0A34F4329F10956F0725 /* ServerDateTests.swift */; };
+		88411C2301A21776870E470E /* SkinVisionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAE0511039E91DDC631F6DA /* SkinVisionResultView.swift */; };
+		894F1BC6FF1D734153F337C7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8828DFF78E5EC626FE0C32E4 /* Theme.swift */; };
+		943A9D8DE87E24FACD2BC14A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818F73F6D4A0CD1EA037E635 /* RootView.swift */; };
+		973094B83B889E7101247EA4 /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525CC3E73FC1C3E0D991F8B1 /* SnapshotTests.swift */; };
+		980170E1C92360962E4F6EFD /* SkinSenseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084C3CF094411409DD6EDE42 /* SkinSenseAPI.swift */; };
+		9991778A10D5E5AEF0A570A1 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035664A3CBC0F17245D9BD76 /* OnboardingView.swift */; };
+		999FA52E160E87FEE1CC6FB8 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A674C37B1AE8C1B45FC31E18 /* MainTabView.swift */; };
+		9F6B1061634837E539663AB5 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728B16BF80D1459DA0106A34 /* SessionStore.swift */; };
+		A04B6E90126C5A1DF0E0EE61 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD34D4E99842DB2E5B54048 /* APIClient.swift */; };
+		A21284DDFC848D2A28CCAEDD /* SkinSenseWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952C557513CA843017794A9A /* SkinSenseWidgetBundle.swift */; };
+		A4526C5A110B660E87A59B1A /* CameraGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01B5AD789ACB4D69D73CB3C /* CameraGuideView.swift */; };
+		A884591BC37C740026AC92E2 /* WidgetGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537A5A444B81FE758A35C68E /* WidgetGalleryView.swift */; };
+		A9C8F287E83ECC09CA1AFC78 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E7F6F18C67908439285A101C /* PrivacyInfo.xcprivacy */; };
+		A9CA817C96769EBF4DF18422 /* ServerDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CB4906C24AB73B760074D5 /* ServerDate.swift */; };
+		A9E46108F4ED0632D831061D /* PustuleClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 6D6C8A973075B2F20CD5DC2C /* PustuleClassifier.mlmodel */; };
+		ABCBC2E6A69416452D8AE977 /* MetricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341C55ECD582C22D8C5C962 /* MetricsWidget.swift */; };
+		AC41E0A1D327D467925D33E6 /* SkinSenseWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = ACBA26BA033E38D78C5450FB /* SkinSenseWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AF45BBF9293ECE2B690A60CB /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08251D5F0A6354F65569F720 /* HealthKitService.swift */; };
+		B146AA54FC9DA46CA02DA6C7 /* DDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6B2D21A7FA1C086428F120 /* DDayViewModel.swift */; };
+		B3A562CEF448A51CB0A1E496 /* ExperimentResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353A947931F57B6856B09729 /* ExperimentResultView.swift */; };
+		B7A44256AA6BBB10750E9BAF /* SkinScoreWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93DF1C45A8CB8B8FAC9C617 /* SkinScoreWidget.swift */; };
+		BF16DE6D017BCCE37BDD91E0 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E15FAA191FD88A4A98E8A /* OpenAIService.swift */; };
+		C0675B5B577036598B933D2A /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5969C3B94FAA49D011037356 /* Inter-Regular.ttf */; };
+		C2A657C447858966B7116C38 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187CED3931FFA2B0D4BBB4BB /* ReportView.swift */; };
+		C652BAC075F7B2F4D6626F18 /* SnapshotTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91123CE7969B92D3499C878 /* SnapshotTheme.swift */; };
+		C7943E855D72125A7866AEC2 /* SkinVisionSelfTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77807EF8B923D6AAA58F38AC /* SkinVisionSelfTestView.swift */; };
+		CAD1099FDB5FDDCD681AEB65 /* DDayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27E3945FBD3B2B986E0DECF /* DDayWidget.swift */; };
+		CE1589081BF71749FA1A9449 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAABA9896ACA39F0DCFAEDAD /* Preview Assets.xcassets */; };
+		D21659AE66223B8BE6BB4F16 /* MyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD876ED2BFDAEF9DBAF0E68 /* MyView.swift */; };
+		D751BBAD1C2C3A0E612CBF68 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43DC7A1169E21286C1A8490E /* Inter-Medium.ttf */; };
+		D87C758F8FBE3BC71F9B6D90 /* SnapshotFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = F262526D21F597F578154DDE /* SnapshotFamily.swift */; };
+		DB0DACB9F940E2C1D9264608 /* DDayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27E3945FBD3B2B986E0DECF /* DDayWidget.swift */; };
+		DC4CBCEA24343E0272AC9305 /* RecordPhotoTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5080CB22071D749B1A16CB /* RecordPhotoTab.swift */; };
+		DD89F659F1431491CB83245C /* SkinScoreWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93DF1C45A8CB8B8FAC9C617 /* SkinScoreWidget.swift */; };
+		DEBD227EC5EB82FC06679915 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 260929269E9EFE5557570B0F /* Inter-Black.ttf */; };
+		E189F3B8D9D738BA66F1E73D /* RashClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 745BBD5E7B2BB760B61F1FBA /* RashClassifier.mlmodel */; };
+		E77EAA83B09210524A966BE5 /* SkinSenseWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF544D50BAF54331C1C515DD /* SkinSenseWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EB2E8E2D57B7E358D689E501 /* SkinVisionAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A829D1C4F3919376D9B58F1E /* SkinVisionAnalyzer.swift */; };
+		EBD2822B5A1194FE06ACF363 /* SkinSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7295CE73C11CD4A43DC4B5 /* SkinSnapshot.swift */; };
+		ECE85BD7ADB52F430F967338 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC18D772AF9090470F7B7F9 /* AuthView.swift */; };
+		F743B0D8D2ED57805BB0C2F7 /* WatchConnectivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658824DBB9CF11D197D8A4F0 /* WatchConnectivityService.swift */; };
+		F89C23DE6BB8FE6955D66765 /* DDayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27E3945FBD3B2B986E0DECF /* DDayWidget.swift */; };
+		F8DC92DE42161B5C1F364C98 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E92B3D26E8B4AB219F51E0F /* TokenStore.swift */; };
+		F9011B3B9CFAF50643EB615B /* AIChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327E6D0B8A32286036159ED3 /* AIChatView.swift */; };
+		F9E67365053C017D8DF249AA /* SkinSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7295CE73C11CD4A43DC4B5 /* SkinSnapshot.swift */; };
+		FB9ABDB058402DD51290F3DF /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182D9453762CD4780B60A71 /* ProfileEditView.swift */; };
+		FC717C694AC3CDF1B6C2F90F /* SkinSenseWatchWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 733B4A6389B691299E056333 /* SkinSenseWatchWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FCD7170EB4ECE1D93A052281 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D14E74FA2118C8235936273 /* DecodingTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1C6A837CE3889D0AE3FAF4DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 664EC3F8FE65E4E594BAF24F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 028EDD6FF52D61C3E2B1C48A;
+			remoteInfo = SkinSense;
+		};
+		26FA680B15BA5D98647C630D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 664EC3F8FE65E4E594BAF24F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 691141AD882B3793191FAD91;
+			remoteInfo = SkinSenseWatch;
+		};
+		80A27243F9470DB78A0DBEF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 664EC3F8FE65E4E594BAF24F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4EB61B47F8C65B68AE2A665C;
+			remoteInfo = SkinSenseWatchWidgets;
+		};
+		A2A0CECD75E847DD50B90FB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 664EC3F8FE65E4E594BAF24F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 465D082C953955666CDC49C8;
+			remoteInfo = SkinSenseWidgetsExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		01EB14FAD9DF10B884E80810 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				AC41E0A1D327D467925D33E6 /* SkinSenseWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11F82A94FFA1B35CC85665E0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FC717C694AC3CDF1B6C2F90F /* SkinSenseWatchWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3950DBB63FC9357DDB3A641C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E77EAA83B09210524A966BE5 /* SkinSenseWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0182D9453762CD4780B60A71 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
+		035664A3CBC0F17245D9BD76 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		06828ADE08ADCB9CFDBF5052 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
+		08251D5F0A6354F65569F720 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		084C3CF094411409DD6EDE42 /* SkinSenseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinSenseAPI.swift; sourceTree = "<group>"; };
+		0C7A5EEAFEEBAE997024E2F4 /* ExperimentWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentWidget.swift; sourceTree = "<group>"; };
+		0DBF9263A11D592297A3A027 /* LoadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadState.swift; sourceTree = "<group>"; };
+		13C4856D0BDD827C8E73677F /* ComedoneClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ComedoneClassifier.mlmodel; sourceTree = "<group>"; };
+		17A3CBD6CF6B3B433C77A680 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
+		187CED3931FFA2B0D4BBB4BB /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		19383CD9D65E17F70A6F5F12 /* SkinSense.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SkinSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		197D0A34F4329F10956F0725 /* ServerDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDateTests.swift; sourceTree = "<group>"; };
+		1DD876ED2BFDAEF9DBAF0E68 /* MyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyView.swift; sourceTree = "<group>"; };
+		23CC05095D32420F20B11327 /* SkinSenseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinSenseApp.swift; sourceTree = "<group>"; };
+		260929269E9EFE5557570B0F /* Inter-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.ttf"; sourceTree = "<group>"; };
+		2DD34D4E99842DB2E5B54048 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		315F906345B27D372223203F /* SkinSenseWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinSenseWatchApp.swift; sourceTree = "<group>"; };
+		327E6D0B8A32286036159ED3 /* AIChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIChatView.swift; sourceTree = "<group>"; };
+		340A22C71DC52E1A15C0643C /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		353A947931F57B6856B09729 /* ExperimentResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentResultView.swift; sourceTree = "<group>"; };
+		3A05A6767BCB7C64E40CE24E /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		3E92B3D26E8B4AB219F51E0F /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		3E946A8A6597EAA5EC4E57FC /* PhotoGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGalleryView.swift; sourceTree = "<group>"; };
+		3FC18D772AF9090470F7B7F9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		40E6D274610CAD48F67DBFF0 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
+		41BFB706BD834163C0F976EE /* SkinSenseTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SkinSenseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4341C55ECD582C22D8C5C962 /* MetricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsWidget.swift; sourceTree = "<group>"; };
+		43627B81622D33FA540F6579 /* TroubleClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = TroubleClassifier.mlmodel; sourceTree = "<group>"; };
+		43DC7A1169E21286C1A8490E /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		47C37213F2386690C0ED4532 /* SnapshotPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotPublisher.swift; sourceTree = "<group>"; };
+		4CB2D56655F65ABCA451FA42 /* SkinSenseWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SkinSenseWatch.entitlements; sourceTree = "<group>"; };
+		4D14E74FA2118C8235936273 /* DecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingTests.swift; sourceTree = "<group>"; };
+		4D5E15FAA191FD88A4A98E8A /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		525CC3E73FC1C3E0D991F8B1 /* SnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTests.swift; sourceTree = "<group>"; };
+		52F59C661DD21AC38B71CF09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		537A5A444B81FE758A35C68E /* WidgetGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetGalleryView.swift; sourceTree = "<group>"; };
+		545B264C06E94E0D1EEBCBCA /* AIHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIHomeView.swift; sourceTree = "<group>"; };
+		5969C3B94FAA49D011037356 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		5F4686CE64FB4786E1758C46 /* RecordChangeTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordChangeTab.swift; sourceTree = "<group>"; };
+		606BF469A7DC575368B90323 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		62E28900001228BE195F9AA6 /* WearableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WearableView.swift; sourceTree = "<group>"; };
+		638FCD6FD756A932BD8C8E3E /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		658824DBB9CF11D197D8A4F0 /* WatchConnectivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityService.swift; sourceTree = "<group>"; };
+		681E9A13E8A40E3607681340 /* NoduleClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = NoduleClassifier.mlmodel; sourceTree = "<group>"; };
+		69A61C8A7429925A3BCE253F /* CaptureFlowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureFlowViewModel.swift; sourceTree = "<group>"; };
+		6C25FE4BF8F980969F2BC7BB /* SkinSense.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SkinSense.entitlements; sourceTree = "<group>"; };
+		6C775E23E9BAC6A08FD9D03A /* ReminderSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSettingsView.swift; sourceTree = "<group>"; };
+		6D6C8A973075B2F20CD5DC2C /* PustuleClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PustuleClassifier.mlmodel; sourceTree = "<group>"; };
+		728B16BF80D1459DA0106A34 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		733B4A6389B691299E056333 /* SkinSenseWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SkinSenseWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		745BBD5E7B2BB760B61F1FBA /* RashClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RashClassifier.mlmodel; sourceTree = "<group>"; };
+		75F72F791813E214469AE436 /* RecordEditSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordEditSheets.swift; sourceTree = "<group>"; };
+		76526C585C7D07B7EA25F194 /* AISecrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISecrets.swift; sourceTree = "<group>"; };
+		77807EF8B923D6AAA58F38AC /* SkinVisionSelfTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinVisionSelfTestView.swift; sourceTree = "<group>"; };
+		7DAE0511039E91DDC631F6DA /* SkinVisionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinVisionResultView.swift; sourceTree = "<group>"; };
+		818F73F6D4A0CD1EA037E635 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		81A86B48EC87CB772D0F624E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		85A2031A7C09085D6A1FEB5E /* DebugScreenLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugScreenLoader.swift; sourceTree = "<group>"; };
+		8828DFF78E5EC626FE0C32E4 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		88CB4906C24AB73B760074D5 /* ServerDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDate.swift; sourceTree = "<group>"; };
+		8F5080CB22071D749B1A16CB /* RecordPhotoTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPhotoTab.swift; sourceTree = "<group>"; };
+		952C557513CA843017794A9A /* SkinSenseWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinSenseWidgetBundle.swift; sourceTree = "<group>"; };
+		9A7295CE73C11CD4A43DC4B5 /* SkinSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinSnapshot.swift; sourceTree = "<group>"; };
+		9BCB62DF6D66A15F959E3690 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		A674C37B1AE8C1B45FC31E18 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A829D1C4F3919376D9B58F1E /* SkinVisionAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinVisionAnalyzer.swift; sourceTree = "<group>"; };
+		AA7AB7C1BF472AA621DF3053 /* WatchWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchWidgetBundle.swift; sourceTree = "<group>"; };
+		ACBA26BA033E38D78C5450FB /* SkinSenseWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkinSenseWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACEE34FA3C523AD3CB7F25B9 /* ReminderWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderWidget.swift; sourceTree = "<group>"; };
+		AF544D50BAF54331C1C515DD /* SkinSenseWidgetsExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SkinSenseWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0BC38C834E48BC5BC86E4E4 /* LocalReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalReminderScheduler.swift; sourceTree = "<group>"; };
+		B27E3945FBD3B2B986E0DECF /* DDayWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDayWidget.swift; sourceTree = "<group>"; };
+		B91123CE7969B92D3499C878 /* SnapshotTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotTheme.swift; sourceTree = "<group>"; };
+		C2293D8D22720FA1A0DEB204 /* OnboardingProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingProfileFlow.swift; sourceTree = "<group>"; };
+		C33A8BD0BB453E914BC5A402 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CAABA9896ACA39F0DCFAEDAD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CCDE76D8EC251674A956FA0C /* PapuleClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PapuleClassifier.mlmodel; sourceTree = "<group>"; };
+		CE06D8A5C6B009B6102E2C4C /* SignUpFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpFlowView.swift; sourceTree = "<group>"; };
+		D01B5AD789ACB4D69D73CB3C /* CameraGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGuideView.swift; sourceTree = "<group>"; };
+		D594C737C42E0BBE81825407 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D61481AB1786781C6ABC9EC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D75396F710080B6931919B4D /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		D7B7FF3233F830E56BBC603E /* DDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDayView.swift; sourceTree = "<group>"; };
+		DC2D0509B991EA0142103D0B /* ScoreMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreMappingTests.swift; sourceTree = "<group>"; };
+		DF980318E00BAEC8EE8DFB26 /* SkinSenseWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SkinSenseWidgets.entitlements; sourceTree = "<group>"; };
+		E611A89C304D7C7EF97E20A1 /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
+		E724D96B58D7EB75A3952263 /* LegalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalView.swift; sourceTree = "<group>"; };
+		E7F6F18C67908439285A101C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E93DF1C45A8CB8B8FAC9C617 /* SkinScoreWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinScoreWidget.swift; sourceTree = "<group>"; };
+		F262526D21F597F578154DDE /* SnapshotFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotFamily.swift; sourceTree = "<group>"; };
+		F4FEA891BB0C8C4BB4F43CF8 /* DTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTOs.swift; sourceTree = "<group>"; };
+		FA6B2D21A7FA1C086428F120 /* DDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDayViewModel.swift; sourceTree = "<group>"; };
+		FB7F4F59204DF495EA3B2FC8 /* SkinSenseWatchWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SkinSenseWatchWidgets.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0842BFC5928B2BE82CE79D46 /* SkinSenseTests */ = {
+			isa = PBXGroup;
+			children = (
+				4D14E74FA2118C8235936273 /* DecodingTests.swift */,
+				DC2D0509B991EA0142103D0B /* ScoreMappingTests.swift */,
+				197D0A34F4329F10956F0725 /* ServerDateTests.swift */,
+				525CC3E73FC1C3E0D991F8B1 /* SnapshotTests.swift */,
+			);
+			path = SkinSenseTests;
+			sourceTree = "<group>";
+		};
+		0F531380F4182BBCBD7CE6CE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				85A2031A7C09085D6A1FEB5E /* DebugScreenLoader.swift */,
+				A674C37B1AE8C1B45FC31E18 /* MainTabView.swift */,
+				818F73F6D4A0CD1EA037E635 /* RootView.swift */,
+				23CC05095D32420F20B11327 /* SkinSenseApp.swift */,
+				537A5A444B81FE758A35C68E /* WidgetGalleryView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		13A1CFC3355F62DDD09CC698 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				3FC18D772AF9090470F7B7F9 /* AuthView.swift */,
+				CE06D8A5C6B009B6102E2C4C /* SignUpFlowView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		21F3094C1049D37EFB6BA68B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				260929269E9EFE5557570B0F /* Inter-Black.ttf */,
+				17A3CBD6CF6B3B433C77A680 /* Inter-Bold.ttf */,
+				3A05A6767BCB7C64E40CE24E /* Inter-ExtraBold.ttf */,
+				43DC7A1169E21286C1A8490E /* Inter-Medium.ttf */,
+				5969C3B94FAA49D011037356 /* Inter-Regular.ttf */,
+				606BF469A7DC575368B90323 /* Inter-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		24A9ED327AF9709FDA85AA02 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				638FCD6FD756A932BD8C8E3E /* SampleData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		24DFDFB234E4EEF5C29848CF /* SkinSenseWatch */ = {
+			isa = PBXGroup;
+			children = (
+				4CB2D56655F65ABCA451FA42 /* SkinSenseWatch.entitlements */,
+				315F906345B27D372223203F /* SkinSenseWatchApp.swift */,
+				658824DBB9CF11D197D8A4F0 /* WatchConnectivityService.swift */,
+				E611A89C304D7C7EF97E20A1 /* WatchRootView.swift */,
+			);
+			path = SkinSenseWatch;
+			sourceTree = "<group>";
+		};
+		298482F00CDB2668FB3D4B00 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				9A7295CE73C11CD4A43DC4B5 /* SkinSnapshot.swift */,
+				B91123CE7969B92D3499C878 /* SnapshotTheme.swift */,
+				C1ECCF4726878020F2371A04 /* Widgets */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		2A7FAA90B86444AEC5868F5A /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				B0BC38C834E48BC5BC86E4E4 /* LocalReminderScheduler.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		324F9B97F7FAB784438E1C22 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				E724D96B58D7EB75A3952263 /* LegalView.swift */,
+				1DD876ED2BFDAEF9DBAF0E68 /* MyView.swift */,
+				0182D9453762CD4780B60A71 /* ProfileEditView.swift */,
+				6C775E23E9BAC6A08FD9D03A /* ReminderSettingsView.swift */,
+				62E28900001228BE195F9AA6 /* WearableView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		3D931CD2FFFE075BEF671227 /* MLModels */ = {
+			isa = PBXGroup;
+			children = (
+				13C4856D0BDD827C8E73677F /* ComedoneClassifier.mlmodel */,
+				681E9A13E8A40E3607681340 /* NoduleClassifier.mlmodel */,
+				CCDE76D8EC251674A956FA0C /* PapuleClassifier.mlmodel */,
+				6D6C8A973075B2F20CD5DC2C /* PustuleClassifier.mlmodel */,
+				745BBD5E7B2BB760B61F1FBA /* RashClassifier.mlmodel */,
+				43627B81622D33FA540F6579 /* TroubleClassifier.mlmodel */,
+			);
+			path = MLModels;
+			sourceTree = "<group>";
+		};
+		4C842CBDAB4CD7B8313A3FC9 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				6D9DA15CD8356E34F9BFCBDB /* AI */,
+				13A1CFC3355F62DDD09CC698 /* Auth */,
+				7B66B6E075B1F3374311BE4A /* Camera */,
+				C53E01E39622A22C7B4398B1 /* DDay */,
+				CC030FC7CF0EED24FE53421E /* Home */,
+				EC280A4F6AB0540D1A5B3E6C /* Onboarding */,
+				324F9B97F7FAB784438E1C22 /* Profile */,
+				C57E9DC2C84CBF1FF7880302 /* Record */,
+				CE0ACA1E368ECC47D4AA79F7 /* Report */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		634211FF9C3418A0C3AB7B55 /* Health */ = {
+			isa = PBXGroup;
+			children = (
+				08251D5F0A6354F65569F720 /* HealthKitService.swift */,
+			);
+			path = Health;
+			sourceTree = "<group>";
+		};
+		64732387551F396C3485C81E /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				47C37213F2386690C0ED4532 /* SnapshotPublisher.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		691FB06CD93E8CAE0858B47A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F4456EBD2572191216ADDC11 /* AI */,
+				997BE1F53872689F1DDB1F1B /* Auth */,
+				634211FF9C3418A0C3AB7B55 /* Health */,
+				CB086516E391D1D6A353A8A8 /* Networking */,
+				2A7FAA90B86444AEC5868F5A /* Notifications */,
+				64732387551F396C3485C81E /* Sync */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		6D9DA15CD8356E34F9BFCBDB /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				327E6D0B8A32286036159ED3 /* AIChatView.swift */,
+				545B264C06E94E0D1EEBCBCA /* AIHomeView.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		7654FE5065B7C96F1FAF55B5 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				CAABA9896ACA39F0DCFAEDAD /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7B66B6E075B1F3374311BE4A /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				340A22C71DC52E1A15C0643C /* CameraController.swift */,
+				D01B5AD789ACB4D69D73CB3C /* CameraGuideView.swift */,
+				69A61C8A7429925A3BCE253F /* CaptureFlowViewModel.swift */,
+				A829D1C4F3919376D9B58F1E /* SkinVisionAnalyzer.swift */,
+				7DAE0511039E91DDC631F6DA /* SkinVisionResultView.swift */,
+				77807EF8B923D6AAA58F38AC /* SkinVisionSelfTestView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		7E3709FF380FF8229723CDF2 /* SkinSense */ = {
+			isa = PBXGroup;
+			children = (
+				52F59C661DD21AC38B71CF09 /* Info.plist */,
+				E7F6F18C67908439285A101C /* PrivacyInfo.xcprivacy */,
+				6C25FE4BF8F980969F2BC7BB /* SkinSense.entitlements */,
+				0F531380F4182BBCBD7CE6CE /* App */,
+				E9F8AF9165FE9D6020B08D70 /* Common */,
+				691FB06CD93E8CAE0858B47A /* Core */,
+				4C842CBDAB4CD7B8313A3FC9 /* Features */,
+				24A9ED327AF9709FDA85AA02 /* Models */,
+				E60ADC92614D6E3D3A338403 /* Resources */,
+				298482F00CDB2668FB3D4B00 /* Shared */,
+			);
+			path = SkinSense;
+			sourceTree = "<group>";
+		};
+		896EF232D84CF997AAE3EB39 = {
+			isa = PBXGroup;
+			children = (
+				7E3709FF380FF8229723CDF2 /* SkinSense */,
+				0842BFC5928B2BE82CE79D46 /* SkinSenseTests */,
+				24DFDFB234E4EEF5C29848CF /* SkinSenseWatch */,
+				C44BF0960A8084726AA5CBE7 /* SkinSenseWatchWidgets */,
+				8E33D1AB8E893C18F16FEE33 /* SkinSenseWidgets */,
+				A35A68C5BB8D3F018690E486 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8E33D1AB8E893C18F16FEE33 /* SkinSenseWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				D61481AB1786781C6ABC9EC3 /* Info.plist */,
+				952C557513CA843017794A9A /* SkinSenseWidgetBundle.swift */,
+				DF980318E00BAEC8EE8DFB26 /* SkinSenseWidgets.entitlements */,
+			);
+			path = SkinSenseWidgets;
+			sourceTree = "<group>";
+		};
+		997BE1F53872689F1DDB1F1B /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				728B16BF80D1459DA0106A34 /* SessionStore.swift */,
+				3E92B3D26E8B4AB219F51E0F /* TokenStore.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		A35A68C5BB8D3F018690E486 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				19383CD9D65E17F70A6F5F12 /* SkinSense.app */,
+				41BFB706BD834163C0F976EE /* SkinSenseTests.xctest */,
+				ACBA26BA033E38D78C5450FB /* SkinSenseWatch.app */,
+				733B4A6389B691299E056333 /* SkinSenseWatchWidgets.appex */,
+				AF544D50BAF54331C1C515DD /* SkinSenseWidgetsExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C1ECCF4726878020F2371A04 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				B27E3945FBD3B2B986E0DECF /* DDayWidget.swift */,
+				0C7A5EEAFEEBAE997024E2F4 /* ExperimentWidget.swift */,
+				4341C55ECD582C22D8C5C962 /* MetricsWidget.swift */,
+				ACEE34FA3C523AD3CB7F25B9 /* ReminderWidget.swift */,
+				E93DF1C45A8CB8B8FAC9C617 /* SkinScoreWidget.swift */,
+				F262526D21F597F578154DDE /* SnapshotFamily.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		C44BF0960A8084726AA5CBE7 /* SkinSenseWatchWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				D594C737C42E0BBE81825407 /* Info.plist */,
+				FB7F4F59204DF495EA3B2FC8 /* SkinSenseWatchWidgets.entitlements */,
+				AA7AB7C1BF472AA621DF3053 /* WatchWidgetBundle.swift */,
+			);
+			path = SkinSenseWatchWidgets;
+			sourceTree = "<group>";
+		};
+		C53E01E39622A22C7B4398B1 /* DDay */ = {
+			isa = PBXGroup;
+			children = (
+				D7B7FF3233F830E56BBC603E /* DDayView.swift */,
+				FA6B2D21A7FA1C086428F120 /* DDayViewModel.swift */,
+				353A947931F57B6856B09729 /* ExperimentResultView.swift */,
+			);
+			path = DDay;
+			sourceTree = "<group>";
+		};
+		C57E9DC2C84CBF1FF7880302 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				3E946A8A6597EAA5EC4E57FC /* PhotoGalleryView.swift */,
+				5F4686CE64FB4786E1758C46 /* RecordChangeTab.swift */,
+				75F72F791813E214469AE436 /* RecordEditSheets.swift */,
+				8F5080CB22071D749B1A16CB /* RecordPhotoTab.swift */,
+				06828ADE08ADCB9CFDBF5052 /* RecordView.swift */,
+				40E6D274610CAD48F67DBFF0 /* RecordViewModel.swift */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		CB086516E391D1D6A353A8A8 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				2DD34D4E99842DB2E5B54048 /* APIClient.swift */,
+				F4FEA891BB0C8C4BB4F43CF8 /* DTOs.swift */,
+				0DBF9263A11D592297A3A027 /* LoadState.swift */,
+				88CB4906C24AB73B760074D5 /* ServerDate.swift */,
+				084C3CF094411409DD6EDE42 /* SkinSenseAPI.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		CC030FC7CF0EED24FE53421E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				81A86B48EC87CB772D0F624E /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		CE0ACA1E368ECC47D4AA79F7 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				187CED3931FFA2B0D4BBB4BB /* ReportView.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
+		E60ADC92614D6E3D3A338403 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C33A8BD0BB453E914BC5A402 /* Assets.xcassets */,
+				21F3094C1049D37EFB6BA68B /* Fonts */,
+				3D931CD2FFFE075BEF671227 /* MLModels */,
+				7654FE5065B7C96F1FAF55B5 /* Preview Content */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E9F8AF9165FE9D6020B08D70 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				9BCB62DF6D66A15F959E3690 /* Components.swift */,
+				8828DFF78E5EC626FE0C32E4 /* Theme.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		EC280A4F6AB0540D1A5B3E6C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C2293D8D22720FA1A0DEB204 /* OnboardingProfileFlow.swift */,
+				035664A3CBC0F17245D9BD76 /* OnboardingView.swift */,
+				D75396F710080B6931919B4D /* SplashView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		F4456EBD2572191216ADDC11 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				76526C585C7D07B7EA25F194 /* AISecrets.swift */,
+				4D5E15FAA191FD88A4A98E8A /* OpenAIService.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		028EDD6FF52D61C3E2B1C48A /* SkinSense */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCE0179405C6859359731052 /* Build configuration list for PBXNativeTarget "SkinSense" */;
+			buildPhases = (
+				19F828A208F774FCCD6FFC8C /* Sources */,
+				CEA9C38B9CC2B44B20F0D89B /* Resources */,
+				3950DBB63FC9357DDB3A641C /* Embed Foundation Extensions */,
+				01EB14FAD9DF10B884E80810 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B6B98CDCE6599DDD5CBF3D24 /* PBXTargetDependency */,
+				3FE5DB029D28D72109289BC2 /* PBXTargetDependency */,
+			);
+			name = SkinSense;
+			packageProductDependencies = (
+			);
+			productName = SkinSense;
+			productReference = 19383CD9D65E17F70A6F5F12 /* SkinSense.app */;
+			productType = "com.apple.product-type.application";
+		};
+		290F8D45F332E1655B1D07C5 /* SkinSenseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19AF60CB3DDAC711C54E5492 /* Build configuration list for PBXNativeTarget "SkinSenseTests" */;
+			buildPhases = (
+				716DB3BD7D6343A702704AF4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				10F4412E1F034E9DAEF34338 /* PBXTargetDependency */,
+			);
+			name = SkinSenseTests;
+			packageProductDependencies = (
+			);
+			productName = SkinSenseTests;
+			productReference = 41BFB706BD834163C0F976EE /* SkinSenseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		465D082C953955666CDC49C8 /* SkinSenseWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BA8E6533A27BC2FABB86508 /* Build configuration list for PBXNativeTarget "SkinSenseWidgetsExtension" */;
+			buildPhases = (
+				D085D17B3A3F7DC45B5A0E5B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SkinSenseWidgetsExtension;
+			packageProductDependencies = (
+			);
+			productName = SkinSenseWidgetsExtension;
+			productReference = AF544D50BAF54331C1C515DD /* SkinSenseWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		4EB61B47F8C65B68AE2A665C /* SkinSenseWatchWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D3E36B0D41F095C12B646F94 /* Build configuration list for PBXNativeTarget "SkinSenseWatchWidgets" */;
+			buildPhases = (
+				E7CB728FFE25AFE616C6E480 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SkinSenseWatchWidgets;
+			packageProductDependencies = (
+			);
+			productName = SkinSenseWatchWidgets;
+			productReference = 733B4A6389B691299E056333 /* SkinSenseWatchWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		691141AD882B3793191FAD91 /* SkinSenseWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4D87DBFAC5B81C2FE7E7F05 /* Build configuration list for PBXNativeTarget "SkinSenseWatch" */;
+			buildPhases = (
+				46A00119D8FC518145F27F3E /* Sources */,
+				11F82A94FFA1B35CC85665E0 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1A8E7ABF79DD08E68DE52E1 /* PBXTargetDependency */,
+			);
+			name = SkinSenseWatch;
+			packageProductDependencies = (
+			);
+			productName = SkinSenseWatch;
+			productReference = ACBA26BA033E38D78C5450FB /* SkinSenseWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		664EC3F8FE65E4E594BAF24F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 0368CF51FD34DF092703E400 /* Build configuration list for PBXProject "SkinSense" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 896EF232D84CF997AAE3EB39;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A35A68C5BB8D3F018690E486 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				028EDD6FF52D61C3E2B1C48A /* SkinSense */,
+				465D082C953955666CDC49C8 /* SkinSenseWidgetsExtension */,
+				4EB61B47F8C65B68AE2A665C /* SkinSenseWatchWidgets */,
+				691141AD882B3793191FAD91 /* SkinSenseWatch */,
+				290F8D45F332E1655B1D07C5 /* SkinSenseTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEA9C38B9CC2B44B20F0D89B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6838C7FC36A2949875BAEA52 /* Assets.xcassets in Resources */,
+				DEBD227EC5EB82FC06679915 /* Inter-Black.ttf in Resources */,
+				4D56F17F0819AAE19CD1ECFC /* Inter-Bold.ttf in Resources */,
+				23236DC26CFCC285FCBD39B7 /* Inter-ExtraBold.ttf in Resources */,
+				D751BBAD1C2C3A0E612CBF68 /* Inter-Medium.ttf in Resources */,
+				C0675B5B577036598B933D2A /* Inter-Regular.ttf in Resources */,
+				596410FEE2C444AFAC5C6FE3 /* Inter-SemiBold.ttf in Resources */,
+				CE1589081BF71749FA1A9449 /* Preview Assets.xcassets in Resources */,
+				A9C8F287E83ECC09CA1AFC78 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		19F828A208F774FCCD6FFC8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9011B3B9CFAF50643EB615B /* AIChatView.swift in Sources */,
+				7710F874C5B45E4A2AD59627 /* AIHomeView.swift in Sources */,
+				1BDCC5F3D47E7705478E279C /* AISecrets.swift in Sources */,
+				A04B6E90126C5A1DF0E0EE61 /* APIClient.swift in Sources */,
+				ECE85BD7ADB52F430F967338 /* AuthView.swift in Sources */,
+				3C8FF6A3BFF22A739833E497 /* CameraController.swift in Sources */,
+				A4526C5A110B660E87A59B1A /* CameraGuideView.swift in Sources */,
+				5F6B4F84B1C4345E495CC1F6 /* CaptureFlowViewModel.swift in Sources */,
+				0436A8314537C5B092CB6BC1 /* ComedoneClassifier.mlmodel in Sources */,
+				2062BFBF9D8D608E8E943D57 /* Components.swift in Sources */,
+				152EB6314D5AF54F9B707EB6 /* DDayView.swift in Sources */,
+				B146AA54FC9DA46CA02DA6C7 /* DDayViewModel.swift in Sources */,
+				F89C23DE6BB8FE6955D66765 /* DDayWidget.swift in Sources */,
+				07376762A9FE86BA5B816450 /* DTOs.swift in Sources */,
+				3DC3E1F47CEFC0431EA86E4E /* DebugScreenLoader.swift in Sources */,
+				B3A562CEF448A51CB0A1E496 /* ExperimentResultView.swift in Sources */,
+				3840CDB89062828ED2C098A8 /* ExperimentWidget.swift in Sources */,
+				AF45BBF9293ECE2B690A60CB /* HealthKitService.swift in Sources */,
+				0C745E9FFAE2DEF479B9287B /* HomeView.swift in Sources */,
+				1DCE3349B9EEC6367866A44C /* LegalView.swift in Sources */,
+				307B91AC574FDA09F764B042 /* LoadState.swift in Sources */,
+				453D05F39D897264D71A3680 /* LocalReminderScheduler.swift in Sources */,
+				999FA52E160E87FEE1CC6FB8 /* MainTabView.swift in Sources */,
+				011D1302A863C6AF9D66AED4 /* MetricsWidget.swift in Sources */,
+				D21659AE66223B8BE6BB4F16 /* MyView.swift in Sources */,
+				1DEBB6C48881DF8000155227 /* NoduleClassifier.mlmodel in Sources */,
+				2779F3D96A5F1C023B0CA7D8 /* OnboardingProfileFlow.swift in Sources */,
+				9991778A10D5E5AEF0A570A1 /* OnboardingView.swift in Sources */,
+				BF16DE6D017BCCE37BDD91E0 /* OpenAIService.swift in Sources */,
+				2673672687F4694BC6020168 /* PapuleClassifier.mlmodel in Sources */,
+				795B44570EC6FA98EF5767B5 /* PhotoGalleryView.swift in Sources */,
+				FB9ABDB058402DD51290F3DF /* ProfileEditView.swift in Sources */,
+				A9E46108F4ED0632D831061D /* PustuleClassifier.mlmodel in Sources */,
+				E189F3B8D9D738BA66F1E73D /* RashClassifier.mlmodel in Sources */,
+				3A8E022D59370472EE06A182 /* RecordChangeTab.swift in Sources */,
+				04D4A8B5C22F46A111D954E7 /* RecordEditSheets.swift in Sources */,
+				DC4CBCEA24343E0272AC9305 /* RecordPhotoTab.swift in Sources */,
+				53080193D2AEC5DBAF6F6D98 /* RecordView.swift in Sources */,
+				700043A296097BB18C9C986D /* RecordViewModel.swift in Sources */,
+				611294B0686EA2877480075C /* ReminderSettingsView.swift in Sources */,
+				7B9F46DC3FBAFF73C4A3AB68 /* ReminderWidget.swift in Sources */,
+				C2A657C447858966B7116C38 /* ReportView.swift in Sources */,
+				943A9D8DE87E24FACD2BC14A /* RootView.swift in Sources */,
+				6C6D6CD1D31EA690BC804C8E /* SampleData.swift in Sources */,
+				A9CA817C96769EBF4DF18422 /* ServerDate.swift in Sources */,
+				9F6B1061634837E539663AB5 /* SessionStore.swift in Sources */,
+				2C8684D7DBE7E6A76E8D0411 /* SignUpFlowView.swift in Sources */,
+				DD89F659F1431491CB83245C /* SkinScoreWidget.swift in Sources */,
+				980170E1C92360962E4F6EFD /* SkinSenseAPI.swift in Sources */,
+				6CE9024DF97717D8D31A0B6F /* SkinSenseApp.swift in Sources */,
+				435C6D31EEF0BF57E9B2FADA /* SkinSnapshot.swift in Sources */,
+				EB2E8E2D57B7E358D689E501 /* SkinVisionAnalyzer.swift in Sources */,
+				88411C2301A21776870E470E /* SkinVisionResultView.swift in Sources */,
+				C7943E855D72125A7866AEC2 /* SkinVisionSelfTestView.swift in Sources */,
+				2B58017024C833018BEDC287 /* SnapshotFamily.swift in Sources */,
+				344E5C4E6420DC00934C1806 /* SnapshotPublisher.swift in Sources */,
+				C652BAC075F7B2F4D6626F18 /* SnapshotTheme.swift in Sources */,
+				012FAC3FE44F9C778A4057ED /* SplashView.swift in Sources */,
+				894F1BC6FF1D734153F337C7 /* Theme.swift in Sources */,
+				F8DC92DE42161B5C1F364C98 /* TokenStore.swift in Sources */,
+				25220833A76A7EA4C90EFD4A /* TroubleClassifier.mlmodel in Sources */,
+				0EC466D49FF0014024B6801E /* WearableView.swift in Sources */,
+				A884591BC37C740026AC92E2 /* WidgetGalleryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46A00119D8FC518145F27F3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAD1099FDB5FDDCD681AEB65 /* DDayWidget.swift in Sources */,
+				4729E180AA48F2AB2E306D4E /* ExperimentWidget.swift in Sources */,
+				6D99A79498460DBA730CD3CF /* MetricsWidget.swift in Sources */,
+				2FDA5B3EA500A3034347441C /* ReminderWidget.swift in Sources */,
+				462C2FD98E491D29727C5D53 /* SkinScoreWidget.swift in Sources */,
+				3C002C2FA31F8EEDC8E3863B /* SkinSenseWatchApp.swift in Sources */,
+				6D18BC6090A2811ACE79714D /* SkinSnapshot.swift in Sources */,
+				D87C758F8FBE3BC71F9B6D90 /* SnapshotFamily.swift in Sources */,
+				4F2C338E8CACED14D54D6D7B /* SnapshotTheme.swift in Sources */,
+				F743B0D8D2ED57805BB0C2F7 /* WatchConnectivityService.swift in Sources */,
+				4E753DC469B1A1D197545377 /* WatchRootView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		716DB3BD7D6343A702704AF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCD7170EB4ECE1D93A052281 /* DecodingTests.swift in Sources */,
+				489799C1DC61DEB672A2276C /* ScoreMappingTests.swift in Sources */,
+				8713B0A87BB0E4C5A63CDC75 /* ServerDateTests.swift in Sources */,
+				973094B83B889E7101247EA4 /* SnapshotTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D085D17B3A3F7DC45B5A0E5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB0DACB9F940E2C1D9264608 /* DDayWidget.swift in Sources */,
+				58EF4B02E01B077462707E9D /* ExperimentWidget.swift in Sources */,
+				ABCBC2E6A69416452D8AE977 /* MetricsWidget.swift in Sources */,
+				5FBA27D6ADC5F0578CDAF229 /* ReminderWidget.swift in Sources */,
+				B7A44256AA6BBB10750E9BAF /* SkinScoreWidget.swift in Sources */,
+				A21284DDFC848D2A28CCAEDD /* SkinSenseWidgetBundle.swift in Sources */,
+				F9E67365053C017D8DF249AA /* SkinSnapshot.swift in Sources */,
+				0B2D0D9433952085A057CA78 /* SnapshotFamily.swift in Sources */,
+				3F409090786D3C8E53FC9B13 /* SnapshotTheme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E7CB728FFE25AFE616C6E480 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBD2822B5A1194FE06ACF363 /* SkinSnapshot.swift in Sources */,
+				4FEDADD8A0062585E509AAB8 /* SnapshotTheme.swift in Sources */,
+				3B8667047349EAE529D50A20 /* WatchWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		10F4412E1F034E9DAEF34338 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 028EDD6FF52D61C3E2B1C48A /* SkinSense */;
+			targetProxy = 1C6A837CE3889D0AE3FAF4DC /* PBXContainerItemProxy */;
+		};
+		3FE5DB029D28D72109289BC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 691141AD882B3793191FAD91 /* SkinSenseWatch */;
+			targetProxy = 26FA680B15BA5D98647C630D /* PBXContainerItemProxy */;
+		};
+		A1A8E7ABF79DD08E68DE52E1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4EB61B47F8C65B68AE2A665C /* SkinSenseWatchWidgets */;
+			targetProxy = 80A27243F9470DB78A0DBEF5 /* PBXContainerItemProxy */;
+		};
+		B6B98CDCE6599DDD5CBF3D24 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 465D082C953955666CDC49C8 /* SkinSenseWidgetsExtension */;
+			targetProxy = A2A0CECD75E847DD50B90FB8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3B414F7FAA04A2E39C773D83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SkinSenseWatchWidgets/SkinSenseWatchWidgets.entitlements;
+				INFOPLIST_FILE = SkinSenseWatchWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.watchkitapp.widgets;
+				PRODUCT_NAME = SkinSenseWatchWidgets;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		46D70BC79C608903040C7978 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		4C3092211F0011F8E904D5AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SkinSenseWidgets/SkinSenseWidgets.entitlements;
+				INFOPLIST_FILE = SkinSenseWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.widgets;
+				PRODUCT_NAME = SkinSenseWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		674FFD8E6FBD552B8A84C4D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SkinSenseWatch/SkinSenseWatch.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SkinSense;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.mjmac.skinsense;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+		7D7F54A566C1721361F2D76E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SkinSenseWidgets/SkinSenseWidgets.entitlements;
+				INFOPLIST_FILE = SkinSenseWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.widgets;
+				PRODUCT_NAME = SkinSenseWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		918E30EEAE41FE177E84FF8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SkinSenseWatchWidgets/SkinSenseWatchWidgets.entitlements;
+				INFOPLIST_FILE = SkinSenseWatchWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.watchkitapp.widgets;
+				PRODUCT_NAME = SkinSenseWatchWidgets;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		B675FCC185593A81866B1251 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SkinSenseWatch/SkinSenseWatch.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SkinSense;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.mjmac.skinsense;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		B73868A07F3D0B3C10C3AE85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkinSense.app/SkinSense";
+			};
+			name = Release;
+		};
+		BC983E2D85FFFA1319EBFCD9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		E3AA84AED156C0AA56B14643 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SkinSense/SkinSense.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_ASSET_PATHS = "\"SkinSense/Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SkinSense/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		E5CF008A28DE8E8FA25B2CC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkinSense.app/SkinSense";
+			};
+			name = Debug;
+		};
+		F8ACCF7E8FEF8495C269C893 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+				CODE_SIGN_ENTITLEMENTS = SkinSense/SkinSense.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_ASSET_PATHS = "\"SkinSense/Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SkinSense/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mjmac.skinsense;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0368CF51FD34DF092703E400 /* Build configuration list for PBXProject "SkinSense" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46D70BC79C608903040C7978 /* Debug */,
+				BC983E2D85FFFA1319EBFCD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		19AF60CB3DDAC711C54E5492 /* Build configuration list for PBXNativeTarget "SkinSenseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5CF008A28DE8E8FA25B2CC1 /* Debug */,
+				B73868A07F3D0B3C10C3AE85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2BA8E6533A27BC2FABB86508 /* Build configuration list for PBXNativeTarget "SkinSenseWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C3092211F0011F8E904D5AB /* Debug */,
+				7D7F54A566C1721361F2D76E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D3E36B0D41F095C12B646F94 /* Build configuration list for PBXNativeTarget "SkinSenseWatchWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				918E30EEAE41FE177E84FF8B /* Debug */,
+				3B414F7FAA04A2E39C773D83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F4D87DBFAC5B81C2FE7E7F05 /* Build configuration list for PBXNativeTarget "SkinSenseWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B675FCC185593A81866B1251 /* Debug */,
+				674FFD8E6FBD552B8A84C4D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FCE0179405C6859359731052 /* Build configuration list for PBXNativeTarget "SkinSense" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8ACCF7E8FEF8495C269C893 /* Debug */,
+				E3AA84AED156C0AA56B14643 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 664EC3F8FE65E4E594BAF24F /* Project object */;
+}
